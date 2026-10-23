@@ -96,9 +96,9 @@
        - Sorotan abu-abu studio + bias cahaya kuning/emas lembut di tengah belakang logo */
     .medusa-glass-pedestal {
       background:
-        radial-gradient(circle at 50% 38%, rgba(245, 183, 0, 0.14) 0%, rgba(160, 174, 192, 0.10) 34%, rgba(10, 12, 16, 0.88) 72%, #040507 100%);
-      backdrop-filter: blur(16px) saturate(120%);
-      -webkit-backdrop-filter: blur(16px) saturate(120%);
+        radial-gradient(circle at 50% 38%, rgba(245, 183, 0, 0.10) 0%, rgba(160, 174, 192, 0.07) 34%, rgba(10, 12, 16, 0.52) 72%, rgba(4, 5, 7, 0.72) 100%);
+      backdrop-filter: blur(12px) saturate(120%);
+      -webkit-backdrop-filter: blur(12px) saturate(120%); /* REVISI 23 Okt: card lebih transparan */
       border-top: 1.5px solid rgba(255, 255, 255, 0.65);
       border-left: 1px solid rgba(255, 255, 255, 0.28);
       border-right: 1px solid rgba(255, 255, 255, 0.28);
@@ -121,7 +121,9 @@
       inset: 0;
       border-radius: inherit;
       pointer-events: none;
-      background: linear-gradient(180deg, transparent 55%, rgba(4, 5, 7, 0.85) 88%, #040507 100%);
+      background:
+        radial-gradient(ellipse 130% 55% at 50% 112%, rgba(2, 3, 5, 0.98) 0%, rgba(2, 3, 5, 0.62) 42%, rgba(2, 3, 5, 0.16) 68%, transparent 85%),
+        linear-gradient(180deg, transparent 42%, rgba(4, 5, 7, 0.5) 74%, rgba(2, 3, 5, 0.95) 100%); /* REVISI 23 Okt: awan hitam */
       z-index: 15;
     }
 

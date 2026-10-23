@@ -85,7 +85,8 @@
       background: linear-gradient(180deg, #FFFFFF 0%, #D8DEE9 42%, #5C6470 78%, #161920 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      filter: drop-shadow(0 20px 35px rgba(0, 0, 0, 0.85));
+      /* REVISI 23 Okt: shadow tegas di bawah teks */
+      filter: drop-shadow(0 34px 26px rgba(0, 0, 0, 0.92)) drop-shadow(0 10px 70px rgba(0, 0, 0, 0.55));
       user-select: none;
     }
 
@@ -104,10 +105,12 @@
       border-bottom: none;
       box-shadow:
         0 -1px 0 rgba(255, 255, 255, 0.25),
-        0 40px 90px rgba(0, 0, 0, 0.95),
+        0 60px 120px rgba(0, 0, 0, 1),
+        0 20px 50px rgba(0, 0, 0, 0.9),
+        0 0 90px rgba(0, 0, 0, 0.7),
         0 0 70px rgba(245, 183, 0, 0.08),
         inset 0 2px 25px rgba(255, 255, 255, 0.08),
-        inset 0 -90px 80px -20px #040507;
+        inset 0 -90px 80px -20px #040507; /* REVISI 23 Okt: shadow card diperdalam */
       transform-style: preserve-3d;
     }
 
@@ -301,12 +304,12 @@
           class="absolute inset-x-0 top-[38%] sm:top-[36%] -translate-y-1/2 z-0 flex items-center justify-center pointer-events-none select-none">
           <!-- Tampilan Desktop & Tablet: 1 Baris Penuh Membentang dari Kiri ke Kanan -->
           <div
-            class="hidden sm:block medusa-giant-text text-[14.2vw] xl:text-[196px] uppercase text-center whitespace-nowrap tracking-tight">
+            class="hidden sm:block medusa-giant-text text-[17vw] xl:text-[235px] uppercase text-center whitespace-nowrap tracking-tight">
             TJ FACTORY
           </div>
           <!-- Tampilan Mobile: Tetap Proporsional & Terbaca di Kiri-Kanan Kaca -->
           <div
-            class="sm:hidden medusa-giant-text text-[17.5vw] uppercase text-center whitespace-nowrap tracking-tighter">
+            class="sm:hidden medusa-giant-text text-[21vw] uppercase text-center whitespace-nowrap tracking-tighter">
             TJ FACTORY
           </div>
         </div>

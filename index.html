@@ -205,6 +205,21 @@
     ::-webkit-scrollbar-thumb:hover {
       background: #F5B700;
     }
+    /* Marquee foto Top Picks: jalan pelan kanan -> kiri, berhenti saat hover */
+    @keyframes toppicks-marquee {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+    .toppicks-track {
+      animation: toppicks-marquee 45s linear infinite;
+      will-change: transform;
+    }
+    .toppicks-marquee:hover .toppicks-track {
+      animation-play-state: paused;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .toppicks-track { animation: none; }
+    }
   </style>
 </head>
 
@@ -785,91 +800,76 @@
             class="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 rounded-full bg-industrial-yellow/15 blur-3xl">
           </div>
 
-          <div
-            class="arc-stage flex lg:grid lg:grid-cols-5 items-center gap-4 sm:gap-5 overflow-x-auto no-scrollbar snap-x snap-mandatory py-6 px-4">
-
-            <div onclick="window.openProductDetail('TJF-SP-01')"
-              class="arc-card-left-2 snap-center shrink-0 w-60 lg:w-auto bg-carbon-900 border border-carbon-700 hover:border-industrial-yellow rounded-2xl overflow-hidden cursor-pointer transition-all duration-500 group">
-              <div class="aspect-[3/4] relative overflow-hidden bg-carbon-950">
-                <img src="./Material/hex-star/id-11134207-822wp-mo2b6elumy2t4a.webp"
-                  onerror="this.src='https://images.msha.ke/cf0c14cd-9bb6-4da2-a0f3-6722d9620748?w=600'"
-                  alt="Bak Kalter RX King"
-                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                <div
-                  class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-carbon-950 via-carbon-950/80 to-transparent p-4">
-                  <span class="font-mono text-[10px] text-industrial-yellow">18 PCS // 2 KUNCI</span>
-                  <h3 class="font-display font-bold text-base text-white uppercase">Bak Kalter RX King</h3>
+                    <div class="toppicks-marquee overflow-hidden py-6" id="mouse-strip-items">
+            <div class="toppicks-track flex items-stretch w-max">
+              <div onclick="window.openProductDetail('TJF-SP-01')"
+                class="shrink-0 w-60 sm:w-64 mr-4 sm:mr-5 bg-carbon-900 border border-carbon-700 hover:border-industrial-yellow rounded-2xl overflow-hidden cursor-pointer transition-colors group">
+                <div class="aspect-[3/4] relative overflow-hidden bg-carbon-950">
+                  <img src="./Material/hex-star/id-11134207-822wp-mo2b6elumy2t4a.webp"
+                onerror="this.src='https://images.msha.ke/cf0c14cd-9bb6-4da2-a0f3-6722d9620748?w=600'"
+                    alt="Bak Kalter RX King"
+                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                  <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-carbon-950 via-carbon-950/80 to-transparent p-4">
+                    <span class="font-mono text-[10px] text-industrial-yellow">18 PCS // 2 KUNCI</span>
+                    <h3 class="font-display font-bold text-base text-white uppercase">Bak Kalter RX King</h3>
+                  </div>
+                </div>
+              </div>
+              <div onclick="window.openProductDetail('TJF-NJ-02')"
+                class="shrink-0 w-60 sm:w-64 mr-4 sm:mr-5 bg-carbon-900 border border-carbon-700 hover:border-industrial-yellow rounded-2xl overflow-hidden cursor-pointer transition-colors group">
+                <div class="aspect-[3/4] relative overflow-hidden bg-carbon-950">
+                  <img src="./Material/mud-head-ninja-3R/id-11134207-8224q-mhlni6mwmdxg3b.webp"
+                onerror="this.src='https://images.msha.ke/7b448005-f2c2-49e5-8bea-f03468647676?w=600'"
+                    alt="Mur Head Ninja R RR"
+                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                  <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-carbon-950 via-carbon-950/80 to-transparent p-4">
+                    <span class="font-mono text-[10px] text-industrial-yellow">HIGH STARS CROWN</span>
+                    <h3 class="font-display font-bold text-base text-white uppercase">Mur Head Ninja R/RR</h3>
+                  </div>
+                </div>
+              </div>
+              <div onclick="window.openProductDetail('TJF-NJ-06')"
+                class="shrink-0 w-60 sm:w-64 mr-4 sm:mr-5 bg-carbon-900 border-2 border-industrial-yellow rounded-2xl overflow-hidden cursor-pointer transition-colors relative shadow-[0_0_45px_rgba(245,183,0,0.22)] group">
+                <div class="aspect-[3/4] relative overflow-hidden bg-carbon-950">
+                  <img src="./Material/BAUT.png"
+                    onerror="this.src='https://images.msha.ke/39a66401-ea82-4d9a-b9b1-a6e51557c2f1?w=800'"
+                    alt="Full Set Baut Stainless CNC Ninja"
+                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                  <div class="absolute top-3 left-3 z-20 px-2.5 py-0.5 rounded-full bg-industrial-yellow text-carbon-950 font-mono font-bold text-[10px]">
+                    BEST SELLER
+                  </div>
+                  <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-carbon-950 via-carbon-950/85 to-transparent p-4 z-20">
+                    <span class="font-mono text-[10px] text-industrial-yellow">22 + 8 + 8 PCS</span>
+                    <h3 class="font-display font-bold text-lg text-white uppercase">Full Set Ninja 2-Tak</h3>
+                  </div>
+                </div>
+              </div>
+              <div onclick="window.openProductDetail('TJF-NJ-01')"
+                class="shrink-0 w-60 sm:w-64 mr-4 sm:mr-5 bg-carbon-900 border border-carbon-700 hover:border-industrial-yellow rounded-2xl overflow-hidden cursor-pointer transition-colors group">
+                <div class="aspect-[3/4] relative overflow-hidden bg-carbon-950">
+                  <img src="./Material/hex-star/id-11134207-7r98t-lqa79zlxhdke71.webp"
+                onerror="this.src='https://images.msha.ke/9557f023-860b-42d6-b662-058a19771596?w=600'"
+                    alt="Baut Bak Kalter Ninja"
+                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                  <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-carbon-950 via-carbon-950/80 to-transparent p-4">
+                    <span class="font-mono text-[10px] text-industrial-yellow">HEX STARS 2 KUNCI</span>
+                    <h3 class="font-display font-bold text-base text-white uppercase">Bak Kalter Ninja R/RR</h3>
+                  </div>
+                </div>
+              </div>
+              <div onclick="window.openProductDetail('TJF-LSR-01')"
+                class="shrink-0 w-60 sm:w-64 mr-4 sm:mr-5 bg-carbon-900 border border-carbon-700 hover:border-industrial-yellow rounded-2xl overflow-hidden cursor-pointer transition-colors group">
+                <div class="aspect-[3/4] relative overflow-hidden bg-carbon-950">
+                  <img src="https://images.msha.ke/4d6aeb97-3544-47cc-8695-7e26f77e3442?auto=format%2Ccompress&cs=tinysrgb&q=80&w=828"
+                    alt="Cover Head 125Z CNC Laser"
+                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                  <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-carbon-950 via-carbon-950/80 to-transparent p-4">
+                    <span class="font-mono text-[10px] text-industrial-yellow">SUS 304 CNC LASER</span>
+                    <h3 class="font-display font-bold text-base text-white uppercase">Cover Head 125Z</h3>
+                  </div>
                 </div>
               </div>
             </div>
-
-            <div onclick="window.openProductDetail('TJF-NJ-02')"
-              class="arc-card-left-1 snap-center shrink-0 w-60 lg:w-auto bg-carbon-900 border border-carbon-700 hover:border-industrial-yellow rounded-2xl overflow-hidden cursor-pointer transition-all duration-500 group">
-              <div class="aspect-[3/4] relative overflow-hidden bg-carbon-950">
-                <img src="./Material/mud-head-ninja-3R/id-11134207-8224q-mhlni6mwmdxg3b.webp"
-                  onerror="this.src='https://images.msha.ke/7b448005-f2c2-49e5-8bea-f03468647676?w=600'"
-                  alt="Mur Head Ninja R RR"
-                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                <div
-                  class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-carbon-950 via-carbon-950/80 to-transparent p-4">
-                  <span class="font-mono text-[10px] text-industrial-yellow">HIGH STARS CROWN</span>
-                  <h3 class="font-display font-bold text-base text-white uppercase">Mur Head Ninja R/RR</h3>
-                </div>
-              </div>
-            </div>
-
-            <div onclick="window.openProductDetail('TJF-NJ-06')"
-              class="arc-card-center snap-center shrink-0 w-64 lg:w-auto bg-carbon-900 border-2 border-industrial-yellow rounded-2xl overflow-hidden cursor-pointer transition-all duration-500 relative shadow-[0_0_45px_rgba(245,183,0,0.22)] group">
-              <div
-                class="pointer-events-none absolute inset-y-0 left-1/2 -translate-x-1/2 w-0.5 bg-gradient-to-b from-white via-industrial-yellow to-white shadow-[0_0_15px_#F5B700] z-20 opacity-85">
-              </div>
-              <div class="aspect-[3/4] relative overflow-hidden bg-carbon-950">
-                <img src="./Material/BAUT.png"
-                  onerror="this.src='https://images.msha.ke/39a66401-ea82-4d9a-b9b1-a6e51557c2f1?w=800'"
-                  alt="Full Set Baut Stainless CNC Ninja"
-                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                <div
-                  class="absolute top-3 left-3 z-20 px-2.5 py-0.5 rounded-full bg-industrial-yellow text-carbon-950 font-mono font-bold text-[10px]">
-                  BEST SELLER
-                </div>
-                <div
-                  class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-carbon-950 via-carbon-950/85 to-transparent p-4 z-20">
-                  <span class="font-mono text-[10px] text-industrial-yellow">22 + 8 + 8 PCS</span>
-                  <h3 class="font-display font-bold text-lg text-white uppercase">Full Set Ninja 2-Tak</h3>
-                </div>
-              </div>
-            </div>
-
-            <div onclick="window.openProductDetail('TJF-NJ-01')"
-              class="arc-card-right-1 snap-center shrink-0 w-60 lg:w-auto bg-carbon-900 border border-carbon-700 hover:border-industrial-yellow rounded-2xl overflow-hidden cursor-pointer transition-all duration-500 group">
-              <div class="aspect-[3/4] relative overflow-hidden bg-carbon-950">
-                <img src="./Material/hex-star/id-11134207-7r98t-lqa79zlxhdke71.webp"
-                  onerror="this.src='https://images.msha.ke/9557f023-860b-42d6-b662-058a19771596?w=600'"
-                  alt="Baut Bak Kalter Ninja"
-                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                <div
-                  class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-carbon-950 via-carbon-950/80 to-transparent p-4">
-                  <span class="font-mono text-[10px] text-industrial-yellow">HEX STARS 2 KUNCI</span>
-                  <h3 class="font-display font-bold text-base text-white uppercase">Bak Kalter Ninja R/RR</h3>
-                </div>
-              </div>
-            </div>
-
-            <div onclick="window.openProductDetail('TJF-LSR-01')"
-              class="arc-card-right-2 snap-center shrink-0 w-60 lg:w-auto bg-carbon-900 border border-carbon-700 hover:border-industrial-yellow rounded-2xl overflow-hidden cursor-pointer transition-all duration-500 group">
-              <div class="aspect-[3/4] relative overflow-hidden bg-carbon-950">
-                <img
-                  src="https://images.msha.ke/4d6aeb97-3544-47cc-8695-7e26f77e3442?auto=format%2Ccompress&cs=tinysrgb&q=80&w=828"
-                  alt="Cover Head 125Z CNC Laser"
-                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                <div
-                  class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-carbon-950 via-carbon-950/80 to-transparent p-4">
-                  <span class="font-mono text-[10px] text-industrial-yellow">SUS 304 CNC LASER</span>
-                  <h3 class="font-display font-bold text-base text-white uppercase">Cover Head 125Z</h3>
-                </div>
-              </div>
-            </div>
-
           </div>
         </div>
 
@@ -2532,6 +2532,15 @@ Mohon info ketersediaan & harga penawarannya.`;
 
     initHeroMedusa3D();
     initJacketShowcase3D();
+
+    /* Marquee Top Picks: duplikat kartu agar loop kanan->kiri mulus */
+    (function () {
+      var track = document.querySelector('.toppicks-track');
+      if (track && !track.dataset.dup) {
+        track.dataset.dup = '1';
+        track.innerHTML += track.innerHTML;
+      }
+    })();
   </script>
 </body>
 

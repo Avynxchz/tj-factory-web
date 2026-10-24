@@ -274,7 +274,7 @@ export function initAnatomi3D() {
 
   loadSharedBoltGLB().then((gltf) => {
     const src = gltf.scene;
-    let sharedEnvTex = null;
+    const roomEnv = new RoomEnvironment();
 
     canvases.forEach((canvas) => {
       try {
@@ -286,14 +286,11 @@ export function initAnatomi3D() {
         renderer.toneMapping = THREE.ACESFilmicToneMapping;
         renderer.toneMappingExposure = 1.06;
 
-        if (!sharedEnvTex) {
-          const pmrem = new THREE.PMREMGenerator(renderer);
-          sharedEnvTex = pmrem.fromScene(new RoomEnvironment(), 0.03).texture;
-          pmrem.dispose();
-        }
-
+        const pmrem = new THREE.PMREMGenerator(renderer);
+        const envTex = pmrem.fromScene(roomEnv, 0.03).texture;
+        pmrem.dispose();
         const scene = new THREE.Scene();
-        scene.environment = sharedEnvTex;
+        scene.environment = envTex;
         setupHeroMatchedStudioLights(scene);
 
         const camera = new THREE.PerspectiveCamera(32, w / h, 0.1, 50);

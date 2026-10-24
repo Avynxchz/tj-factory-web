@@ -1,0 +1,149 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+    body {
+      background-color: #050608;
+      color: #F8FAFC;
+      overflow-x: hidden;
+    }
+
+    /* ==========================================================================
+       MEDUSA "ELEGANCE" HERO STYLING (PERSIS REFERENSI GAMBAR)
+       ========================================================================== */
+    .hero-medusa-stage {
+      background-color: #040507;
+      background-image:
+        radial-gradient(circle at 50% 42%, rgba(255, 255, 255, 0.05) 0%, transparent 55%),
+        radial-gradient(circle at 50% 50%, transparent 40%, #020203 100%),
+        url('./aset/hero_marble_bg.jpg');
+      background-position: center center;
+      background-size: cover;
+      background-repeat: no-repeat;
+    }
+
+    /* Teks Raksasa Belakang Persis "ELEGANCE": Flat 2D Bold Condensed dengan Gradasi Perak Vertikal */
+    .medusa-giant-text {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      line-height: 0.84;
+      background: linear-gradient(180deg, #FFFFFF 0%, #D8DEE9 42%, #5C6470 78%, #161920 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 34px 26px rgba(0, 0, 0, 0.92)) drop-shadow(0 10px 70px rgba(0, 0, 0, 0.55));
+      user-select: none;
+    }
+
+    /* Kartu Kaca Pedestal Tengah Persis Referensi Medusa */
+    .medusa-glass-pedestal {
+      background:
+        radial-gradient(circle at 50% 38%, rgba(245, 183, 0, 0.10) 0%, rgba(160, 174, 192, 0.07) 34%, rgba(10, 12, 16, 0.52) 72%, rgba(4, 5, 7, 0.72) 100%);
+      backdrop-filter: blur(12px) saturate(120%);
+      -webkit-backdrop-filter: blur(12px) saturate(120%);
+      border-top: 1.5px solid rgba(255, 255, 255, 0.65);
+      border-left: 1px solid rgba(255, 255, 255, 0.28);
+      border-right: 1px solid rgba(255, 255, 255, 0.28);
+      border-bottom: none;
+      box-shadow:
+        0 -1px 0 rgba(255, 255, 255, 0.25),
+        0 60px 120px rgba(0, 0, 0, 1),
+        0 20px 50px rgba(0, 0, 0, 0.9),
+        0 0 90px rgba(0, 0, 0, 0.7),
+        0 0 70px rgba(245, 183, 0, 0.08),
+        inset 0 2px 25px rgba(255, 255, 255, 0.08),
+        inset 0 -90px 80px -20px #040507;
+      transform-style: preserve-3d;
+    }
+
+    .medusa-glass-pedestal::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      pointer-events: none;
+      background:
+        radial-gradient(ellipse 130% 55% at 50% 112%, rgba(2, 3, 5, 0.98) 0%, rgba(2, 3, 5, 0.62) 42%, rgba(2, 3, 5, 0.16) 68%, transparent 85%),
+        linear-gradient(180deg, transparent 42%, rgba(4, 5, 7, 0.5) 74%, rgba(2, 3, 5, 0.95) 100%);
+      z-index: 15;
+    }
+
+    .medusa-3d-object-shadow {
+      filter:
+        drop-shadow(0 28px 32px rgba(0, 0, 0, 0.96)) drop-shadow(0 8px 25px rgba(245, 183, 0, 0.22));
+      will-change: transform;
+    }
+
+    /* Studio Ambient Radial Background ala Video Jacket Mastery */
+    .bg-studio-stage {
+      background: radial-gradient(circle at 54% 48%, rgba(42, 49, 64, 0.55) 0%, rgba(11, 13, 16, 0.96) 65%, #07080A 100%);
+    }
+
+    /* Background Matte Dark Slate Persis Referensi Mouse Logitech G */
+    .bg-logitech-matte {
+      background: linear-gradient(180deg, #12141A 0%, #15181F 50%, #0E1015 100%);
+    }
+
+    /* Drop Shadow Studio Halus untuk Baut di Seksi Anatomi */
+    .anatomi-bolt-shadow {
+      filter:
+        drop-shadow(0 26px 28px rgba(0, 0, 0, 0.88))
+        drop-shadow(0 4px 18px rgba(245, 183, 0, 0.10));
+    }
+
+    .bg-cad-grid {
+      background-size: 40px 40px;
+      background-image:
+        linear-gradient(to right, rgba(255, 255, 255, 0.022) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.022) 1px, transparent 1px);
+    }
+
+    .line-clamp-2 {
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #0B0D10;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #1E232D;
+      border-radius: 2px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #F5B700;
+    }
+
+    /* Marquee foto Top Picks */
+    @keyframes toppicks-marquee {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+    .toppicks-track {
+      animation: toppicks-marquee 45s linear infinite;
+      will-change: transform;
+    }
+    .toppicks-marquee:hover .toppicks-track {
+      animation-play-state: paused;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .toppicks-track { animation: none; }
+    }
+  

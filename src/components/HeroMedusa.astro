@@ -1,0 +1,136 @@
+    <!-- ================= 1. HERO SECTION: PERSIS KOMPOSISI MEDUSA "ELEGANCE" ================= -->
+    <section id="hero-medusa"
+      class="relative w-full min-h-screen max-h-[1080px] hero-medusa-stage flex flex-col justify-between py-6 sm:py-8 px-5 sm:px-10 overflow-hidden select-none border-b border-carbon-800">
+
+      <!-- Vignette Gelap di Sekeliling Layar -->
+      <div class="absolute inset-0 bg-gradient-to-b from-black/80 via-transparent to-[#040507] pointer-events-none z-0">
+      </div>
+
+      <!-- TOP BAR PERSIS MEDUSA -->
+      <div class="relative z-30 w-full max-w-7xl mx-auto grid grid-cols-3 items-center pt-1">
+        <div class="flex items-center gap-2.5">
+          <img src="./aset/logo.png" alt="Logo TJ FACTORY" class="w-7 h-7 sm:w-8 sm:h-8 object-contain opacity-90"
+            onerror="this.style.display='none'" />
+          <span class="hidden sm:inline font-mono text-[10px] tracking-[0.2em] uppercase text-slate-400">
+            MADE IN INDONESIA 🇮🇩
+          </span>
+        </div>
+
+        <div class="text-center">
+          <span class="font-sans font-light text-xs sm:text-sm tracking-[0.55em] lowercase text-slate-300/90">
+            c n c &nbsp; s t a i n l e s s
+          </span>
+        </div>
+
+        <div class="flex items-center justify-end gap-2">
+          <a href="#katalog" onclick="setTimeout(() => document.getElementById('catalog-search')?.focus(), 400)"
+            class="px-3.5 sm:px-4 py-1.5 rounded-full bg-white hover:bg-industrial-yellow text-carbon-950 font-sans font-semibold text-[11px] sm:text-xs flex items-center gap-1.5 shadow-lg transition-all">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                d="M21 21l-4.35-4.35M17 11a6 6 0 11-12 0 6 6 0 0112 0z" />
+            </svg>
+            <span>Cari</span>
+          </a>
+          <a href="https://id.shp.ee/62goJ9J" target="_blank" rel="noopener" title="Toko Shopee TJ FACTORY"
+            class="h-8 px-3 rounded-full bg-white hover:bg-industrial-yellow text-carbon-950 flex items-center gap-1.5 shadow-lg transition-all font-sans font-semibold text-[11px] sm:text-xs">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+            </svg>
+            <span>Shopee</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- CENTER STAGE: GIANT TEXT DI TENGAH + KARTU KACA PEDESTAL + LOGO 3D MENYEMBUL DI ATAS KACA -->
+      <div class="relative w-full max-w-7xl mx-auto flex-1 flex items-center justify-center my-auto">
+
+        <!-- LAYER 1 (Z-0): TULISAN RAKSASA "TJ FACTORY" -->
+        <div id="hero-elegance-layer"
+          class="absolute inset-x-0 top-[38%] sm:top-[36%] -translate-y-1/2 z-0 flex items-center justify-center pointer-events-none select-none">
+          <div
+            class="hidden sm:block medusa-giant-text text-[17vw] xl:text-[235px] uppercase text-center whitespace-nowrap tracking-tight">
+            TJ FACTORY
+          </div>
+          <div
+            class="sm:hidden medusa-giant-text text-[21vw] uppercase text-center whitespace-nowrap tracking-tighter">
+            TJ FACTORY
+          </div>
+        </div>
+
+        <!-- LAYER 2 (Z-10): KARTU KACA PEDESTAL -->
+        <div id="hero-card-lens"
+          class="relative z-10 w-[86vw] max-w-[350px] sm:max-w-[430px] md:max-w-[460px] h-[450px] sm:h-[520px] rounded-t-[48px] sm:rounded-t-[62px] rounded-b-[20px] medusa-glass-pedestal flex flex-col items-center justify-between px-6 sm:px-9 pb-5 pt-0 mt-14 sm:mt-20 transition-transform duration-150 ease-out">
+
+          <div
+            class="pointer-events-none absolute top-14 left-1/2 -translate-x-1/2 w-56 h-56 rounded-full bg-industrial-yellow/15 blur-[55px] z-0">
+          </div>
+
+          <!-- LAYER 3 (Z-20): OBJEK 3D LOGO TJ FACTORY -->
+          <div id="hero-3d-interactive-stage"
+            class="relative -mt-10 sm:-mt-14 w-[280px] h-[280px] sm:w-[360px] sm:h-[360px] flex items-center justify-center cursor-grab active:cursor-grabbing z-20 shrink-0"
+            title="Tahan & geser untuk memutar Logo 3D TJ FACTORY">
+            <canvas id="hero-logo-3d-canvas"
+              class="w-full h-full object-contain absolute inset-0 z-10 medusa-3d-object-shadow"></canvas>
+
+            <img id="hero-3d-logo-img" src="./aset/hero_3d_emblem.png" onerror="this.src='./aset/logo.png'"
+              alt="Logo 3D TJ FACTORY"
+              class="w-full h-full object-contain medusa-3d-object-shadow select-none pointer-events-none z-0" />
+          </div>
+
+          <!-- LAYER 4 (Z-30): BAGIAN BAWAH DI DALAM KACA -->
+          <div class="relative z-30 w-full max-w-[320px] flex flex-col items-center space-y-3.5 mt-auto pb-1">
+
+            <div class="w-full flex items-baseline justify-between px-1">
+              <span class="font-sans font-semibold text-base sm:text-xl text-white/90 tracking-wide">
+                Material
+              </span>
+              <span class="font-sans font-bold text-lg sm:text-2xl text-white tracking-tight">
+                SUS 304 <span class="text-industrial-yellow">CNC</span>
+              </span>
+            </div>
+
+            <a href="#showcase-jacket"
+              class="w-full py-3 sm:py-3.5 px-6 rounded-full bg-white hover:bg-industrial-yellow text-carbon-950 font-sans font-bold text-xs sm:text-sm tracking-wide flex items-center justify-center gap-2.5 shadow-[0_10px_30px_rgba(0,0,0,0.8)] transition-all duration-300 hover:scale-[1.02] active:scale-95">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2"
+                  d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2-1M4 7l2 1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5" />
+              </svg>
+              <span>Lihat Produk</span>
+            </a>
+
+            <div class="flex flex-col items-center gap-2 pt-0.5">
+              <a href="#permintaan-penawaran"
+                class="font-mono text-[10px] sm:text-[11px] uppercase tracking-widest text-slate-400 hover:text-industrial-yellow transition-colors">
+                Hubungi Kami / Penawaran Grosir →
+              </a>
+              <div class="w-20 h-[1.5px] bg-white/40 rounded-full"></div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- SIDE CAPTIONS -->
+      <div class="relative z-30 w-full max-w-7xl mx-auto flex items-end justify-between gap-3 pb-1">
+        <div class="flex flex-col items-start gap-3">
+          <p class="text-[10px] md:text-[11px] text-slate-300/90 font-sans leading-relaxed max-w-[150px] md:max-w-[210px]">
+            Pengerajin stainless pemahat baut &mdash; presisi mesin CNC &#x1F1EE;&#x1F1E9;
+          </p>
+          <a href="#showcase-jacket" aria-label="Scroll ke 3D Baut Showcase"
+            class="w-10 h-10 rounded-full bg-carbon-900/90 hover:bg-industrial-yellow text-slate-300 hover:text-carbon-950 border border-white/15 flex items-center justify-center transition-all duration-300 shadow-lg">
+            ↓
+          </a>
+        </div>
+
+        <div class="text-right">
+          <p class="text-[10px] md:text-[11px] text-slate-300/90 font-sans leading-relaxed max-w-[150px] md:max-w-[240px]">
+            Baut mesin &bull; mur head &bull; as roda &bull; paket CVT matic
+          </p>
+        </div>
+      </div>
+
+    </section>
+

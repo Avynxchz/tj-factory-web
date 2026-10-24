@@ -1,0 +1,113 @@
+    <!-- ================= 7. BUSINESS INQUIRY / FORMULIR GROSIR B2B ================= -->
+    <section id="permintaan-penawaran" class="py-14 sm:py-20 bg-carbon-900">
+      <div class="max-w-4xl mx-auto px-4 sm:px-8">
+        <div class="bg-carbon-950 border border-carbon-700 rounded-2xl p-6 sm:p-8">
+          <div
+            class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-carbon-800 pb-4 mb-6 gap-2">
+            <div>
+              <span class="font-mono text-[11px] text-industrial-yellow uppercase">// JALUR KONVERSI B2B, TOKO &
+                GROSIR</span>
+              <h2 class="font-display font-bold text-2xl sm:text-3xl uppercase text-white">
+                Formulir Permintaan Penawaran
+              </h2>
+            </div>
+            <span class="font-mono text-xs text-industrial-yellow">[NOMOR WA MENUNGGU KONFIRMASI OWNER]</span>
+          </div>
+
+          <form id="rfq-form" class="space-y-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label for="rfq-name" class="block font-mono text-xs text-slate-300 uppercase mb-1">Nama Lengkap /
+                  Bengkel *</label>
+                <input type="text" id="rfq-name" required placeholder="Contoh: Hendra - Berkah Speedshop"
+                  class="w-full bg-carbon-900 border border-carbon-700 focus:border-industrial-yellow rounded-lg px-3.5 py-2.5 text-sm text-white outline-none" />
+              </div>
+              <div>
+                <label for="rfq-contact" class="block font-mono text-xs text-slate-300 uppercase mb-1">Nomor WhatsApp /
+                  Kontak *</label>
+                <input type="text" id="rfq-contact" required placeholder="08xxxxxxxxxx"
+                  class="w-full bg-carbon-900 border border-carbon-700 focus:border-industrial-yellow rounded-lg px-3.5 py-2.5 text-sm text-white outline-none" />
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div class="sm:col-span-2">
+                <label for="rfq-product" class="block font-mono text-xs text-slate-300 uppercase mb-1">Pilih Material /
+                  Paket Baut *</label>
+                <select id="rfq-product" required
+                  class="w-full bg-carbon-900 border border-carbon-700 focus:border-industrial-yellow rounded-lg px-3.5 py-2.5 text-sm text-white outline-none cursor-pointer">
+                  <option value="" disabled selected>-- Pilih Material / Paket Baut TJ FACTORY --</option>
+                  <optgroup label="Komponen 3D Utama">
+                    <option value="Baut Hex Stars Dual-Key">Baut Hex Stars Dual-Key (2 Kunci)</option>
+                    <option value="Mur Head Ninja 12-Spline">Mur Head Ninja 12-Spline (High Stars)</option>
+                    <option value="Baut Visor Payung Bintang 5">Baut Visor Payung Bintang 5 (Umbrella Stars)</option>
+                  </optgroup>
+                  <optgroup label="Paket Kawasaki Ninja R / RR / SS">
+                    <option value="Baut Bak Kalter Ninja R RR">Baut Bak Kalter Ninja R RR (HEX STARS)</option>
+                    <option value="Mur Head Ninja R RR">Mur Head Ninja R RR (HIGH STARS)</option>
+                    <option value="As Roda Ninja R RR">As Roda Ninja R RR (Mur HEX STARS)</option>
+                    <option value="Baut Visor Ninja RR Old">Baut Visor Ninja RR Old (Umbrella STARS)</option>
+                    <option value="Baut Cover Engine Ninja">Baut Cover Engine Ninja (HEX STARS)</option>
+                    <option value="Full Set Ninja R RR SS 2-Tak">Full Set Ninja R RR SS 2-Tak (22+8+8 Pcs)</option>
+                  </optgroup>
+                  <optgroup label="Paket Sport 2-Tak & 4-Tak">
+                    <option value="Bak Kalter RX King / RXS">Paket Bak Kalter RX King / RXS (18 Pcs)</option>
+                    <option value="Bak Kalter Yamaha F1ZR">Paket Bak Kalter Yamaha F1ZR (14 Pcs)</option>
+                    <option value="Bak Kalter Tiger / MP / GL">Paket Bak Kalter Tiger / MP / GL</option>
+                  </optgroup>
+                  <optgroup label="Paket Baut CVT Matic">
+                    <option value="Baut CVT Mio Sporty">Paket Baut CVT Mio Sporty</option>
+                    <option value="Baut CVT Beat & Scoopy 110">Paket Baut CVT Beat & Scoopy 110 (16 Pcs)</option>
+                    <option value="Baut CVT Vario 125 / 150 LED">Paket Baut CVT Vario 125 / 150 LED (10 Pcs)</option>
+                    <option value="Baut CVT PCX & ADV 150">Paket Baut CVT PCX & ADV 150 (15 Pcs)</option>
+                    <option value="Baut CVT ADV & Vario 160">Paket Baut CVT ADV & Vario 160 (10 Pcs)</option>
+                  </optgroup>
+                  <optgroup label="Baut Standar Eceran & CNC Laser">
+                    <option value="Baut HEX NON & GOOD HEX M6">Baut HEX NON & GOOD HEX M6 (Drat 10: 12–70mm)</option>
+                    <option value="Baut HEX PLUS & GOOD HEX M8">Baut HEX PLUS & GOOD HEX M8 (Drat 12: 15–35mm)</option>
+                    <option value="Baut HEX PLUS & GOOD HEX M10">Baut HEX PLUS & GOOD HEX M10 (Drat 14: 25–45mm)
+                    </option>
+                    <option value="Baut Disk NUC ZERO & Umbrella">Baut Disk Cakram NUC ZERO, Happy Star & Umbrella
+                    </option>
+                    <option value="Cover Head 125Z CNC Laser">Cover Head 125Z Stainless 304 CNC Laser</option>
+                    <option value="Pesanan Partai Campuran / Custom">Pesanan Partai Campuran / Custom Beberapa Tipe
+                    </option>
+                  </optgroup>
+                </select>
+              </div>
+              <div>
+                <label for="rfq-qty" class="block font-mono text-xs text-slate-300 uppercase mb-1">Jumlah *</label>
+                <input type="text" id="rfq-qty" required placeholder="Misal: 10 Set / 100 Pcs"
+                  class="w-full bg-carbon-900 border border-carbon-700 focus:border-industrial-yellow rounded-lg px-3.5 py-2.5 text-sm text-white outline-none" />
+              </div>
+            </div>
+
+            <div>
+              <label for="rfq-notes" class="block font-mono text-xs text-slate-300 uppercase mb-1">Catatan Ukuran / Drat
+                (Opsional)</label>
+              <input type="text" id="rfq-notes" placeholder="Detail ukuran drat M6/M8/M10 atau kombinasi paket..."
+                class="w-full bg-carbon-900 border border-carbon-700 focus:border-industrial-yellow rounded-lg px-3.5 py-2.5 text-sm text-white outline-none" />
+            </div>
+
+            <button type="submit"
+              class="w-full py-3.5 rounded-full bg-industrial-yellow hover:bg-industrial-amber text-carbon-950 font-display font-bold uppercase tracking-wider text-sm transition-all shadow-lg">
+              Buat & Salin Format Penawaran Resmi
+            </button>
+          </form>
+
+          <div id="rfq-confirmation"
+            class="hidden mt-5 p-4 bg-carbon-900 border border-industrial-yellow rounded-xl space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="font-mono text-xs text-industrial-yellow font-bold">✓ FORMAT PESANAN TERSALIN</span>
+              <button type="button" id="btn-copy-rfq"
+                class="px-3 py-1 rounded bg-industrial-yellow text-carbon-950 font-mono text-xs font-bold">
+                Salin Ulang
+              </button>
+            </div>
+            <pre id="rfq-preview-text"
+              class="text-xs font-mono text-slate-200 whitespace-pre-wrap bg-carbon-950 p-3 border border-carbon-700 rounded-lg"></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+

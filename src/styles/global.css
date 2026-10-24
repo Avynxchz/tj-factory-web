@@ -69,8 +69,6 @@
     }
 
     .medusa-3d-object-shadow {
-      filter:
-        drop-shadow(0 28px 32px rgba(0, 0, 0, 0.96)) drop-shadow(0 8px 25px rgba(245, 183, 0, 0.22));
       will-change: transform;
     }
 
@@ -82,13 +80,6 @@
     /* Background Matte Dark Slate Persis Referensi Mouse Logitech G */
     .bg-logitech-matte {
       background: linear-gradient(180deg, #12141A 0%, #15181F 50%, #0E1015 100%);
-    }
-
-    /* Drop Shadow Studio Halus untuk Baut di Seksi Anatomi */
-    .anatomi-bolt-shadow {
-      filter:
-        drop-shadow(0 26px 28px rgba(0, 0, 0, 0.88))
-        drop-shadow(0 4px 18px rgba(245, 183, 0, 0.10));
     }
 
     .bg-cad-grid {

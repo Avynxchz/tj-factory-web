@@ -85,20 +85,16 @@
       background: linear-gradient(180deg, #FFFFFF 0%, #D8DEE9 42%, #5C6470 78%, #161920 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      /* REVISI 23 Okt: shadow tegas di bawah teks */
       filter: drop-shadow(0 34px 26px rgba(0, 0, 0, 0.92)) drop-shadow(0 10px 70px rgba(0, 0, 0, 0.55));
       user-select: none;
     }
 
-    /* Kartu Kaca Pedestal Tengah Persis Referensi Medusa:
-       - Garis tepi putih tajam di lengkung atas & samping
-       - Bagian bawah memudar menyatu ke hitam pekat (#030406)
-       - Sorotan abu-abu studio + bias cahaya kuning/emas lembut di tengah belakang logo */
+    /* Kartu Kaca Pedestal Tengah Persis Referensi Medusa */
     .medusa-glass-pedestal {
       background:
         radial-gradient(circle at 50% 38%, rgba(245, 183, 0, 0.10) 0%, rgba(160, 174, 192, 0.07) 34%, rgba(10, 12, 16, 0.52) 72%, rgba(4, 5, 7, 0.72) 100%);
       backdrop-filter: blur(12px) saturate(120%);
-      -webkit-backdrop-filter: blur(12px) saturate(120%); /* REVISI 23 Okt: card lebih transparan */
+      -webkit-backdrop-filter: blur(12px) saturate(120%);
       border-top: 1.5px solid rgba(255, 255, 255, 0.65);
       border-left: 1px solid rgba(255, 255, 255, 0.28);
       border-right: 1px solid rgba(255, 255, 255, 0.28);
@@ -110,11 +106,10 @@
         0 0 90px rgba(0, 0, 0, 0.7),
         0 0 70px rgba(245, 183, 0, 0.08),
         inset 0 2px 25px rgba(255, 255, 255, 0.08),
-        inset 0 -90px 80px -20px #040507; /* REVISI 23 Okt: shadow card diperdalam */
+        inset 0 -90px 80px -20px #040507;
       transform-style: preserve-3d;
     }
 
-    /* Masking gradien di pinggir kiri-kanan bawah kaca agar menyatu mulus ke hitam seperti Medusa */
     .medusa-glass-pedestal::after {
       content: '';
       position: absolute;
@@ -123,11 +118,10 @@
       pointer-events: none;
       background:
         radial-gradient(ellipse 130% 55% at 50% 112%, rgba(2, 3, 5, 0.98) 0%, rgba(2, 3, 5, 0.62) 42%, rgba(2, 3, 5, 0.16) 68%, transparent 85%),
-        linear-gradient(180deg, transparent 42%, rgba(4, 5, 7, 0.5) 74%, rgba(2, 3, 5, 0.95) 100%); /* REVISI 23 Okt: awan hitam */
+        linear-gradient(180deg, transparent 42%, rgba(4, 5, 7, 0.5) 74%, rgba(2, 3, 5, 0.95) 100%);
       z-index: 15;
     }
 
-    /* Bayangan Dalam + Ambient Gold Shadow pada Objek 3D Logo */
     .medusa-3d-object-shadow {
       filter:
         drop-shadow(0 28px 32px rgba(0, 0, 0, 0.96)) drop-shadow(0 8px 25px rgba(245, 183, 0, 0.22));
@@ -139,38 +133,23 @@
       background: radial-gradient(circle at 54% 48%, rgba(42, 49, 64, 0.55) 0%, rgba(11, 13, 16, 0.96) 65%, #07080A 100%);
     }
 
+    /* Background Matte Dark Slate Persis Referensi Mouse Logitech G */
+    .bg-logitech-matte {
+      background: linear-gradient(180deg, #12141A 0%, #15181F 50%, #0E1015 100%);
+    }
+
+    /* Drop Shadow Studio Halus untuk Baut di Seksi Anatomi */
+    .anatomi-bolt-shadow {
+      filter:
+        drop-shadow(0 26px 28px rgba(0, 0, 0, 0.88))
+        drop-shadow(0 4px 18px rgba(245, 183, 0, 0.10));
+    }
+
     .bg-cad-grid {
       background-size: 40px 40px;
       background-image:
         linear-gradient(to right, rgba(255, 255, 255, 0.022) 1px, transparent 1px),
         linear-gradient(to bottom, rgba(255, 255, 255, 0.022) 1px, transparent 1px);
-    }
-
-    /* 3D Curved Perspective Arc Cards */
-    @media (min-width: 1024px) {
-      .arc-stage {
-        perspective: 1400px;
-      }
-
-      .arc-card-left-2 {
-        transform: rotateY(28deg) scale(0.88) translateZ(-40px);
-      }
-
-      .arc-card-left-1 {
-        transform: rotateY(15deg) scale(0.93) translateZ(-15px);
-      }
-
-      .arc-card-center {
-        transform: rotateY(0deg) scale(1.04) translateZ(20px);
-      }
-
-      .arc-card-right-1 {
-        transform: rotateY(-15deg) scale(0.93) translateZ(-15px);
-      }
-
-      .arc-card-right-2 {
-        transform: rotateY(-28deg) scale(0.88) translateZ(-40px);
-      }
     }
 
     .line-clamp-2 {
@@ -205,7 +184,8 @@
     ::-webkit-scrollbar-thumb:hover {
       background: #F5B700;
     }
-    /* Marquee foto Top Picks: jalan pelan kanan -> kiri, berhenti saat hover */
+
+    /* Marquee foto Top Picks */
     @keyframes toppicks-marquee {
       from { transform: translateX(0); }
       to { transform: translateX(-50%); }
@@ -274,9 +254,8 @@
       <div class="absolute inset-0 bg-gradient-to-b from-black/80 via-transparent to-[#040507] pointer-events-none z-0">
       </div>
 
-      <!-- TOP BAR PERSIS MEDUSA: Teks Renggang di Tengah Atas ('d r e a m') & Tombol Pill Putih di Kanan Atas ('Search' + Icon) -->
+      <!-- TOP BAR PERSIS MEDUSA -->
       <div class="relative z-30 w-full max-w-7xl mx-auto grid grid-cols-3 items-center pt-1">
-        <!-- Kiri: Brand Mini -->
         <div class="flex items-center gap-2.5">
           <img src="./aset/logo.png" alt="Logo TJ FACTORY" class="w-7 h-7 sm:w-8 sm:h-8 object-contain opacity-90"
             onerror="this.style.display='none'" />
@@ -285,14 +264,12 @@
           </span>
         </div>
 
-        <!-- Tengah: Spaced Minimal Text (Persis posisi tulisan 'd r e a m' di atas kepala Medusa) -->
         <div class="text-center">
           <span class="font-sans font-light text-xs sm:text-sm tracking-[0.55em] lowercase text-slate-300/90">
             c n c &nbsp; s t a i n l e s s
           </span>
         </div>
 
-        <!-- Kanan: White Pill Search & Quick Inquiry Icon (Persis posisi 'Search' & 'Heart' di kanan atas Medusa) -->
         <div class="flex items-center justify-end gap-2">
           <a href="#katalog" onclick="setTimeout(() => document.getElementById('catalog-search')?.focus(), 400)"
             class="px-3.5 sm:px-4 py-1.5 rounded-full bg-white hover:bg-industrial-yellow text-carbon-950 font-sans font-semibold text-[11px] sm:text-xs flex items-center gap-1.5 shadow-lg transition-all">
@@ -316,48 +293,42 @@
       <!-- CENTER STAGE: GIANT TEXT DI TENGAH + KARTU KACA PEDESTAL + LOGO 3D MENYEMBUL DI ATAS KACA -->
       <div class="relative w-full max-w-7xl mx-auto flex-1 flex items-center justify-center my-auto">
 
-        <!-- LAYER 1 (Z-0): TULISAN RAKSASA "TJ FACTORY" PERSIS DI TENGAH VERTIKAL BELAKANG KACA -->
+        <!-- LAYER 1 (Z-0): TULISAN RAKSASA "TJ FACTORY" -->
         <div id="hero-elegance-layer"
           class="absolute inset-x-0 top-[38%] sm:top-[36%] -translate-y-1/2 z-0 flex items-center justify-center pointer-events-none select-none">
-          <!-- Tampilan Desktop & Tablet: 1 Baris Penuh Membentang dari Kiri ke Kanan -->
           <div
             class="hidden sm:block medusa-giant-text text-[17vw] xl:text-[235px] uppercase text-center whitespace-nowrap tracking-tight">
             TJ FACTORY
           </div>
-          <!-- Tampilan Mobile: Tetap Proporsional & Terbaca di Kiri-Kanan Kaca -->
           <div
             class="sm:hidden medusa-giant-text text-[21vw] uppercase text-center whitespace-nowrap tracking-tighter">
             TJ FACTORY
           </div>
         </div>
 
-        <!-- LAYER 2 (Z-10): KARTU KACA PEDESTAL (FROSTED GLASS ARCH CARD PERSIS MEDUSA) -->
+        <!-- LAYER 2 (Z-10): KARTU KACA PEDESTAL -->
         <div id="hero-card-lens"
           class="relative z-10 w-[86vw] max-w-[350px] sm:max-w-[430px] md:max-w-[460px] h-[450px] sm:h-[520px] rounded-t-[48px] sm:rounded-t-[62px] rounded-b-[20px] medusa-glass-pedestal flex flex-col items-center justify-between px-6 sm:px-9 pb-5 pt-0 mt-14 sm:mt-20 transition-transform duration-150 ease-out">
 
-          <!-- Cahaya Kuning Emas Lembut di Belakang Logo 3D (Soft Yellow/Gold Backlight) -->
           <div
             class="pointer-events-none absolute top-14 left-1/2 -translate-x-1/2 w-56 h-56 rounded-full bg-industrial-yellow/15 blur-[55px] z-0">
           </div>
 
-          <!-- LAYER 3 (Z-20): OBJEK 3D LOGO TJ FACTORY (MENYEMBUL KELUAR KE ATAS KACA PERSIS KEPALA MEDUSA!) -->
+          <!-- LAYER 3 (Z-20): OBJEK 3D LOGO TJ FACTORY -->
           <div id="hero-3d-interactive-stage"
             class="relative -mt-10 sm:-mt-14 w-[280px] h-[280px] sm:w-[360px] sm:h-[360px] flex items-center justify-center cursor-grab active:cursor-grabbing z-20 shrink-0"
             title="Tahan & geser untuk memutar Logo 3D TJ FACTORY">
-            <!-- Canvas WebGL 3D Real-time -->
             <canvas id="hero-logo-3d-canvas"
               class="w-full h-full object-contain absolute inset-0 z-10 medusa-3d-object-shadow"></canvas>
 
-            <!-- Fallback / Initial 3D Emblem Image -->
             <img id="hero-3d-logo-img" src="./aset/hero_3d_emblem.png" onerror="this.src='./aset/logo.png'"
               alt="Logo 3D TJ FACTORY"
               class="w-full h-full object-contain medusa-3d-object-shadow select-none pointer-events-none z-0" />
           </div>
 
-          <!-- LAYER 4 (Z-30): BAGIAN BAWAH DI DALAM KACA (PERSIS KOMPOSISI 'Price 599.69$' & 'Add To Cart' DI MEDUSA) -->
+          <!-- LAYER 4 (Z-30): BAGIAN BAWAH DI DALAM KACA -->
           <div class="relative z-30 w-full max-w-[320px] flex flex-col items-center space-y-3.5 mt-auto pb-1">
 
-            <!-- Baris Info 2 Kolom (Menggantikan 'Price --- 599.69 $' dengan Fakta Material Asli) -->
             <div class="w-full flex items-baseline justify-between px-1">
               <span class="font-sans font-semibold text-base sm:text-xl text-white/90 tracking-wide">
                 Material
@@ -367,7 +338,6 @@
               </span>
             </div>
 
-            <!-- Tombol Kapsul Putih Penuh (Menggantikan 'Add To Cart' dengan CTA Utama 'Lihat Produk') -->
             <a href="#showcase-jacket"
               class="w-full py-3 sm:py-3.5 px-6 rounded-full bg-white hover:bg-industrial-yellow text-carbon-950 font-sans font-bold text-xs sm:text-sm tracking-wide flex items-center justify-center gap-2.5 shadow-[0_10px_30px_rgba(0,0,0,0.8)] transition-all duration-300 hover:scale-[1.02] active:scale-95">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -377,7 +347,6 @@
               <span>Lihat Produk</span>
             </a>
 
-            <!-- CTA Sekunder Wajib ("Hubungi Kami") + Garis Putih Tipis di Dasar Kaca Persis Medusa -->
             <div class="flex flex-col items-center gap-2 pt-0.5">
               <a href="#permintaan-penawaran"
                 class="font-mono text-[10px] sm:text-[11px] uppercase tracking-widest text-slate-400 hover:text-industrial-yellow transition-colors">
@@ -392,9 +361,8 @@
 
       </div>
 
-      <!-- SIDE CAPTIONS (teks kecil di bawah teks raksasa, ala referensi ELEGANCE) -->
+      <!-- SIDE CAPTIONS -->
       <div class="relative z-30 w-full max-w-7xl mx-auto flex items-end justify-between gap-3 pb-1">
-        <!-- Kiri: Caption Mikro + Tombol Panah Bawah Bulat -->
         <div class="flex flex-col items-start gap-3">
           <p class="text-[10px] md:text-[11px] text-slate-300/90 font-sans leading-relaxed max-w-[150px] md:max-w-[210px]">
             Pengerajin stainless pemahat baut &mdash; presisi mesin CNC &#x1F1EE;&#x1F1E9;
@@ -405,7 +373,6 @@
           </a>
         </div>
 
-        <!-- Kanan: Caption Mikro Simetris -->
         <div class="text-right">
           <p class="text-[10px] md:text-[11px] text-slate-300/90 font-sans leading-relaxed max-w-[150px] md:max-w-[240px]">
             Baut mesin &bull; mur head &bull; as roda &bull; paket CVT matic
@@ -499,7 +466,7 @@
         </div>
         <span
           class="font-mono text-[11px] text-slate-400 bg-carbon-900/80 border border-carbon-700 px-3 py-1 rounded-full">
-          [PROTOTYPE 3D CAD PLACEHOLDER]
+          [INTERACTIVE 3D CAD STUDIO]
         </span>
       </div>
 
@@ -626,124 +593,185 @@
 
     </section>
 
-    <!-- ================= 3. ANATOMI 3D BAUT (REFERENSI LOGITECH G) ================= -->
-    <section id="anatomi-mouse" class="bg-carbon-950 border-b border-carbon-800">
+    <!-- ================= 3. ANATOMI 3D BAUT (PERSIS KOMPOSISI & SILUET REFERENSI MOUSE LOGITECH G) ================= -->
+    <section id="anatomi-mouse" class="relative bg-logitech-matte border-b border-carbon-800 overflow-hidden select-none">
 
-            <!-- PART 3B: ANATOMI 3D BAUT (REFERENSI LOGITECH G) -->
-      <div class="py-16 sm:py-24 max-w-6xl mx-auto px-4 sm:px-8">
-        <div class="text-center mb-14 sm:mb-20">
-          <span class="font-mono text-xs text-industrial-yellow uppercase tracking-[0.25em] block">
+      <!-- Garis Vertikal Tipis & 4 Indikator Dots di Tepi Kiri (Persis Sisi Kiri Referensi Mouse Logitech G) -->
+      <div class="hidden lg:flex flex-col items-center justify-center absolute left-8 inset-y-0 z-10 pointer-events-none">
+        <div class="w-px flex-1 bg-white/10"></div>
+        <div class="py-6 flex flex-col items-center gap-4">
+          <span class="w-1.5 h-1.5 rounded-full bg-white/40"></span>
+          <span class="w-1.5 h-1.5 rounded-full bg-white/40"></span>
+          <span class="w-3.5 h-3.5 rounded-full border border-industrial-yellow flex items-center justify-center">
+            <span class="w-1.5 h-1.5 rounded-full bg-industrial-yellow"></span>
+          </span>
+          <span class="w-1.5 h-1.5 rounded-full bg-white/40"></span>
+        </div>
+        <div class="w-px flex-1 bg-white/10"></div>
+      </div>
+
+      <div class="py-20 sm:py-28 max-w-6xl mx-auto px-4 sm:px-8 relative z-20">
+        <!-- Heading Tengah Bersih Seperti 'PRODUCT' di Referensi Mouse -->
+        <div class="text-center mb-16 sm:mb-24">
+          <span class="font-mono text-[11px] text-industrial-yellow uppercase tracking-[0.3em] block mb-2">
             // ANATOMI TEKNIS & MATERIAL
           </span>
-          <h2 class="font-display font-bold text-3xl sm:text-4xl uppercase tracking-wider text-white mt-1">
+          <h2 class="font-display font-bold text-3xl sm:text-4xl uppercase tracking-[0.18em] text-white">
             STRUKTUR PRESISI BAUT CNC
           </h2>
-          <p class="text-slate-400 text-xs sm:text-sm mt-3 max-w-xl mx-auto">
-            Empat detail presisi baut Hex Stars TJ FACTORY — dari kepala sampai ulir, seperti pegang barangnya langsung.
+          <p class="text-slate-400 text-xs sm:text-sm mt-3 max-w-lg mx-auto">
+            Empat postur utuh dari baut CNC TJ FACTORY dengan pencahayaan studio metalik — tahan &amp; geser pada baut untuk memutar sudut pandang.
           </p>
         </div>
 
         <div class="relative" id="anatomi-3d">
+          <!-- Garis Spine Vertikal Tengah (Menghubungkan Ke-4 Titik Node) -->
           <div
-            class="absolute left-5 md:left-1/2 top-4 bottom-4 w-0.5 bg-gradient-to-b from-industrial-yellow via-industrial-yellow/60 to-carbon-800 md:-translate-x-1/2">
+            class="absolute left-5 md:left-1/2 top-16 bottom-16 w-[1.5px] bg-gradient-to-b from-industrial-yellow/80 via-industrial-yellow/50 to-industrial-yellow/80 md:-translate-x-1/2">
           </div>
 
-          <div class="space-y-14 sm:space-y-20">
+          <div class="space-y-12 sm:space-y-16">
 
-            <!-- 01 TAMPAK DEPAN -->
-            <div class="relative grid grid-cols-1 md:grid-cols-2 items-center gap-8 md:gap-0 pl-14 md:pl-0">
+            <!-- ROW 01: POSTUR MAHKOTA KEPALA & SOKET BINTANG (Utuh Menghadap Depan-Atas Seperti Mouse 1) -->
+            <div class="relative grid grid-cols-1 md:grid-cols-12 items-center gap-6 md:gap-0 pl-14 md:pl-0">
+              <!-- Double-Ring Node Persis Referensi Logitech G -->
               <div
-                class="absolute left-5 md:left-1/2 top-10 md:top-1/2 -translate-x-1/2 md:-translate-y-1/2 w-5 h-5 rounded-full bg-carbon-950 border-2 border-industrial-yellow flex items-center justify-center shadow-[0_0_15px_#F5B700] z-10">
-                <div class="w-2 h-2 rounded-full bg-industrial-yellow"></div>
+                class="absolute left-5 md:left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-[#13161C] border border-industrial-yellow/70 flex items-center justify-center shadow-[0_0_20px_rgba(245,183,0,0.28)] z-20">
+                <div class="w-2.5 h-2.5 rounded-full bg-industrial-yellow shadow-[0_0_10px_#F5B700]"></div>
               </div>
-              <div class="relative mx-auto w-full max-w-[340px] aspect-square">
-                <div class="absolute inset-0 rounded-full bg-[radial-gradient(ellipse_at_center,rgba(245,183,0,0.16)_0%,rgba(10,10,10,0)_62%)]"></div>
-                <div class="absolute left-1/2 bottom-4 w-3/5 h-10 -translate-x-1/2 rounded-full bg-black/70 blur-2xl"></div>
-                <img src="./Material/hex-star/id-11134207-7r98t-lqa79zlxhdke71.webp"
-                  onerror="this.src='https://images.msha.ke/9557f023-860b-42d6-b662-058a19771596?w=600'"
-                  alt="Baut Hex Stars tampak depan"
-                  class="anatomi-fallback absolute inset-0 m-auto w-3/4 h-3/4 object-cover rounded-2xl border border-carbon-700 transition-opacity duration-700" />
-                <canvas class="anatomi-canvas block absolute inset-0 w-full h-full opacity-0 transition-opacity duration-700" data-view="kepala"></canvas>
+
+              <!-- Sisi Kiri: Panggung 3D Utuh (Tanpa Lingkaran Kuning Kotor, Tanpa Gambar Shopee Bocor Saat Refresh!) -->
+              <div class="md:col-span-5 flex justify-center md:justify-end md:pr-12">
+                <div class="relative w-full max-w-[300px] sm:max-w-[330px] h-[250px] sm:h-[270px] flex items-center justify-center cursor-grab active:cursor-grabbing" title="Tahan & geser untuk memutar">
+                  <!-- Bayangan Lantai Studio Halus (Contact Shadow) -->
+                  <div class="pointer-events-none absolute bottom-3 left-1/2 -translate-x-1/2 w-36 h-7 rounded-full bg-black/85 blur-xl"></div>
+                  <!-- Fallback Image: Disembunyikan penuh (hidden) agar TIDAK pernah muncul saat refresh! -->
+                  <img src="./Material/hex-star/id-11134207-7r98t-lqa79zlxhdke71.webp"
+                    alt="Kepala Hex Stars 2 Kunci"
+                    class="anatomi-fallback hidden w-44 h-44 object-contain rounded-xl" />
+                  <canvas class="anatomi-canvas block w-full h-full anatomi-bolt-shadow opacity-0 transition-opacity duration-500" data-view="crown"></canvas>
+                </div>
               </div>
-              <div class="md:pl-20 space-y-2">
-                <span class="font-mono text-[10px] text-industrial-yellow uppercase tracking-[0.3em]">01 // Detail Kepala</span>
-                <h3 class="font-display font-bold text-xl sm:text-2xl text-white uppercase">Kepala Hex Stars 2 Kunci</h3>
-                <p class="text-slate-400 text-xs sm:text-sm leading-relaxed max-w-md">Kunci ring segi-6 dari luar, kunci bintang Torx dari soket tengah — dua cara buka dalam satu kepala. Flange menyatu hasil pahatan CNC, duduk presisi tanpa ring tambahan.</p>
+
+              <div class="hidden md:block md:col-span-2"></div>
+
+              <!-- Sisi Kanan: Teks Penjelasan Bersih Persis Referensi Mouse -->
+              <div class="md:col-span-5 md:pl-4 space-y-2">
+                <span class="font-mono text-[10px] text-industrial-yellow uppercase tracking-[0.28em] block">
+                  01 // DUAL-KEY HEAD ARCHITECTURE
+                </span>
+                <h3 class="font-sans font-bold text-lg sm:text-xl text-white tracking-tight">
+                  Kepala Hex Stars 2 Kunci &amp; Soket Bintang
+                </h3>
+                <p class="text-slate-400 text-xs sm:text-sm leading-relaxed max-w-sm">
+                  Kunci ring/sok segi-6 dari luar dan kunci bintang Torx 6-titik di tengah kepala baut. Piringan flange menyatu hasil bubutan CNC duduk rata di blok mesin tanpa perlu ring tambahan.
+                </p>
               </div>
             </div>
 
-            <!-- 02 TAMPAK SAMPING -->
-            <div class="relative grid grid-cols-1 md:grid-cols-2 items-center gap-8 md:gap-0 pl-14 md:pl-0">
+            <!-- ROW 02: POSTUR HORIZONTAL SAMPING (Baut Tidur Mendatar Kiri-ke-Kanan Persis Mouse ke-2!) -->
+            <div class="relative grid grid-cols-1 md:grid-cols-12 items-center gap-6 md:gap-0 pl-14 md:pl-0">
               <div
-                class="absolute left-5 md:left-1/2 top-10 md:top-1/2 -translate-x-1/2 md:-translate-y-1/2 w-5 h-5 rounded-full bg-carbon-950 border-2 border-industrial-yellow flex items-center justify-center shadow-[0_0_15px_#F5B700] z-10">
-                <div class="w-2 h-2 rounded-full bg-industrial-yellow"></div>
+                class="absolute left-5 md:left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-[#13161C] border border-industrial-yellow/70 flex items-center justify-center shadow-[0_0_20px_rgba(245,183,0,0.28)] z-20">
+                <div class="w-2.5 h-2.5 rounded-full bg-industrial-yellow shadow-[0_0_10px_#F5B700]"></div>
               </div>
-              <div class="relative mx-auto w-full max-w-[340px] aspect-square">
-                <div class="absolute inset-0 rounded-full bg-[radial-gradient(ellipse_at_center,rgba(245,183,0,0.16)_0%,rgba(10,10,10,0)_62%)]"></div>
-                <div class="absolute left-1/2 bottom-4 w-3/5 h-10 -translate-x-1/2 rounded-full bg-black/70 blur-2xl"></div>
-                <img src="./Material/hex-star/id-11134207-822wp-mo2b6elumy2t4a.webp"
-                  onerror="this.src='https://images.msha.ke/cf0c14cd-9bb6-4da2-a0f3-6722d9620748?w=600'"
-                  alt="Ulir baut tampak samping"
-                  class="anatomi-fallback absolute inset-0 m-auto w-3/4 h-3/4 object-cover rounded-2xl border border-carbon-700 transition-opacity duration-700" />
-                <canvas class="anatomi-canvas block absolute inset-0 w-full h-full opacity-0 transition-opacity duration-700" data-view="ulir"></canvas>
+
+              <div class="md:col-span-5 flex justify-center md:justify-end md:pr-12">
+                <div class="relative w-full max-w-[320px] sm:max-w-[350px] h-[230px] sm:h-[250px] flex items-center justify-center cursor-grab active:cursor-grabbing" title="Tahan & geser untuk memutar">
+                  <div class="pointer-events-none absolute bottom-5 left-1/2 -translate-x-1/2 w-56 h-6 rounded-full bg-black/85 blur-xl"></div>
+                  <img src="./Material/hex-star/id-11134207-822wp-mo2b6elumy2t4a.webp"
+                    alt="Profil Samping Baut CNC"
+                    class="anatomi-fallback hidden w-44 h-44 object-contain rounded-xl" />
+                  <canvas class="anatomi-canvas block w-full h-full anatomi-bolt-shadow opacity-0 transition-opacity duration-500" data-view="side-horizontal"></canvas>
+                </div>
               </div>
-              <div class="md:pl-20 space-y-2">
-                <span class="font-mono text-[10px] text-industrial-yellow uppercase tracking-[0.3em]">02 // Detail Ulir</span>
-                <h3 class="font-display font-bold text-xl sm:text-2xl text-white uppercase">Ulir Presisi CNC</h3>
-                <p class="text-slate-400 text-xs sm:text-sm leading-relaxed max-w-md">Drat M8 &times; 1.25 dipahat penuh sampai pangkal dengan profil ulir tajam dan konsisten. Tersedia M6 (12&ndash;70 mm), M8, hingga M10 untuk titik mesin, cakram, dan kaliper.</p>
+
+              <div class="hidden md:block md:col-span-2"></div>
+
+              <div class="md:col-span-5 md:pl-4 space-y-2">
+                <span class="font-mono text-[10px] text-industrial-yellow uppercase tracking-[0.28em] block">
+                  02 // FULL HORIZONTAL PROFILE
+                </span>
+                <h3 class="font-sans font-bold text-lg sm:text-xl text-white tracking-tight">
+                  Proporsi Batang &amp; Ulir Presisi CNC
+                </h3>
+                <p class="text-slate-400 text-xs sm:text-sm leading-relaxed max-w-sm">
+                  Transisi presisi dari leher flange menuju batang halus dan deretan ulir drat yang tajam serta konsisten. Tersedia ukuran standar M6 (12–70 mm), M8 (15–35 mm), hingga M10 (25–45 mm).
+                </p>
               </div>
             </div>
 
-            <!-- 03 TAMPAK ATAS -->
-            <div class="relative grid grid-cols-1 md:grid-cols-2 items-center gap-8 md:gap-0 pl-14 md:pl-0">
+            <!-- ROW 03: POSTUR ISOMETRIK MIRING 45° (Memperlihatkan Bevel Bawah Flange & Alur Ulir Persis Mouse ke-3!) -->
+            <div class="relative grid grid-cols-1 md:grid-cols-12 items-center gap-6 md:gap-0 pl-14 md:pl-0">
               <div
-                class="absolute left-5 md:left-1/2 top-10 md:top-1/2 -translate-x-1/2 md:-translate-y-1/2 w-5 h-5 rounded-full bg-carbon-950 border-2 border-industrial-yellow flex items-center justify-center shadow-[0_0_15px_#F5B700] z-10">
-                <div class="w-2 h-2 rounded-full bg-industrial-yellow"></div>
+                class="absolute left-5 md:left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-[#13161C] border border-industrial-yellow/70 flex items-center justify-center shadow-[0_0_20px_rgba(245,183,0,0.28)] z-20">
+                <div class="w-2.5 h-2.5 rounded-full bg-industrial-yellow shadow-[0_0_10px_#F5B700]"></div>
               </div>
-              <div class="relative mx-auto w-full max-w-[340px] aspect-square">
-                <div class="absolute inset-0 rounded-full bg-[radial-gradient(ellipse_at_center,rgba(245,183,0,0.16)_0%,rgba(10,10,10,0)_62%)]"></div>
-                <div class="absolute left-1/2 bottom-4 w-3/5 h-10 -translate-x-1/2 rounded-full bg-black/70 blur-2xl"></div>
-                <img src="./Material/hex-star/id-11134207-822wg-mo2b6eluljidc0.webp"
-                  onerror="this.src='https://images.msha.ke/60ff2d3c-c669-462a-a905-350c023fb08f?w=600'"
-                  alt="Soket bintang kepala baut tampak atas"
-                  class="anatomi-fallback absolute inset-0 m-auto w-3/4 h-3/4 object-cover rounded-2xl border border-carbon-700 transition-opacity duration-700" />
-                <canvas class="anatomi-canvas block absolute inset-0 w-full h-full opacity-0 transition-opacity duration-700" data-view="soket"></canvas>
+
+              <div class="md:col-span-5 flex justify-center md:justify-end md:pr-12">
+                <div class="relative w-full max-w-[300px] sm:max-w-[330px] h-[250px] sm:h-[270px] flex items-center justify-center cursor-grab active:cursor-grabbing" title="Tahan & geser untuk memutar">
+                  <div class="pointer-events-none absolute bottom-4 left-1/2 -translate-x-1/2 w-44 h-7 rounded-full bg-black/85 blur-xl"></div>
+                  <img src="./Material/hex-star/id-11134207-822wg-mo2b6eluljidc0.webp"
+                    alt="Sudut Isometrik Baut CNC"
+                    class="anatomi-fallback hidden w-44 h-44 object-contain rounded-xl" />
+                  <canvas class="anatomi-canvas block w-full h-full anatomi-bolt-shadow opacity-0 transition-opacity duration-500" data-view="tilted-iso"></canvas>
+                </div>
               </div>
-              <div class="md:pl-20 space-y-2">
-                <span class="font-mono text-[10px] text-industrial-yellow uppercase tracking-[0.3em]">03 // Detail Soket</span>
-                <h3 class="font-display font-bold text-xl sm:text-2xl text-white uppercase">Soket Bintang 6-Titik</h3>
-                <p class="text-slate-400 text-xs sm:text-sm leading-relaxed max-w-md">Lubang bintang simetris di tengah kepala untuk torsi maksimal tanpa selip. Kedalaman presisi — kunci menggigit penuh, bukan cuma nyangkut di permukaan.</p>
+
+              <div class="hidden md:block md:col-span-2"></div>
+
+              <div class="md:col-span-5 md:pl-4 space-y-2">
+                <span class="font-mono text-[10px] text-industrial-yellow uppercase tracking-[0.28em] block">
+                  03 // CHAMFERED FLANGE &amp; LEAD-IN TIP
+                </span>
+                <h3 class="font-sans font-bold text-lg sm:text-xl text-white tracking-tight">
+                  Bevel CNC &amp; Daya Cengkeram Torsi Tinggi
+                </h3>
+                <p class="text-slate-400 text-xs sm:text-sm leading-relaxed max-w-sm">
+                  Setiap sudut segi enam dan ujung bawah drat melewati proses chamfering CNC agar baut langsung masuk mulus ke lubang drat mesin tanpa risiko miring atau merusak ulir blok kalter.
+                </p>
               </div>
             </div>
 
-            <!-- 04 TAMPAK MIRING -->
-            <div class="relative grid grid-cols-1 md:grid-cols-2 items-center gap-8 md:gap-0 pl-14 md:pl-0">
+            <!-- ROW 04: KOMPOSISI GANDA / TWIN SET ASSEMBLY (2 Baut Berdampingan Persis Mouse ke-4 yang Menampilkan 2 Komponen!) -->
+            <div class="relative grid grid-cols-1 md:grid-cols-12 items-center gap-6 md:gap-0 pl-14 md:pl-0">
               <div
-                class="absolute left-5 md:left-1/2 top-10 md:top-1/2 -translate-x-1/2 md:-translate-y-1/2 w-5 h-5 rounded-full bg-carbon-950 border-2 border-industrial-yellow flex items-center justify-center shadow-[0_0_15px_#F5B700] z-10">
-                <div class="w-2 h-2 rounded-full bg-industrial-yellow"></div>
+                class="absolute left-5 md:left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-[#13161C] border border-industrial-yellow/70 flex items-center justify-center shadow-[0_0_20px_rgba(245,183,0,0.28)] z-20">
+                <div class="w-2.5 h-2.5 rounded-full bg-industrial-yellow shadow-[0_0_10px_#F5B700]"></div>
               </div>
-              <div class="relative mx-auto w-full max-w-[340px] aspect-square">
-                <div class="absolute inset-0 rounded-full bg-[radial-gradient(ellipse_at_center,rgba(245,183,0,0.16)_0%,rgba(10,10,10,0)_62%)]"></div>
-                <div class="absolute left-1/2 bottom-4 w-3/5 h-10 -translate-x-1/2 rounded-full bg-black/70 blur-2xl"></div>
-                <img src="./Material/BAUT.png"
-                  onerror="this.src='https://images.msha.ke/39a66401-ea82-4d9a-b9b1-a6e51557c2f1?w=800'"
-                  alt="Baut stainless tampak miring"
-                  class="anatomi-fallback absolute inset-0 m-auto w-3/4 h-3/4 object-cover rounded-2xl border border-carbon-700 transition-opacity duration-700" />
-                <canvas class="anatomi-canvas block absolute inset-0 w-full h-full opacity-0 transition-opacity duration-700" data-view="hero"></canvas>
+
+              <div class="md:col-span-5 flex justify-center md:justify-end md:pr-12">
+                <div class="relative w-full max-w-[320px] sm:max-w-[350px] h-[250px] sm:h-[270px] flex items-center justify-center cursor-grab active:cursor-grabbing" title="Tahan & geser untuk memutar">
+                  <div class="pointer-events-none absolute bottom-4 left-1/2 -translate-x-1/2 w-52 h-8 rounded-full bg-black/90 blur-xl"></div>
+                  <img src="./Material/BAUT.png"
+                    alt="Set Baut Stainless SUS 304"
+                    class="anatomi-fallback hidden w-44 h-44 object-contain rounded-xl" />
+                  <canvas class="anatomi-canvas block w-full h-full anatomi-bolt-shadow opacity-0 transition-opacity duration-500" data-view="twin-set"></canvas>
+                </div>
               </div>
-              <div class="md:pl-20 space-y-2">
-                <span class="font-mono text-[10px] text-industrial-yellow uppercase tracking-[0.3em]">04 // Tampak Utuh</span>
-                <h3 class="font-display font-bold text-xl sm:text-2xl text-white uppercase">Stainless Anti Karat</h3>
-                <p class="text-slate-400 text-xs sm:text-sm leading-relaxed max-w-md">Dibubut dari stainless steel (seri SUS 304): tahan korosi air hujan dan panas blok mesin. Kilap metalik awet tanpa coating yang bisa ngelotok.</p>
+
+              <div class="hidden md:block md:col-span-2"></div>
+
+              <div class="md:col-span-5 md:pl-4 space-y-2">
+                <span class="font-mono text-[10px] text-industrial-yellow uppercase tracking-[0.28em] block">
+                  04 // STAINLESS STEEL SUS 304 GRADE
+                </span>
+                <h3 class="font-sans font-bold text-lg sm:text-xl text-white tracking-tight">
+                  Material Stainless Tahan Karat &amp; Panas Mesin
+                </h3>
+                <p class="text-slate-400 text-xs sm:text-sm leading-relaxed max-w-sm">
+                  Dibubut dari baja nirkarat (Stainless Steel termasuk seri SUS 304) yang tahan korosi air hujan, lumpur, dan suhu tinggi mesin 2-Tak maupun 4-Tak dengan kilau logam murni yang awet.
+                </p>
               </div>
             </div>
 
           </div>
 
-          <div class="mt-16 text-center">
+          <!-- Tombol Kapsul Bawah Persis 'BUY NOW' di Referensi Mouse -->
+          <div class="mt-20 text-center">
             <a href="https://id.shp.ee/62goJ9J" target="_blank" rel="noopener noreferrer"
-              class="inline-flex items-center gap-2 px-10 py-3 rounded-full border border-industrial-yellow/70 text-industrial-yellow hover:bg-industrial-yellow hover:text-carbon-950 font-mono text-xs font-bold uppercase tracking-[0.2em] transition-all">
-              Beli di Shopee
+              class="inline-flex items-center gap-2 px-11 py-3.5 rounded-full bg-carbon-900/90 border border-industrial-yellow/70 text-white hover:bg-industrial-yellow hover:text-carbon-950 font-mono text-xs font-bold uppercase tracking-[0.22em] transition-all shadow-[0_0_30px_rgba(245,183,0,0.12)]">
+              BELI DI SHOPEE
             </a>
           </div>
         </div>
@@ -772,13 +800,13 @@
             class="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 rounded-full bg-industrial-yellow/15 blur-3xl">
           </div>
 
-                    <div class="toppicks-marquee overflow-hidden py-6" id="mouse-strip-items">
+          <div class="toppicks-marquee overflow-hidden py-6" id="mouse-strip-items">
             <div class="toppicks-track flex items-stretch w-max">
               <div onclick="window.openProductDetail('TJF-SP-01')"
                 class="shrink-0 w-60 sm:w-64 mr-4 sm:mr-5 bg-carbon-900 border border-carbon-700 hover:border-industrial-yellow rounded-2xl overflow-hidden cursor-pointer transition-colors group">
                 <div class="aspect-[3/4] relative overflow-hidden bg-carbon-950">
                   <img src="./Material/hex-star/id-11134207-822wp-mo2b6elumy2t4a.webp"
-                onerror="this.src='https://images.msha.ke/cf0c14cd-9bb6-4da2-a0f3-6722d9620748?w=600'"
+                    onerror="this.src='https://images.msha.ke/cf0c14cd-9bb6-4da2-a0f3-6722d9620748?w=600'"
                     alt="Bak Kalter RX King"
                     class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                   <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-carbon-950 via-carbon-950/80 to-transparent p-4">
@@ -791,7 +819,7 @@
                 class="shrink-0 w-60 sm:w-64 mr-4 sm:mr-5 bg-carbon-900 border border-carbon-700 hover:border-industrial-yellow rounded-2xl overflow-hidden cursor-pointer transition-colors group">
                 <div class="aspect-[3/4] relative overflow-hidden bg-carbon-950">
                   <img src="./Material/mud-head-ninja-3R/id-11134207-8224q-mhlni6mwmdxg3b.webp"
-                onerror="this.src='https://images.msha.ke/7b448005-f2c2-49e5-8bea-f03468647676?w=600'"
+                    onerror="this.src='https://images.msha.ke/7b448005-f2c2-49e5-8bea-f03468647676?w=600'"
                     alt="Mur Head Ninja R RR"
                     class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                   <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-carbon-950 via-carbon-950/80 to-transparent p-4">
@@ -810,7 +838,7 @@
                   <div class="absolute top-3 left-3 z-20 px-2.5 py-0.5 rounded-full bg-industrial-yellow text-carbon-950 font-mono font-bold text-[10px]">
                     BEST SELLER
                   </div>
-                  <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-carbon-950 via-carbon-950/85 to-transparent p-4 z-20">
+                  <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-carbon-950 via-carbon-950/80 to-transparent p-4 z-20">
                     <span class="font-mono text-[10px] text-industrial-yellow">22 + 8 + 8 PCS</span>
                     <h3 class="font-display font-bold text-lg text-white uppercase">Full Set Ninja 2-Tak</h3>
                   </div>
@@ -820,7 +848,7 @@
                 class="shrink-0 w-60 sm:w-64 mr-4 sm:mr-5 bg-carbon-900 border border-carbon-700 hover:border-industrial-yellow rounded-2xl overflow-hidden cursor-pointer transition-colors group">
                 <div class="aspect-[3/4] relative overflow-hidden bg-carbon-950">
                   <img src="./Material/hex-star/id-11134207-7r98t-lqa79zlxhdke71.webp"
-                onerror="this.src='https://images.msha.ke/9557f023-860b-42d6-b662-058a19771596?w=600'"
+                    onerror="this.src='https://images.msha.ke/9557f023-860b-42d6-b662-058a19771596?w=600'"
                     alt="Baut Bak Kalter Ninja"
                     class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                   <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-carbon-950 via-carbon-950/80 to-transparent p-4">
@@ -835,7 +863,7 @@
                   <img src="https://images.msha.ke/4d6aeb97-3544-47cc-8695-7e26f77e3442?auto=format%2Ccompress&cs=tinysrgb&q=80&w=828"
                     alt="Cover Head 125Z CNC Laser"
                     class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                  <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-carbon-950 via-carbon-950/80 to-transparent p-4">
+                  <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-carbon-950 via-carbon-950/80 to-transparent p-4 z-20">
                     <span class="font-mono text-[10px] text-industrial-yellow">SUS 304 CNC LASER</span>
                     <h3 class="font-display font-bold text-base text-white uppercase">Cover Head 125Z</h3>
                   </div>
@@ -1288,7 +1316,7 @@
     </div>
   </footer>
 
-  <!-- ================= JAVASCRIPT: DUAL 3D STAGES (MEDUSA HERO + JACKET FLY-IN) + KATALOG ================= -->
+  <!-- ================= JAVASCRIPT: DUAL 3D STAGES + ANATOMI 4 POSTUR LOGITECH G + KATALOG ================= -->
   <script type="module">
     import * as THREE from 'three';
     import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
@@ -1410,7 +1438,6 @@
 
         scene.add(emblemGroup);
 
-        // Load 3D GLB Model (Bug maxDim sudah diperbaiki!)
         const loader = new GLTFLoader();
         loader.load(
           './aset/hero_3d_emblem.glb',
@@ -1534,6 +1561,73 @@
     }
 
     /* -------------------------------------------------------------------------- */
+    /* HELPER MATERIAL & PENCAHAYAAN STUDIO EMAS-STAINLESS (IDENTIK HERO LOGO)    */
+    /* -------------------------------------------------------------------------- */
+    function setupHeroMatchedStudioLights(scene) {
+      const topRimLight = new THREE.DirectionalLight(0xffffff, 1.75);
+      topRimLight.position.set(0, 5.5, 3.0);
+      scene.add(topRimLight);
+
+      const goldKeyLight = new THREE.DirectionalLight(0xffd56b, 1.65);
+      goldKeyLight.position.set(4.2, 1.8, 3.8);
+      scene.add(goldKeyLight);
+
+      const sweepSpotLight = new THREE.DirectionalLight(0xfff1b8, 1.25);
+      sweepSpotLight.position.set(-3.5, 3.2, 3.5);
+      scene.add(sweepSpotLight);
+
+      const coolSlateFill = new THREE.DirectionalLight(0x64748b, 0.85);
+      coolSlateFill.position.set(-4.0, -2.5, 2.5);
+      scene.add(coolSlateFill);
+
+      const bottomGoldBounce = new THREE.PointLight(0xf5b700, 0.95, 12);
+      bottomGoldBounce.position.set(0, -3.4, 2.2);
+      scene.add(bottomGoldBounce);
+
+      return { topRimLight, goldKeyLight, sweepSpotLight, bottomGoldBounce };
+    }
+
+    function applyHeroMatchedBoltMaterial(rootMesh) {
+      const satinStainless = new THREE.MeshStandardMaterial({
+        color: new THREE.Color(0xeef2f7),
+        metalness: 0.88,
+        roughness: 0.20,
+        envMapIntensity: 1.18
+      });
+
+      rootMesh.traverse((child) => {
+        if (child.isMesh) {
+          child.castShadow = true;
+          child.receiveShadow = true;
+          child.material = satinStainless;
+        }
+      });
+    }
+
+    function normalizeBoltModel(srcScene, targetSize = 2.55) {
+      const wrapper = new THREE.Group();
+      const model = srcScene.clone(true);
+
+      let box = new THREE.Box3().setFromObject(model);
+      let size = box.getSize(new THREE.Vector3());
+      if (size.z >= size.y && size.z >= size.x) model.rotation.x = -Math.PI / 2;
+      else if (size.x >= size.y && size.x >= size.z) model.rotation.z = Math.PI / 2;
+
+      box = new THREE.Box3().setFromObject(model);
+      const center = box.getCenter(new THREE.Vector3());
+      size = box.getSize(new THREE.Vector3());
+      const maxDim = Math.max(size.x, size.y, size.z) || 1;
+      const scale = targetSize / maxDim;
+
+      model.scale.setScalar(scale);
+      model.position.set(-center.x * scale, -center.y * scale, -center.z * scale);
+
+      applyHeroMatchedBoltMaterial(model);
+      wrapper.add(model);
+      return wrapper;
+    }
+
+    /* -------------------------------------------------------------------------- */
     /* 2. STAGE 2: JACKET MASTERY 3D SHOWCASE (FLY-IN DARI KANAN BAWAH KE TENGAH) */
     /* -------------------------------------------------------------------------- */
     const partsData = [
@@ -1580,29 +1674,24 @@
       renderer.setSize(container.clientWidth, container.clientHeight);
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
       renderer.toneMapping = THREE.ACESFilmicToneMapping;
-      renderer.toneMappingExposure = 1.35;
+      renderer.toneMappingExposure = 1.08;
       container.appendChild(renderer.domElement);
 
       const pmrem = new THREE.PMREMGenerator(renderer);
-      scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+      scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.03).texture;
 
-      const keyLight = new THREE.DirectionalLight(0xffffff, 2.5);
-      keyLight.position.set(5, 8, 6);
-      scene.add(keyLight);
-
-      const rimLight = new THREE.DirectionalLight(0xf5b700, 1.1);
-      rimLight.position.set(-6, -4, -3);
-      scene.add(rimLight);
+      setupHeroMatchedStudioLights(scene);
 
       const stainlessMat = new THREE.MeshStandardMaterial({
-        color: 0xe8eef5,
-        metalness: 0.94,
-        roughness: 0.12
+        color: 0xeef2f7,
+        metalness: 0.88,
+        roughness: 0.20,
+        envMapIntensity: 1.18
       });
 
       const recessMat = new THREE.MeshStandardMaterial({
         color: 0x1b222c,
-        metalness: 0.85,
+        metalness: 0.82,
         roughness: 0.35
       });
 
@@ -1820,6 +1909,18 @@
         m.rotation.set(0.32, 0.5, -0.15);
         scene.add(m);
       });
+
+      // Jika file ./aset/baut_hexstar.glb tersedia, gunakan untuk komponen 01 agar konsisten
+      const glbLoader = new GLTFLoader();
+      glbLoader.load('./aset/baut_hexstar.glb', (gltf) => {
+        const realBolt = normalizeBoltModel(gltf.scene, 4.2);
+        realBolt.rotation.copy(models[0].rotation);
+        realBolt.position.copy(models[0].position);
+        realBolt.scale.copy(models[0].scale);
+        scene.remove(models[0]);
+        models[0] = realBolt;
+        scene.add(realBolt);
+      }, undefined, () => {});
 
       let isDragging = false;
       let prevPt = { x: 0, y: 0 };
@@ -2223,6 +2324,7 @@
         spec: '1 Set 10 pcs baut CVT 2 Kunci',
         material: 'Stainless Steel CNC',
         headType: 'HEX STARS (2 Kunci)',
+        headType: 'HEX STARS (2 Kunci)',
         motor: 'Honda ADV 160 & Vario 160',
         desc: '1 Set berisi 10 pcs baut CVT ADV dan Vario 160 model 2 kunci.',
         localImg: 'https://images.msha.ke/cf0c14cd-9bb6-4da2-a0f3-6722d9620748?auto=format%2Ccompress&cs=tinysrgb&q=80&w=828',
@@ -2342,12 +2444,12 @@
         <article class="bg-carbon-900 border border-carbon-700 hover:border-industrial-yellow rounded-xl overflow-hidden transition-all flex flex-col justify-between group cursor-pointer" onclick="window.openProductDetail('${item.code}')">
           <div>
             <div class="relative aspect-[4/3] sm:aspect-[16/10] bg-carbon-950 overflow-hidden border-b border-carbon-800">
-              <img 
-                src="${item.localImg}" 
-                onerror="this.onerror=null; this.src='${item.fallbackImg}';" 
-                alt="${item.name}" 
-                loading="lazy" 
-                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
+              <img
+                src="${item.localImg}"
+                onerror="this.onerror=null; this.src='${item.fallbackImg}';"
+                alt="${item.name}"
+                loading="lazy"
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
               />
               <span class="absolute top-2 left-2 px-2 py-0.5 rounded bg-carbon-950/90 border border-carbon-600 font-mono text-[9px] sm:text-[10px] text-industrial-yellow">
                 ${item.code}
@@ -2512,7 +2614,7 @@ Mohon info ketersediaan & harga penawarannya.`;
     initJacketShowcase3D();
 
     /* -------------------------------------------------------------------------- */
-    /* 7. ANATOMI 3D: EMPAT SUDUT BAUT (REFERENSI LOGITECH G)                     */
+    /* 5. ANATOMI 3D: 4 POSTUR UTUH ALA LOGITECH G + PENCAHAYAAN IDENTIK HERO     */
     /* -------------------------------------------------------------------------- */
     (function initAnatomi3D() {
       const section = document.getElementById('anatomi-3d');
@@ -2520,127 +2622,177 @@ Mohon info ketersediaan & harga penawarannya.`;
       const canvases = section.querySelectorAll('.anatomi-canvas');
       if (!canvases.length) return;
 
-      /* Macro detail per bagian (baut itu simetris — 4 angle keliatan sama aja) */
-      const VIEWS = {
-        kepala: { pos: [0.9, 1.7, 2.3], tgt: [0, 1.0, 0] },
-        ulir:   { pos: [1.7, -0.4, 1.7], tgt: [0, -0.75, 0] },
-        soket:  { pos: [0.35, 3.4, 0.95], tgt: [0, 1.15, 0] },
-        hero:   { pos: [3.2, 1.6, 3.2], tgt: [0, 0, 0] }
+      // 4 Postur Berbeda agar Baut Simetris Terlihat Dinamis & Tidak Terpotong Kotak (Persis 4 Postur Mouse Logitech G)
+      const POSTURES = {
+        // 01: Menghadap Depan-Atas (Menonjolkan Mahkota Segi-6, Soket Bintang 6-Titik & Flange secara utuh)
+        crown: {
+          camPos: [0, 0.35, 4.15],
+          rot: [0.68, 0.45, -0.22],
+          scale: 2.35
+        },
+        // 02: Tidur Horizontal Kiri-ke-Kanan (Persis Mouse ke-2 yang Tampak Samping Mendatar!)
+        'side-horizontal': {
+          camPos: [0, 0.0, 4.25],
+          rot: [0.22, 0.15, Math.PI / 2 - 0.12],
+          scale: 2.65
+        },
+        // 03: Miring Diagonal 45 Derajat (Persis Mouse ke-3 yang Miring Isometrik Dinamis!)
+        'tilted-iso': {
+          camPos: [0, 0.1, 4.2],
+          rot: [-0.38, 0.6, -0.72],
+          scale: 2.45
+        },
+        // 04: Komposisi Ganda / Twin Set (Persis Mouse ke-4 yang Menampilkan 2 Bagian Sekaligus!)
+        'twin-set': {
+          camPos: [0, 0.15, 4.45],
+          rot: [0.28, -0.35, 0.18],
+          scale: 2.25,
+          isTwin: true
+        }
       };
 
-      let started = false;
       const viewers = [];
+      const loader = new GLTFLoader();
 
-      function start() {
-        if (started) return;
-        started = true;
-        const loader = new GLTFLoader();
-        loader.load('./aset/baut_hexstar.glb', (gltf) => {
+      // Langsung muat sejak halaman dibuka agar tidak ada jeda / gambar lain yang muncul saat refresh!
+      loader.load(
+        './aset/baut_hexstar.glb',
+        (gltf) => {
           const src = gltf.scene;
-          let envTex = null;
+          let sharedEnvTex = null;
 
-          canvases.forEach((canvas) => {
+          canvases.forEach((canvas, idx) => {
             try {
-              const w = canvas.clientWidth || 340;
-              const h = canvas.clientHeight || 340;
-              const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: 'high-performance' });
+              const w = canvas.clientWidth || 320;
+              const h = canvas.clientHeight || 260;
+              const renderer = new THREE.WebGLRenderer({
+                canvas,
+                antialias: true,
+                alpha: true,
+                powerPreference: 'high-performance'
+              });
               renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
               renderer.setSize(w, h);
               renderer.toneMapping = THREE.ACESFilmicToneMapping;
-              renderer.toneMappingExposure = 1.15;
+              renderer.toneMappingExposure = 1.06;
 
-              if (!envTex) {
+              if (!sharedEnvTex) {
                 const pmrem = new THREE.PMREMGenerator(renderer);
-                envTex = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+                sharedEnvTex = pmrem.fromScene(new RoomEnvironment(), 0.03).texture;
                 pmrem.dispose();
               }
 
               const scene = new THREE.Scene();
-              scene.environment = envTex;
+              scene.environment = sharedEnvTex;
 
-              /* Studio lighting: key kuat dari atas-depan, rim dingin+hangat dari belakang */
-              const key = new THREE.DirectionalLight(0xffffff, 2.6);
-              key.position.set(3, 6, 4);
-              scene.add(key);
-              const rimCool = new THREE.DirectionalLight(0xbcd4ff, 2.2);
-              rimCool.position.set(-4, 3, -5);
-              scene.add(rimCool);
-              const rimWarm = new THREE.DirectionalLight(0xffc46b, 1.4);
-              rimWarm.position.set(4, 2, -4);
-              scene.add(rimWarm);
-              const fill = new THREE.DirectionalLight(0xfff2df, 0.7);
-              fill.position.set(-2, 0.5, 6);
-              scene.add(fill);
-              const hemi = new THREE.HemisphereLight(0xffffff, 0x1a1a1a, 0.45);
-              scene.add(hemi);
+              // Gunakan Pencahayaan Studio Emas-Putih-Slate yang Sama Persis dengan Hero Logo TJ FACTORY!
+              const lights = setupHeroMatchedStudioLights(scene);
 
-              const camera = new THREE.PerspectiveCamera(32, w / h, 0.1, 100);
+              const camera = new THREE.PerspectiveCamera(32, w / h, 0.1, 50);
+              const cfg = POSTURES[canvas.dataset.view] || POSTURES.crown;
+              camera.position.set(cfg.camPos[0], cfg.camPos[1], cfg.camPos[2]);
+              camera.lookAt(0, 0, 0);
 
-              // clone + orientasi: sumbu terpanjang -> vertikal (Y)
-              const model = src.clone(true);
-              let box = new THREE.Box3().setFromObject(model);
-              let size = box.getSize(new THREE.Vector3());
-              if (size.z >= size.y && size.z >= size.x) model.rotation.x = -Math.PI / 2;
-              else if (size.x >= size.y && size.x >= size.z) model.rotation.z = Math.PI / 2;
-              box = new THREE.Box3().setFromObject(model);
-              const center = box.getCenter(new THREE.Vector3());
-              size = box.getSize(new THREE.Vector3());
-              const maxDim = Math.max(size.x, size.y, size.z) || 1;
-              const s = 2.7 / maxDim;
-              model.scale.setScalar(s);
-              model.position.set(-center.x * s, -center.y * s, -center.z * s);
-              /* poles metal: full metallic, roughness rendah, pantulan env dikuatkan */
-              model.traverse((o) => {
-                if (o.isMesh) {
-                  const m = o.material;
-                  if (m && m.isMeshStandardMaterial) {
-                    m.metalness = 1.0;
-                    m.roughness = Math.min(m.roughness, 0.24);
-                    m.envMapIntensity = 1.6;
-                  }
-                }
+              const stageGroup = new THREE.Group();
+
+              if (cfg.isTwin) {
+                // Baris 04: Buat Komposisi 2 Baut Berdampingan (1 Berdiri Miring, 1 Menghadap Kamera)
+                const boltMain = normalizeBoltModel(src, cfg.scale);
+                boltMain.position.set(-0.48, 0.08, 0.15);
+                boltMain.rotation.set(0.24, 0.4, -0.22);
+
+                const boltSecond = normalizeBoltModel(src, cfg.scale * 0.88);
+                boltSecond.position.set(0.55, -0.18, -0.25);
+                boltSecond.rotation.set(0.85, -0.35, 0.65);
+
+                stageGroup.add(boltMain);
+                stageGroup.add(boltSecond);
+              } else {
+                const singleBolt = normalizeBoltModel(src, cfg.scale);
+                singleBolt.rotation.set(cfg.rot[0], cfg.rot[1], cfg.rot[2]);
+                stageGroup.add(singleBolt);
+              }
+
+              scene.add(stageGroup);
+
+              // Interaksi Drag per Baut supaya Pengunjung Bisa Memutar Tiap Baut di Anatomi
+              let isDragging = false;
+              let prevPt = { x: 0, y: 0 };
+              canvas.addEventListener('pointerdown', (e) => {
+                isDragging = true;
+                prevPt = { x: e.clientX, y: e.clientY };
               });
-              scene.add(model);
-
-              const v = VIEWS[canvas.dataset.view] || VIEWS.hero;
-              camera.position.set(v.pos[0], v.pos[1], v.pos[2]);
-              camera.lookAt(v.tgt[0], v.tgt[1], v.tgt[2]);
-              renderer.render(scene, camera);
+              window.addEventListener('pointermove', (e) => {
+                if (!isDragging) return;
+                const dx = e.clientX - prevPt.x;
+                const dy = e.clientY - prevPt.y;
+                prevPt = { x: e.clientX, y: e.clientY };
+                stageGroup.rotation.y += dx * 0.01;
+                stageGroup.rotation.x = THREE.MathUtils.clamp(stageGroup.rotation.x + dy * 0.01, -0.8, 0.8);
+              });
+              window.addEventListener('pointerup', () => { isDragging = false; });
 
               canvas.style.opacity = '1';
+
+              viewers.push({
+                renderer,
+                scene,
+                camera,
+                canvas,
+                stageGroup,
+                lights,
+                phaseOffset: idx * 1.4,
+                isDraggingRef: () => isDragging
+              });
+            } catch (err) {
               const fb = canvas.parentElement.querySelector('.anatomi-fallback');
-              if (fb) fb.style.opacity = '0';
-
-              viewers.push({ renderer, scene, camera, canvas });
-            } catch (err) { /* fallback foto tetap tampil */ }
+              if (fb) fb.classList.remove('hidden');
+            }
           });
-        }, undefined, () => { /* gagal load: fallback foto tetap tampil */ });
+        },
+        undefined,
+        () => {
+          // Hanya tampilkan gambar fallback jika file .glb benar-benar gagal dimuat
+          canvases.forEach((canvas) => {
+            const fb = canvas.parentElement.querySelector('.anatomi-fallback');
+            if (fb) fb.classList.remove('hidden');
+          });
+        }
+      );
+
+      // Animasi Studio Halus (Sama seperti kilau hidup pada Hero Logo TJ FACTORY)
+      let t = 0;
+      function animateAnatomiLoop() {
+        requestAnimationFrame(animateAnatomiLoop);
+        t += 0.018;
+
+        viewers.forEach((vw) => {
+          const localT = t + vw.phaseOffset;
+          if (!vw.isDraggingRef()) {
+            vw.stageGroup.rotation.y = Math.sin(localT * 0.65) * 0.22;
+            vw.stageGroup.position.y = Math.sin(localT * 0.9) * 0.04;
+          }
+          // Sapuan lembut lampu emas agar permukaan ulir & kepala baut berkilau mewah
+          vw.lights.goldKeyLight.position.x = Math.sin(localT) * 4.2 + 0.5;
+          vw.lights.sweepSpotLight.position.x = Math.cos(localT * 0.8) * -3.5;
+
+          vw.renderer.render(vw.scene, vw.camera);
+        });
       }
+      animateAnatomiLoop();
 
-      if ('IntersectionObserver' in window) {
-        const io = new IntersectionObserver((entries) => {
-          entries.forEach((e) => { if (e.isIntersecting) { start(); io.disconnect(); } });
-        }, { rootMargin: '200px' });
-        io.observe(section);
-      } else { start(); }
-
-      let rzT;
       window.addEventListener('resize', () => {
-        clearTimeout(rzT);
-        rzT = setTimeout(() => {
-          viewers.forEach((vw) => {
-            const w = vw.canvas.clientWidth || 340;
-            const h = vw.canvas.clientHeight || 340;
-            vw.camera.aspect = w / h;
-            vw.camera.updateProjectionMatrix();
-            vw.renderer.setSize(w, h);
-            vw.renderer.render(vw.scene, vw.camera);
-          });
-        }, 200);
+        viewers.forEach((vw) => {
+          const w = vw.canvas.clientWidth || 320;
+          const h = vw.canvas.clientHeight || 260;
+          vw.camera.aspect = w / h;
+          vw.camera.updateProjectionMatrix();
+          vw.renderer.setSize(w, h);
+        });
       });
     })();
 
-    /* Marquee Top Picks: duplikat kartu agar loop kanan->kiri mulus */
+    /* Marquee Top Picks */
     (function () {
       var track = document.querySelector('.toppicks-track');
       if (track && !track.dataset.dup) {

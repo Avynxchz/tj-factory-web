@@ -1503,6 +1503,33 @@ export     const verifiedProducts = [
         tiktokUrl: 'https://www.tiktok.com/@tj.factory_'
       }
     ];
+
+    export const partsData = [
+      {
+        counter: '01 / 03',
+        titleHtml: 'Baut Hex Stars <br /><span class="text-industrial-yellow">Dual-Key CNC</span>',
+        plainTitle: 'Baut Hex Stars Dual-Key',
+        desc: 'Desain kepala baut 2 kunci khas TJ FACTORY yang menggabungkan segi enam luar (Kunci Ring/Sok) dengan rongga bintang Torx di tengah serta flange CNC menyatu.',
+        grade: 'STAINLESS SUS 304',
+        badge: 'MODEL 2 KUNCI // HEX + TORX'
+      },
+      {
+        counter: '02 / 03',
+        titleHtml: 'Mur Head Ninja <br /><span class="text-industrial-yellow">12-Spline High Stars</span>',
+        plainTitle: 'Mur Head Ninja 12-Spline',
+        desc: 'Mur silinder head tinggi (HIGH STARS) dengan mahkota 12-point spline bertingkat dan lubang ulir drat tembus presisi untuk ketahanan torsi tinggi pada Ninja R/RR.',
+        grade: 'STAINLESS SOLID BAR',
+        badge: 'HIGH STARS CROWN // NINJA R/RR'
+      },
+      {
+        counter: '03 / 03',
+        titleHtml: 'Baut Visor Payung <br /><span class="text-industrial-yellow">Umbrella Stars CNC</span>',
+        plainTitle: 'Baut Visor Payung Bintang 5',
+        desc: 'Kepala baut model payung lebar profil rendah (Umbrella Stars) dengan pahatan motif bintang 5 timbul untuk menjepit mika visor Ninja RR Old & bodi secara merata.',
+        grade: 'STAINLESS 304 BUBUT',
+        badge: 'UMBRELLA 5-STAR // M6 DRAT 10'
+      }
+    ];
 </file>
 
 <file path="src/pages/index.astro">
@@ -1549,6 +1576,10 @@ import Footer from '../components/Footer.astro';
   <Footer />
   <script>
     import '../scripts/uiController.js';
+    import { initHeroMedusa3D, initJacketShowcase3D, initAnatomi3D } from '../scripts/threeEngine.js';
+    initHeroMedusa3D();
+    initJacketShowcase3D();
+    initAnatomi3D();
   </script>
 </body>
 </html>
@@ -1556,371 +1587,378 @@ import Footer from '../components/Footer.astro';
 
 <file path="src/scripts/threeEngine.js">
 import * as THREE from 'three';
-import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
-import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import { partsData } from '../data/products.js';
 
-    /* -------------------------------------------------------------------------- */
-    /* HELPER PENGHEMAT GPU (TUGAS 2) — DPR adaptif + cache GLB & RoomEnvironment  */
-    /* -------------------------------------------------------------------------- */
-    // DPR adaptif: HP dibatasi 1.25 (tetap tajam, jauh lebih ringan), desktop sampai 2
-    const getOptimalDpr = () => Math.min(window.devicePixelRatio || 1, window.innerWidth < 768 ? 1.25 : 2);
+// Deteksi layar HP untuk membatasi PixelRatio agar GPU HP dingin & stabil 60 FPS
+const getOptimalDpr = () => Math.min(window.devicePixelRatio || 1, window.innerWidth < 768 ? 1.25 : 2);
 
-    // Singleton Promise: baut_hexstar.glb diunduh & di-parse SEKALI, dipakai bersama
-    // jacket showcase + anatomi (tiap pemakai meng-clone scene-nya sendiri via normalizeBoltModel)
-    let sharedBoltGLBPromise = null;
-    function loadSharedBoltGLB() {
-      if (!sharedBoltGLBPromise) {
-        sharedBoltGLBPromise = new Promise((resolve, reject) => {
-          new GLTFLoader().load('./aset/baut_hexstar.glb', (gltf) => resolve(gltf.scene), undefined, reject);
-        });
-      }
-      return sharedBoltGLBPromise;
+// Cache Singleton untuk GLB Baut & Environment Texture agar hanya dimuat 1 kali di RAM
+let cachedBoltGltfPromise = null;
+const glbLoader = new GLTFLoader();
+
+function loadSharedBoltGLB() {
+  if (!cachedBoltGltfPromise) {
+    cachedBoltGltfPromise = new Promise((resolve, reject) => {
+      glbLoader.load('./aset/baut_hexstar.glb', resolve, undefined, reject);
+    });
+  }
+  return cachedBoltGltfPromise;
+}
+
+export function setupHeroMatchedStudioLights(scene) {
+  const topRimLight = new THREE.DirectionalLight(0xffffff, 1.75);
+  topRimLight.position.set(0, 5.5, 3.0);
+  scene.add(topRimLight);
+
+  const goldKeyLight = new THREE.DirectionalLight(0xffd56b, 1.65);
+  goldKeyLight.position.set(4.2, 1.8, 3.8);
+  scene.add(goldKeyLight);
+
+  const sweepSpotLight = new THREE.DirectionalLight(0xfff1b8, 1.25);
+  sweepSpotLight.position.set(-3.5, 3.2, 3.5);
+  scene.add(sweepSpotLight);
+
+  const coolSlateFill = new THREE.DirectionalLight(0x64748b, 0.85);
+  coolSlateFill.position.set(-4.0, -2.5, 2.5);
+  scene.add(coolSlateFill);
+
+  const bottomGoldBounce = new THREE.PointLight(0xf5b700, 0.95, 12);
+  bottomGoldBounce.position.set(0, -3.4, 2.2);
+  scene.add(bottomGoldBounce);
+
+  return { topRimLight, goldKeyLight, sweepSpotLight, bottomGoldBounce };
+}
+
+function applyHeroMatchedBoltMaterial(rootMesh) {
+  const satinStainless = new THREE.MeshStandardMaterial({
+    color: new THREE.Color(0xeef2f7),
+    metalness: 0.88,
+    roughness: 0.20,
+    envMapIntensity: 1.18
+  });
+
+  rootMesh.traverse((child) => {
+    if (child.isMesh) {
+      child.material = satinStainless;
     }
+  });
+}
 
-    // Singleton scene RoomEnvironment: scene-nya renderer-agnostic (cuma data mesh),
-    // jadi aman dipakai ulang oleh tiap PMREMGenerator. Catatan: TEKSTUR hasil PMREM
-    // tidak bisa dishare antar konteks WebGL (tiap renderer punya konteks sendiri),
-    // jadi tiap renderer tetap generate env-nya sendiri — tapi generatornya wajib
-    // di-dispose setelah pakai agar tidak menyumbat memori GPU.
-    let sharedRoomScene = null;
-    function getSharedRoomEnvironment() {
-      if (!sharedRoomScene) sharedRoomScene = new RoomEnvironment();
-      return sharedRoomScene;
+function normalizeBoltModel(srcScene, targetSize = 2.55) {
+  const wrapper = new THREE.Group();
+  const model = srcScene.clone(true);
+
+  let box = new THREE.Box3().setFromObject(model);
+  let size = box.getSize(new THREE.Vector3());
+  if (size.z >= size.y && size.z >= size.x) model.rotation.x = -Math.PI / 2;
+  else if (size.x >= size.y && size.x >= size.z) model.rotation.z = Math.PI / 2;
+
+  box = new THREE.Box3().setFromObject(model);
+  const center = box.getCenter(new THREE.Vector3());
+  size = box.getSize(new THREE.Vector3());
+  const maxDim = Math.max(size.x, size.y, size.z) || 1;
+  const scale = targetSize / maxDim;
+
+  model.scale.setScalar(scale);
+  model.position.set(-center.x * scale, -center.y * scale, -center.z * scale);
+
+  applyHeroMatchedBoltMaterial(model);
+  wrapper.add(model);
+  return wrapper;
+}
+
+/* -------------------------------------------------------------------------- */
+/* 1. HERO MEDUSA 3D (DENGAN AUTO-PAUSE INTERSECTION OBSERVER)                */
+/* -------------------------------------------------------------------------- */
+export function initHeroMedusa3D() {
+  const heroSection = document.getElementById('hero-medusa');
+  const cardLens = document.getElementById('hero-card-lens');
+  const canvasEl = document.getElementById('hero-logo-3d-canvas');
+  const emblemImg = document.getElementById('hero-3d-logo-img');
+  const interactiveStage = document.getElementById('hero-3d-interactive-stage');
+  const bgTypography = document.getElementById('hero-elegance-layer');
+
+  if (!heroSection || !cardLens || !canvasEl) return;
+
+  let isHeroVisible = true;
+  let targetMouseX = 0, targetMouseY = 0;
+  let curMouseX = 0, curMouseY = 0;
+  let isDragging = false;
+  let startPointerX = 0;
+  let manualSpinVel = 0;
+
+  heroSection.addEventListener('pointermove', (e) => {
+    const rect = heroSection.getBoundingClientRect();
+    const clientX = e.clientX ?? 0;
+    const clientY = e.clientY ?? 0;
+    targetMouseX = ((clientX - rect.left) / rect.width - 0.5) * 2;
+    targetMouseY = ((clientY - rect.top) / rect.height - 0.5) * 2;
+
+    if (isDragging) {
+      const deltaX = clientX - startPointerX;
+      manualSpinVel = deltaX * 0.004;
+      if (emblemGroup) emblemGroup.rotation.z += deltaX * 0.008;
+      startPointerX = clientX;
     }
+  }, { passive: true });
 
-    /* 1. STAGE 1: MEDUSA HERO — 3D SPINNING TJ FACTORY EMBLEM & LIGHTING         */
-    /* -------------------------------------------------------------------------- */
-    function initHeroMedusa3D() {
-      const heroSection = document.getElementById('hero-medusa');
-      const cardLens = document.getElementById('hero-card-lens');
-      const canvasEl = document.getElementById('hero-logo-3d-canvas');
-      const emblemImg = document.getElementById('hero-3d-logo-img');
-      const interactiveStage = document.getElementById('hero-3d-interactive-stage');
-      const bgTypography = document.getElementById('hero-elegance-layer');
+  heroSection.addEventListener('pointerleave', () => { targetMouseX = 0; targetMouseY = 0; });
 
-      if (!heroSection || !cardLens || !canvasEl) return;
+  if (interactiveStage) {
+    interactiveStage.addEventListener('pointerdown', (e) => {
+      isDragging = true;
+      startPointerX = e.clientX ?? 0;
+    });
+    window.addEventListener('pointerup', () => { isDragging = false; });
+  }
 
-      // Viewport Governor: hentikan kerja render saat hero tidak terlihat di layar
-      let isHeroVisible = true;
-      new IntersectionObserver((entries) => {
-        entries.forEach((entry) => { isHeroVisible = entry.isIntersecting; });
-      }, { threshold: 0.05 }).observe(heroSection);
+  let emblemGroup = new THREE.Group();
+  let scene, camera, renderer;
+  let topRimLight, goldKeyLight, sweepSpotLight;
 
-      let targetMouseX = 0, targetMouseY = 0;
-      let curMouseX = 0, curMouseY = 0;
-      let isDragging = false;
-      let startPointerX = 0;
-      let manualSpinVel = 0;
+  try {
+    const width = interactiveStage ? interactiveStage.clientWidth : 360;
+    const height = interactiveStage ? interactiveStage.clientHeight : 360;
 
-      function handlePointerMove(e) {
-        const rect = heroSection.getBoundingClientRect();
-        const clientX = e.clientX ?? (e.touches && e.touches[0]?.clientX) ?? 0;
-        const clientY = e.clientY ?? (e.touches && e.touches[0]?.clientY) ?? 0;
-        targetMouseX = ((clientX - rect.left) / rect.width - 0.5) * 2;
-        targetMouseY = ((clientY - rect.top) / rect.height - 0.5) * 2;
+    scene = new THREE.Scene();
+    camera = new THREE.PerspectiveCamera(35, width / height, 0.1, 50);
+    camera.position.set(0, 0, 4.3);
 
-        if (isDragging) {
-          const deltaX = clientX - startPointerX;
-          manualSpinVel = deltaX * 0.004;
-          if (emblemGroup) {
-            emblemGroup.rotation.z += deltaX * 0.008;
+    renderer = new THREE.WebGLRenderer({ canvas: canvasEl, antialias: true, alpha: true, powerPreference: 'high-performance' });
+    renderer.setSize(width, height);
+    renderer.setPixelRatio(getOptimalDpr());
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.05;
+
+    const pmrem = new THREE.PMREMGenerator(renderer);
+    scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.03).texture;
+    pmrem.dispose();
+
+    const lights = setupHeroMatchedStudioLights(scene);
+    topRimLight = lights.topRimLight;
+    goldKeyLight = lights.goldKeyLight;
+    sweepSpotLight = lights.sweepSpotLight;
+
+    scene.add(emblemGroup);
+
+    glbLoader.load(
+      './aset/hero_3d_emblem.glb',
+      (gltf) => {
+        const root = gltf.scene;
+        const box = new THREE.Box3().setFromObject(root);
+        const center = box.getCenter(new THREE.Vector3());
+        const size = box.getSize(new THREE.Vector3());
+        const maxDim = Math.max(size.x, size.y, size.z) || 1;
+        const scale = 2.55 / maxDim;
+
+        root.scale.setScalar(scale);
+        root.position.sub(center.multiplyScalar(scale));
+
+        root.traverse((child) => {
+          if (child.isMesh && child.material) {
+            if (child.name.includes('gold')) {
+              child.material.color = new THREE.Color(0xdcb036);
+              child.material.metalness = 0.93;
+              child.material.roughness = 0.20;
+            } else if (child.name.includes('base')) {
+              child.material.color = new THREE.Color(0x181a20);
+              child.material.metalness = 0.82;
+              child.material.roughness = 0.40;
+            }
           }
-          startPointerX = clientX;
+        });
+
+        emblemGroup.add(root);
+        if (emblemImg) {
+          emblemImg.style.opacity = '0';
+          setTimeout(() => { emblemImg.style.display = 'none'; }, 350);
+        }
+      },
+      undefined,
+      () => {
+        if (emblemImg) {
+          emblemImg.style.display = 'block';
+          emblemImg.style.opacity = '1';
         }
       }
+    );
 
-      function handlePointerLeave() {
-        targetMouseX = 0;
-        targetMouseY = 0;
-      }
+    window.addEventListener('resize', () => {
+      if (!interactiveStage) return;
+      const w = interactiveStage.clientWidth;
+      const h = interactiveStage.clientHeight;
+      camera.aspect = w / h;
+      camera.updateProjectionMatrix();
+      renderer.setSize(w, h);
+    });
+  } catch (err) {
+    console.warn('Hero WebGL fallback:', err);
+  }
 
-      heroSection.addEventListener('pointermove', handlePointerMove);
-      heroSection.addEventListener('pointerleave', handlePointerLeave);
+  // AUTO-PAUSE SAAT HERO DI LUAR LAYAR HP
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      isHeroVisible = entries[0].isIntersecting;
+    }, { threshold: 0.05 });
+    io.observe(heroSection);
+  }
 
-      if (interactiveStage) {
-        interactiveStage.addEventListener('pointerdown', (e) => {
-          isDragging = true;
-          startPointerX = e.clientX ?? (e.touches && e.touches[0]?.clientX) ?? 0;
-          interactiveStage.style.cursor = 'grabbing';
-        });
+  let animTime = 0;
+  function renderLoop() {
+    requestAnimationFrame(renderLoop);
+    if (!isHeroVisible) return; // Hemat 100% GPU jika user sudah scroll ke bawah!
 
-        window.addEventListener('pointerup', () => {
-          if (isDragging) {
-            isDragging = false;
-            interactiveStage.style.cursor = 'grab';
-          }
-        });
-      }
+    animTime += 0.02;
+    curMouseX += (targetMouseX - curMouseX) * 0.08;
+    curMouseY += (targetMouseY - curMouseY) * 0.08;
 
-      let emblemGroup = new THREE.Group();
-      let scene, camera, renderer;
-      let topRimLight, goldKeyLight, sweepSpotLight, fillLight, bottomGlow;
+    if (!isDragging && emblemGroup) emblemGroup.rotation.z -= 0.0035;
+    if (Math.abs(manualSpinVel) > 0.0001) {
+      if (emblemGroup) emblemGroup.rotation.z += manualSpinVel;
+      manualSpinVel *= 0.92;
+    }
 
+    if (goldKeyLight && topRimLight && sweepSpotLight) {
+      const tLight = animTime * 1.35;
+      goldKeyLight.position.x = Math.sin(tLight) * 4.6 + 0.5;
+      goldKeyLight.position.y = Math.cos(tLight * 0.75) * 3.2;
+      topRimLight.position.x = Math.cos(tLight * 0.85) * 3.8;
+      sweepSpotLight.position.x = Math.sin(-tLight * 0.95) * 4.0;
+    }
+
+    if (emblemGroup) {
+      emblemGroup.rotation.x = -curMouseY * 0.16;
+      emblemGroup.rotation.y = curMouseX * 0.20;
+      emblemGroup.position.y = Math.sin(animTime) * 0.04;
+    }
+
+    cardLens.style.transform = `perspective(1200px) rotateX(${(-curMouseY * 3.2).toFixed(2)}deg) rotateY(${(curMouseX * 4.2).toFixed(2)}deg)`;
+    if (bgTypography) {
+      bgTypography.style.transform = `translate3d(${(-curMouseX * 12).toFixed(1)}px, calc(-50% + ${(-curMouseY * 6).toFixed(1)}px), 0)`;
+    }
+
+    if (renderer && scene && camera) renderer.render(scene, camera);
+  }
+  renderLoop();
+}
+
+/* -------------------------------------------------------------------------- */
+/* 2. ANATOMI 3D: RENDER-ON-DEMAND (0% GPU SAAT DIAM, 60 FPS SAAT DISENTUH!)  */
+/* -------------------------------------------------------------------------- */
+export function initAnatomi3D() {
+  const section = document.getElementById('anatomi-3d');
+  if (!section) return;
+  const canvases = section.querySelectorAll('.anatomi-canvas');
+  if (!canvases.length) return;
+
+  const POSTURES = {
+    crown: { camPos: [0, 0.35, 4.15], rot: [0.68, 0.45, -0.22], scale: 2.35 },
+    'side-horizontal': { camPos: [0, 0.0, 4.25], rot: [0.22, 0.15, Math.PI / 2 - 0.12], scale: 2.65 },
+    'tilted-iso': { camPos: [0, 0.1, 4.2], rot: [-0.38, 0.6, -0.72], scale: 2.45 },
+    'twin-set': { camPos: [0, 0.15, 4.45], rot: [0.28, -0.35, 0.18], scale: 2.25, isTwin: true }
+  };
+
+  loadSharedBoltGLB().then((gltf) => {
+    const src = gltf.scene;
+    let sharedEnvTex = null;
+
+    canvases.forEach((canvas) => {
       try {
-        const width = interactiveStage ? interactiveStage.clientWidth : 400;
-        const height = interactiveStage ? interactiveStage.clientHeight : 400;
-
-        scene = new THREE.Scene();
-        camera = new THREE.PerspectiveCamera(35, width / height, 0.1, 50);
-        camera.position.set(0, 0, 4.3);
-
-        renderer = new THREE.WebGLRenderer({ canvas: canvasEl, antialias: true, alpha: true, powerPreference: 'high-performance' });
-        renderer.setSize(width, height);
+        const w = canvas.clientWidth || 320;
+        const h = canvas.clientHeight || 260;
+        const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: 'high-performance' });
         renderer.setPixelRatio(getOptimalDpr());
+        renderer.setSize(w, h);
         renderer.toneMapping = THREE.ACESFilmicToneMapping;
-        renderer.toneMappingExposure = 1.05;
+        renderer.toneMappingExposure = 1.06;
 
-        const pmrem = new THREE.PMREMGenerator(renderer);
-        scene.environment = pmrem.fromScene(getSharedRoomEnvironment(), 0.03).texture;
-        pmrem.dispose();
+        if (!sharedEnvTex) {
+          const pmrem = new THREE.PMREMGenerator(renderer);
+          sharedEnvTex = pmrem.fromScene(new RoomEnvironment(), 0.03).texture;
+          pmrem.dispose();
+        }
 
-        topRimLight = new THREE.DirectionalLight(0xffffff, 1.5);
-        topRimLight.position.set(0, 5, 2.5);
-        scene.add(topRimLight);
+        const scene = new THREE.Scene();
+        scene.environment = sharedEnvTex;
+        setupHeroMatchedStudioLights(scene);
 
-        goldKeyLight = new THREE.DirectionalLight(0xffd56b, 1.7);
-        goldKeyLight.position.set(4, 0, 3.5);
-        scene.add(goldKeyLight);
+        const camera = new THREE.PerspectiveCamera(32, w / h, 0.1, 50);
+        const cfg = POSTURES[canvas.dataset.view] || POSTURES.crown;
+        camera.position.set(cfg.camPos[0], cfg.camPos[1], cfg.camPos[2]);
+        camera.lookAt(0, 0, 0);
 
-        sweepSpotLight = new THREE.DirectionalLight(0xfff1b8, 1.2);
-        sweepSpotLight.position.set(-3, 3, 3.2);
-        scene.add(sweepSpotLight);
+        const stageGroup = new THREE.Group();
+        if (cfg.isTwin) {
+          const boltMain = normalizeBoltModel(src, cfg.scale);
+          boltMain.position.set(-0.48, 0.08, 0.15);
+          boltMain.rotation.set(0.24, 0.4, -0.22);
 
-        fillLight = new THREE.DirectionalLight(0x4a5568, 0.5);
-        fillLight.position.set(-4, -2, 2);
-        scene.add(fillLight);
+          const boltSecond = normalizeBoltModel(src, cfg.scale * 0.88);
+          boltSecond.position.set(0.55, -0.18, -0.25);
+          boltSecond.rotation.set(0.85, -0.35, 0.65);
 
-        bottomGlow = new THREE.PointLight(0xf5b700, 0.9, 10);
-        bottomGlow.position.set(0, -3.2, 2);
-        scene.add(bottomGlow);
+          stageGroup.add(boltMain);
+          stageGroup.add(boltSecond);
+        } else {
+          const singleBolt = normalizeBoltModel(src, cfg.scale);
+          singleBolt.rotation.set(cfg.rot[0], cfg.rot[1], cfg.rot[2]);
+          stageGroup.add(singleBolt);
+        }
+        scene.add(stageGroup);
 
-        scene.add(emblemGroup);
+        // Render 1x saat selesai dimuat (Zero Loop Overhead!)
+        renderer.render(scene, camera);
+        canvas.style.opacity = '1';
 
-        const loader = new GLTFLoader();
-        loader.load(
-          './aset/hero_3d_emblem.glb',
-          (gltf) => {
-            const root = gltf.scene;
-            const box = new THREE.Box3().setFromObject(root);
-            const center = box.getCenter(new THREE.Vector3());
-            const size = box.getSize(new THREE.Vector3());
-            const maxDim = Math.max(size.x, size.y, size.z) || 1;
-            const scale = 2.55 / maxDim;
-
-            root.scale.setScalar(scale);
-            root.position.sub(center.multiplyScalar(scale));
-
-            root.traverse((child) => {
-              if (child.isMesh && child.material) {
-                child.castShadow = true;
-                child.receiveShadow = true;
-                if (child.name.includes('gold')) {
-                  child.material.color = new THREE.Color(0xdcb036);
-                  child.material.metalness = 0.93;
-                  child.material.roughness = 0.20;
-                } else if (child.name.includes('base')) {
-                  child.material.color = new THREE.Color(0x181a20);
-                  child.material.metalness = 0.82;
-                  child.material.roughness = 0.40;
-                }
-              }
-            });
-
-            emblemGroup.add(root);
-            if (emblemImg) {
-              emblemImg.style.opacity = '0';
-              setTimeout(() => { emblemImg.style.display = 'none'; }, 350);
-            }
-          },
-          undefined,
-          () => {
-            if (emblemImg) {
-              emblemImg.style.display = 'block';
-              emblemImg.style.opacity = '1';
-            }
-          }
-        );
+        // Hanya me-render ulang ketika user menyentuh/memutar kanvas tersebut!
+        let isDragging = false;
+        let prevPt = { x: 0, y: 0 };
+        canvas.addEventListener('pointerdown', (e) => {
+          isDragging = true;
+          prevPt = { x: e.clientX, y: e.clientY };
+        });
+        window.addEventListener('pointermove', (e) => {
+          if (!isDragging) return;
+          const dx = e.clientX - prevPt.x;
+          const dy = e.clientY - prevPt.y;
+          prevPt = { x: e.clientX, y: e.clientY };
+          stageGroup.rotation.y += dx * 0.012;
+          stageGroup.rotation.x = THREE.MathUtils.clamp(stageGroup.rotation.x + dy * 0.012, -0.8, 0.8);
+          renderer.render(scene, camera); // Render on demand!
+        }, { passive: true });
+        window.addEventListener('pointerup', () => { isDragging = false; });
 
         window.addEventListener('resize', () => {
-          if (!interactiveStage) return;
-          const w = interactiveStage.clientWidth;
-          const h = interactiveStage.clientHeight;
-          camera.aspect = w / h;
+          const nw = canvas.clientWidth || 320;
+          const nh = canvas.clientHeight || 260;
+          camera.aspect = nw / nh;
           camera.updateProjectionMatrix();
-          renderer.setSize(w, h);
-        });
-
-      } catch (err) {
-        console.warn('WebGL fallback to 3D CSS:', err);
-      }
-
-      let animTime = 0;
-      let cssRotZ = 0;
-
-      function renderLoop() {
-        requestAnimationFrame(renderLoop);
-        if (!isHeroVisible) return;
-        animTime += 0.02;
-
-        curMouseX += (targetMouseX - curMouseX) * 0.08;
-        curMouseY += (targetMouseY - curMouseY) * 0.08;
-
-        if (!isDragging) {
-          if (emblemGroup) {
-            emblemGroup.rotation.z -= 0.0035;
-          }
-          cssRotZ -= 0.2;
-        }
-
-        if (Math.abs(manualSpinVel) > 0.0001) {
-          if (emblemGroup) emblemGroup.rotation.z += manualSpinVel;
-          manualSpinVel *= 0.92;
-        }
-
-        if (goldKeyLight && topRimLight && sweepSpotLight) {
-          const tLight = animTime * 1.35;
-          goldKeyLight.position.x = Math.sin(tLight) * 4.6 + 0.5;
-          goldKeyLight.position.y = Math.cos(tLight * 0.75) * 3.2;
-          goldKeyLight.position.z = Math.cos(tLight * 1.1) * 1.2 + 3.6;
-
-          topRimLight.position.x = Math.cos(tLight * 0.85) * 3.8;
-          topRimLight.position.y = Math.sin(tLight * 0.5) * 1.2 + 4.5;
-
-          sweepSpotLight.position.x = Math.sin(-tLight * 0.95) * 4.0;
-          sweepSpotLight.position.y = Math.cos(-tLight * 0.95) * 3.0;
-        }
-
-        if (emblemGroup) {
-          emblemGroup.rotation.x = -curMouseY * 0.16;
-          emblemGroup.rotation.y = curMouseX * 0.20;
-          emblemGroup.position.y = Math.sin(animTime) * 0.04;
-        }
-
-        if (emblemImg && emblemImg.style.display !== 'none' && emblemImg.style.opacity !== '0') {
-          const floatY = Math.sin(animTime) * 4;
-          emblemImg.style.transform = `perspective(1000px) translateY(${floatY.toFixed(1)}px) rotateZ(${cssRotZ.toFixed(1)}deg) rotateX(${(-curMouseY * 8).toFixed(1)}deg) rotateY(${(curMouseX * 10).toFixed(1)}deg)`;
-        }
-
-        const cardTiltX = -curMouseY * 3.2;
-        const cardTiltY = curMouseX * 4.2;
-        cardLens.style.transform = `perspective(1200px) rotateX(${cardTiltX.toFixed(2)}deg) rotateY(${cardTiltY.toFixed(2)}deg)`;
-
-        if (bgTypography) {
-          const bgX = -curMouseX * 12;
-          const bgY = -curMouseY * 6;
-          bgTypography.style.transform = `translate3d(${bgX.toFixed(1)}px, calc(-50% + ${bgY.toFixed(1)}px), 0)`;
-        }
-
-        if (renderer && scene && camera) {
+          renderer.setSize(nw, nh);
           renderer.render(scene, camera);
-        }
+        });
+      } catch (err) {
+        const fb = canvas.parentElement.querySelector('.anatomi-fallback');
+        if (fb) fb.classList.remove('hidden');
       }
+    });
+  }).catch(() => {
+    canvases.forEach((canvas) => {
+      const fb = canvas.parentElement.querySelector('.anatomi-fallback');
+      if (fb) fb.classList.remove('hidden');
+    });
+  });
+}
 
-      renderLoop();
-    }
-
-    /* -------------------------------------------------------------------------- */
-    /* HELPER MATERIAL & PENCAHAYAAN STUDIO EMAS-STAINLESS (IDENTIK HERO LOGO)    */
-    /* -------------------------------------------------------------------------- */
-    function setupHeroMatchedStudioLights(scene) {
-      const topRimLight = new THREE.DirectionalLight(0xffffff, 1.75);
-      topRimLight.position.set(0, 5.5, 3.0);
-      scene.add(topRimLight);
-
-      const goldKeyLight = new THREE.DirectionalLight(0xffd56b, 1.65);
-      goldKeyLight.position.set(4.2, 1.8, 3.8);
-      scene.add(goldKeyLight);
-
-      const sweepSpotLight = new THREE.DirectionalLight(0xfff1b8, 1.25);
-      sweepSpotLight.position.set(-3.5, 3.2, 3.5);
-      scene.add(sweepSpotLight);
-
-      const coolSlateFill = new THREE.DirectionalLight(0x64748b, 0.85);
-      coolSlateFill.position.set(-4.0, -2.5, 2.5);
-      scene.add(coolSlateFill);
-
-      const bottomGoldBounce = new THREE.PointLight(0xf5b700, 0.95, 12);
-      bottomGoldBounce.position.set(0, -3.4, 2.2);
-      scene.add(bottomGoldBounce);
-
-      return { topRimLight, goldKeyLight, sweepSpotLight, bottomGoldBounce };
-    }
-
-    function applyHeroMatchedBoltMaterial(rootMesh) {
-      const satinStainless = new THREE.MeshStandardMaterial({
-        color: new THREE.Color(0xeef2f7),
-        metalness: 0.88,
-        roughness: 0.20,
-        envMapIntensity: 1.18
-      });
-
-      rootMesh.traverse((child) => {
-        if (child.isMesh) {
-          child.castShadow = true;
-          child.receiveShadow = true;
-          child.material = satinStainless;
-        }
-      });
-    }
-
-    function normalizeBoltModel(srcScene, targetSize = 2.55) {
-      const wrapper = new THREE.Group();
-      const model = srcScene.clone(true);
-
-      let box = new THREE.Box3().setFromObject(model);
-      let size = box.getSize(new THREE.Vector3());
-      if (size.z >= size.y && size.z >= size.x) model.rotation.x = -Math.PI / 2;
-      else if (size.x >= size.y && size.x >= size.z) model.rotation.z = Math.PI / 2;
-
-      box = new THREE.Box3().setFromObject(model);
-      const center = box.getCenter(new THREE.Vector3());
-      size = box.getSize(new THREE.Vector3());
-      const maxDim = Math.max(size.x, size.y, size.z) || 1;
-      const scale = targetSize / maxDim;
-
-      model.scale.setScalar(scale);
-      model.position.set(-center.x * scale, -center.y * scale, -center.z * scale);
-
-      applyHeroMatchedBoltMaterial(model);
-      wrapper.add(model);
-      return wrapper;
-    }
-
-    /* -------------------------------------------------------------------------- */
-    /* 2. STAGE 2: JACKET MASTERY 3D SHOWCASE (FLY-IN DARI KANAN BAWAH KE TENGAH) */
-    /* -------------------------------------------------------------------------- */
-    const partsData = [
-      {
-        counter: '01 / 03',
-        titleHtml: 'Baut Hex Stars <br /><span class="text-industrial-yellow">Dual-Key CNC</span>',
-        plainTitle: 'Baut Hex Stars Dual-Key',
-        desc: 'Desain kepala baut 2 kunci khas TJ FACTORY yang menggabungkan segi enam luar (Kunci Ring/Sok) dengan rongga bintang Torx di tengah serta flange CNC menyatu.',
-        grade: 'STAINLESS SUS 304',
-        badge: 'MODEL 2 KUNCI // HEX + TORX'
-      },
-      {
-        counter: '02 / 03',
-        titleHtml: 'Mur Head Ninja <br /><span class="text-industrial-yellow">12-Spline High Stars</span>',
-        plainTitle: 'Mur Head Ninja 12-Spline',
-        desc: 'Mur silinder head tinggi (HIGH STARS) dengan mahkota 12-point spline bertingkat dan lubang ulir drat tembus presisi untuk ketahanan torsi tinggi pada Ninja R/RR.',
-        grade: 'STAINLESS SOLID BAR',
-        badge: 'HIGH STARS CROWN // NINJA R/RR'
-      },
-      {
-        counter: '03 / 03',
-        titleHtml: 'Baut Visor Payung <br /><span class="text-industrial-yellow">Umbrella Stars CNC</span>',
-        plainTitle: 'Baut Visor Payung Bintang 5',
-        desc: 'Kepala baut model payung lebar profil rendah (Umbrella Stars) dengan pahatan motif bintang 5 timbul untuk menjepit mika visor Ninja RR Old & bodi secara merata.',
-        grade: 'STAINLESS 304 BUBUT',
-        badge: 'UMBRELLA 5-STAR // M6 DRAT 10'
-      }
-    ];
-
+/* -------------------------------------------------------------------------- */
+/* 3. JACKET SHOWCASE 3D (salinan dari index.html + singleton + observer)    */
+/* -------------------------------------------------------------------------- */
     let activeJacketIdx = 0;
     let isVerticalLocked = false;
     let userZoom = 1.0;
 
-    function initJacketShowcase3D() {
+    export function initJacketShowcase3D() {
       const container = document.getElementById('jacket-3d-canvas');
       if (!container) return;
 
@@ -1946,7 +1984,7 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
       container.appendChild(renderer.domElement);
 
       const pmrem = new THREE.PMREMGenerator(renderer);
-      scene.environment = pmrem.fromScene(getSharedRoomEnvironment(), 0.03).texture;
+      scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.03).texture;
       pmrem.dispose();
 
       setupHeroMatchedStudioLights(scene);
@@ -2181,8 +2219,8 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
       // Jika file ./aset/baut_hexstar.glb tersedia, gunakan untuk komponen 01 agar konsisten
       // (GLB dishare dengan anatomi via loadSharedBoltGLB — diunduh & di-parse sekali saja)
-      loadSharedBoltGLB().then((boltScene) => {
-        const realBolt = normalizeBoltModel(boltScene, 4.2);
+      loadSharedBoltGLB().then((gltf) => {
+        const realBolt = normalizeBoltModel(gltf.scene, 4.2);
         realBolt.rotation.copy(models[0].rotation);
         realBolt.position.copy(models[0].position);
         realBolt.scale.copy(models[0].scale);
@@ -2350,184 +2388,6 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
       });
     });
 
-    /* -------------------------------------------------------------------------- */
-function initAnatomi3D() {
-      const section = document.getElementById('anatomi-3d');
-      if (!section) return;
-      const canvases = section.querySelectorAll('.anatomi-canvas');
-      if (!canvases.length) return;
-
-      // 4 Postur Berbeda agar Baut Simetris Terlihat Dinamis & Tidak Terpotong Kotak (Persis 4 Postur Mouse Logitech G)
-      const POSTURES = {
-        // 01: Menghadap Depan-Atas (Menonjolkan Mahkota Segi-6, Soket Bintang 6-Titik & Flange secara utuh)
-        crown: {
-          camPos: [0, 0.35, 4.15],
-          rot: [0.68, 0.45, -0.22],
-          scale: 2.35
-        },
-        // 02: Tidur Horizontal Kiri-ke-Kanan (Persis Mouse ke-2 yang Tampak Samping Mendatar!)
-        'side-horizontal': {
-          camPos: [0, 0.0, 4.25],
-          rot: [0.22, 0.15, Math.PI / 2 - 0.12],
-          scale: 2.65
-        },
-        // 03: Miring Diagonal 45 Derajat (Persis Mouse ke-3 yang Miring Isometrik Dinamis!)
-        'tilted-iso': {
-          camPos: [0, 0.1, 4.2],
-          rot: [-0.38, 0.6, -0.72],
-          scale: 2.45
-        },
-        // 04: Komposisi Ganda / Twin Set (Persis Mouse ke-4 yang Menampilkan 2 Bagian Sekaligus!)
-        'twin-set': {
-          camPos: [0, 0.15, 4.45],
-          rot: [0.28, -0.35, 0.18],
-          scale: 2.25,
-          isTwin: true
-        }
-      };
-
-      const viewers = [];
-
-      // Langsung muat sejak halaman dibuka agar tidak ada jeda / gambar lain yang muncul saat refresh!
-      // GLB dishare dengan jacket showcase via loadSharedBoltGLB — diunduh & di-parse sekali saja.
-      loadSharedBoltGLB().then((src) => {
-          let sharedEnvTex = null;
-
-          canvases.forEach((canvas, idx) => {
-            try {
-              const w = canvas.clientWidth || 320;
-              const h = canvas.clientHeight || 260;
-              const renderer = new THREE.WebGLRenderer({
-                canvas,
-                antialias: true,
-                alpha: true,
-                powerPreference: 'high-performance'
-              });
-              renderer.setPixelRatio(getOptimalDpr());
-              renderer.setSize(w, h);
-              renderer.toneMapping = THREE.ACESFilmicToneMapping;
-              renderer.toneMappingExposure = 1.06;
-
-              if (!sharedEnvTex) {
-                const pmrem = new THREE.PMREMGenerator(renderer);
-                sharedEnvTex = pmrem.fromScene(getSharedRoomEnvironment(), 0.03).texture;
-                pmrem.dispose();
-              }
-
-              const scene = new THREE.Scene();
-              scene.environment = sharedEnvTex;
-
-              // Gunakan Pencahayaan Studio Emas-Putih-Slate yang Sama Persis dengan Hero Logo TJ FACTORY!
-              const lights = setupHeroMatchedStudioLights(scene);
-
-              const camera = new THREE.PerspectiveCamera(32, w / h, 0.1, 50);
-              const cfg = POSTURES[canvas.dataset.view] || POSTURES.crown;
-              camera.position.set(cfg.camPos[0], cfg.camPos[1], cfg.camPos[2]);
-              camera.lookAt(0, 0, 0);
-
-              const stageGroup = new THREE.Group();
-
-              if (cfg.isTwin) {
-                // Baris 04: Buat Komposisi 2 Baut Berdampingan (1 Berdiri Miring, 1 Menghadap Kamera)
-                const boltMain = normalizeBoltModel(src, cfg.scale);
-                boltMain.position.set(-0.48, 0.08, 0.15);
-                boltMain.rotation.set(0.24, 0.4, -0.22);
-
-                const boltSecond = normalizeBoltModel(src, cfg.scale * 0.88);
-                boltSecond.position.set(0.55, -0.18, -0.25);
-                boltSecond.rotation.set(0.85, -0.35, 0.65);
-
-                stageGroup.add(boltMain);
-                stageGroup.add(boltSecond);
-              } else {
-                const singleBolt = normalizeBoltModel(src, cfg.scale);
-                singleBolt.rotation.set(cfg.rot[0], cfg.rot[1], cfg.rot[2]);
-                stageGroup.add(singleBolt);
-              }
-
-              scene.add(stageGroup);
-
-              // Interaksi Drag per Baut supaya Pengunjung Bisa Memutar Tiap Baut di Anatomi
-              let isDragging = false;
-              let prevPt = { x: 0, y: 0 };
-              canvas.addEventListener('pointerdown', (e) => {
-                isDragging = true;
-                prevPt = { x: e.clientX, y: e.clientY };
-              });
-              window.addEventListener('pointermove', (e) => {
-                if (!isDragging) return;
-                const dx = e.clientX - prevPt.x;
-                const dy = e.clientY - prevPt.y;
-                prevPt = { x: e.clientX, y: e.clientY };
-                stageGroup.rotation.y += dx * 0.01;
-                stageGroup.rotation.x = THREE.MathUtils.clamp(stageGroup.rotation.x + dy * 0.01, -0.8, 0.8);
-              });
-              window.addEventListener('pointerup', () => { isDragging = false; });
-
-              canvas.style.opacity = '1';
-
-              viewers.push({
-                renderer,
-                scene,
-                camera,
-                canvas,
-                stageGroup,
-                lights,
-                phaseOffset: idx * 1.4,
-                isDraggingRef: () => isDragging
-              });
-            } catch (err) {
-              const fb = canvas.parentElement.querySelector('.anatomi-fallback');
-              if (fb) fb.classList.remove('hidden');
-            }
-          });
-        })
-        .catch(() => {
-          // Hanya tampilkan gambar fallback jika file .glb benar-benar gagal dimuat
-          canvases.forEach((canvas) => {
-            const fb = canvas.parentElement.querySelector('.anatomi-fallback');
-            if (fb) fb.classList.remove('hidden');
-          });
-        });
-
-      // Animasi Studio Halus (Sama seperti kilau hidup pada Hero Logo TJ FACTORY)
-      let t = 0;
-      // Viewport Governor: 4 loop kanvas hanya berjalan saat seksi anatomi terlihat di layar
-      let isAnatomiVisible = true;
-      new IntersectionObserver((entries) => {
-        entries.forEach((entry) => { isAnatomiVisible = entry.isIntersecting; });
-      }, { threshold: 0.05 }).observe(section);
-      function animateAnatomiLoop() {
-        requestAnimationFrame(animateAnatomiLoop);
-        if (!isAnatomiVisible) return;
-        t += 0.018;
-
-        viewers.forEach((vw) => {
-          const localT = t + vw.phaseOffset;
-          if (!vw.isDraggingRef()) {
-            vw.stageGroup.rotation.y = Math.sin(localT * 0.65) * 0.22;
-            vw.stageGroup.position.y = Math.sin(localT * 0.9) * 0.04;
-          }
-          // Sapuan lembut lampu emas agar permukaan ulir & kepala baut berkilau mewah
-          vw.lights.goldKeyLight.position.x = Math.sin(localT) * 4.2 + 0.5;
-          vw.lights.sweepSpotLight.position.x = Math.cos(localT * 0.8) * -3.5;
-
-          vw.renderer.render(vw.scene, vw.camera);
-        });
-      }
-      animateAnatomiLoop();
-
-      window.addEventListener('resize', () => {
-        viewers.forEach((vw) => {
-          const w = vw.canvas.clientWidth || 320;
-          const h = vw.canvas.clientHeight || 260;
-          vw.camera.aspect = w / h;
-          vw.camera.updateProjectionMatrix();
-          vw.renderer.setSize(w, h);
-        });
-      });
-    }
-
 export function initThreeEngine() {
   initHeroMedusa3D();
   initJacketShowcase3D();
@@ -2537,7 +2397,6 @@ export function initThreeEngine() {
 
 <file path="src/scripts/uiController.js">
 import { verifiedProducts } from '../data/products.js';
-import { initThreeEngine } from './threeEngine.js';
 
     const mainNavbar = document.getElementById('main-navbar');
     window.addEventListener('scroll', () => {
@@ -2753,8 +2612,6 @@ Mohon info ketersediaan & harga penawarannya.`;
         track.innerHTML += track.innerHTML;
       }
     })();
-
-initThreeEngine();
 </file>
 
 <file path="src/styles/global.css">
@@ -2829,8 +2686,6 @@ initThreeEngine();
     }
 
     .medusa-3d-object-shadow {
-      filter:
-        drop-shadow(0 28px 32px rgba(0, 0, 0, 0.96)) drop-shadow(0 8px 25px rgba(245, 183, 0, 0.22));
       will-change: transform;
     }
 
@@ -2842,13 +2697,6 @@ initThreeEngine();
     /* Background Matte Dark Slate Persis Referensi Mouse Logitech G */
     .bg-logitech-matte {
       background: linear-gradient(180deg, #12141A 0%, #15181F 50%, #0E1015 100%);
-    }
-
-    /* Drop Shadow Studio Halus untuk Baut di Seksi Anatomi */
-    .anatomi-bolt-shadow {
-      filter:
-        drop-shadow(0 26px 28px rgba(0, 0, 0, 0.88))
-        drop-shadow(0 4px 18px rgba(245, 183, 0, 0.10));
     }
 
     .bg-cad-grid {
@@ -2913,14 +2761,12 @@ initThreeEngine();
 </file>
 
 <file path="astro.config.mjs">
-// Astro (Vite di dalam) — output 100% statis, siap deploy ke Cloudflare Pages.
-// Cara deploy: hubungkan repo ini ke Cloudflare Pages (dashboard),
-//   Framework preset: Astro, Build command: `npm run build`, Output directory: `dist`.
 import { defineConfig } from 'astro/config';
 import tailwind from '@astrojs/tailwind';
 
 export default defineConfig({
-  integrations: [tailwind()],
+  output: 'static',
+  integrations: [tailwind({ applyBaseStyles: false })],
 });
 </file>
 
@@ -2929,50 +2775,47 @@ export default defineConfig({
   "name": "tj-factory-web",
   "type": "module",
   "version": "1.0.0",
-  "private": true,
   "scripts": {
     "dev": "astro dev",
+    "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview"
   },
   "dependencies": {
-    "astro": "^4.0.0",
-    "three": "0.160.0"
-  },
-  "devDependencies": {
-    "@astrojs/tailwind": "^5.0.0",
-    "tailwindcss": "^3.4.0"
+    "@astrojs/tailwind": "^5.1.0",
+    "astro": "^4.15.0",
+    "tailwindcss": "^3.4.10",
+    "three": "^0.160.0"
   }
 }
 </file>
 
 <file path="tailwind.config.mjs">
-/** @type {import('tailwindcss').Config} */
 export default {
-  content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
+  content: ['./src/**/*.{astro,html,js,jsx,md,mdx,ts,tsx}'],
   theme: {
-        extend: {
-          colors: {
-            carbon: {
-              950: '#07080A',
-              900: '#0B0D10',
-              800: '#12151B',
-              700: '#1E232D',
-              600: '#2A3140'
-            },
-            industrial: {
-              yellow: '#F5B700',
-              amber: '#FFCC33'
-            }
-          },
-          fontFamily: {
-            display: ['"Chakra Petch"', 'sans-serif'],
-            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
-            mono: ['"JetBrains Mono"', 'monospace'],
-            medusa: ['"Antonio"', '"Montserrat"', 'sans-serif'],
-          }
+    extend: {
+      colors: {
+        carbon: {
+          950: '#07080A',
+          900: '#0B0D10',
+          800: '#12151B',
+          700: '#1E232D',
+          600: '#2A3140'
+        },
+        industrial: {
+          yellow: '#F5B700',
+          amber: '#FFCC33'
         }
       },
+      fontFamily: {
+        display: ['"Chakra Petch"', 'sans-serif'],
+        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+        mono: ['"JetBrains Mono"', 'monospace'],
+        medusa: ['"Antonio"', '"Montserrat"', 'sans-serif'],
+      }
+    }
+  },
   plugins: [],
 };
 </file>

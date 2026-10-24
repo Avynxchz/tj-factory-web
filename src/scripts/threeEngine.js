@@ -2,6 +2,35 @@ import * as THREE from 'three';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
+    /* -------------------------------------------------------------------------- */
+    /* HELPER PENGHEMAT GPU (TUGAS 2) — DPR adaptif + cache GLB & RoomEnvironment  */
+    /* -------------------------------------------------------------------------- */
+    // DPR adaptif: HP dibatasi 1.25 (tetap tajam, jauh lebih ringan), desktop sampai 2
+    const getOptimalDpr = () => Math.min(window.devicePixelRatio || 1, window.innerWidth < 768 ? 1.25 : 2);
+
+    // Singleton Promise: baut_hexstar.glb diunduh & di-parse SEKALI, dipakai bersama
+    // jacket showcase + anatomi (tiap pemakai meng-clone scene-nya sendiri via normalizeBoltModel)
+    let sharedBoltGLBPromise = null;
+    function loadSharedBoltGLB() {
+      if (!sharedBoltGLBPromise) {
+        sharedBoltGLBPromise = new Promise((resolve, reject) => {
+          new GLTFLoader().load('./aset/baut_hexstar.glb', (gltf) => resolve(gltf.scene), undefined, reject);
+        });
+      }
+      return sharedBoltGLBPromise;
+    }
+
+    // Singleton scene RoomEnvironment: scene-nya renderer-agnostic (cuma data mesh),
+    // jadi aman dipakai ulang oleh tiap PMREMGenerator. Catatan: TEKSTUR hasil PMREM
+    // tidak bisa dishare antar konteks WebGL (tiap renderer punya konteks sendiri),
+    // jadi tiap renderer tetap generate env-nya sendiri — tapi generatornya wajib
+    // di-dispose setelah pakai agar tidak menyumbat memori GPU.
+    let sharedRoomScene = null;
+    function getSharedRoomEnvironment() {
+      if (!sharedRoomScene) sharedRoomScene = new RoomEnvironment();
+      return sharedRoomScene;
+    }
+
     /* 1. STAGE 1: MEDUSA HERO — 3D SPINNING TJ FACTORY EMBLEM & LIGHTING         */
     /* -------------------------------------------------------------------------- */
     function initHeroMedusa3D() {
@@ -13,6 +42,12 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
       const bgTypography = document.getElementById('hero-elegance-layer');
 
       if (!heroSection || !cardLens || !canvasEl) return;
+
+      // Viewport Governor: hentikan kerja render saat hero tidak terlihat di layar
+      let isHeroVisible = true;
+      new IntersectionObserver((entries) => {
+        entries.forEach((entry) => { isHeroVisible = entry.isIntersecting; });
+      }, { threshold: 0.05 }).observe(heroSection);
 
       let targetMouseX = 0, targetMouseY = 0;
       let curMouseX = 0, curMouseY = 0;
@@ -74,12 +109,13 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
         renderer = new THREE.WebGLRenderer({ canvas: canvasEl, antialias: true, alpha: true, powerPreference: 'high-performance' });
         renderer.setSize(width, height);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.setPixelRatio(getOptimalDpr());
         renderer.toneMapping = THREE.ACESFilmicToneMapping;
         renderer.toneMappingExposure = 1.05;
 
         const pmrem = new THREE.PMREMGenerator(renderer);
-        scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.03).texture;
+        scene.environment = pmrem.fromScene(getSharedRoomEnvironment(), 0.03).texture;
+        pmrem.dispose();
 
         topRimLight = new THREE.DirectionalLight(0xffffff, 1.5);
         topRimLight.position.set(0, 5, 2.5);
@@ -166,6 +202,7 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
       function renderLoop() {
         requestAnimationFrame(renderLoop);
+        if (!isHeroVisible) return;
         animTime += 0.02;
 
         curMouseX += (targetMouseX - curMouseX) * 0.08;
@@ -330,6 +367,15 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
       const container = document.getElementById('jacket-3d-canvas');
       if (!container) return;
 
+      // Viewport Governor: hentikan kerja animasi saat showcase tidak terlihat di layar
+      let isJacketVisible = true;
+      const jacketSection = document.getElementById('showcase-jacket');
+      if (jacketSection) {
+        new IntersectionObserver((entries) => {
+          entries.forEach((entry) => { isJacketVisible = entry.isIntersecting; });
+        }, { threshold: 0.05 }).observe(jacketSection);
+      }
+
       const scene = new THREE.Scene();
       const camera = new THREE.PerspectiveCamera(34, container.clientWidth / container.clientHeight, 0.1, 100);
       camera.position.set(0, 0.3, 7.5);
@@ -337,13 +383,14 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
       const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
       renderer.setSize(container.clientWidth, container.clientHeight);
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.setPixelRatio(getOptimalDpr());
       renderer.toneMapping = THREE.ACESFilmicToneMapping;
       renderer.toneMappingExposure = 1.08;
       container.appendChild(renderer.domElement);
 
       const pmrem = new THREE.PMREMGenerator(renderer);
-      scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.03).texture;
+      scene.environment = pmrem.fromScene(getSharedRoomEnvironment(), 0.03).texture;
+      pmrem.dispose();
 
       setupHeroMatchedStudioLights(scene);
 
@@ -576,16 +623,16 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
       });
 
       // Jika file ./aset/baut_hexstar.glb tersedia, gunakan untuk komponen 01 agar konsisten
-      const glbLoader = new GLTFLoader();
-      glbLoader.load('./aset/baut_hexstar.glb', (gltf) => {
-        const realBolt = normalizeBoltModel(gltf.scene, 4.2);
+      // (GLB dishare dengan anatomi via loadSharedBoltGLB — diunduh & di-parse sekali saja)
+      loadSharedBoltGLB().then((boltScene) => {
+        const realBolt = normalizeBoltModel(boltScene, 4.2);
         realBolt.rotation.copy(models[0].rotation);
         realBolt.position.copy(models[0].position);
         realBolt.scale.copy(models[0].scale);
         scene.remove(models[0]);
         models[0] = realBolt;
         scene.add(realBolt);
-      }, undefined, () => {});
+      }).catch(() => {});
 
       let isDragging = false;
       let prevPt = { x: 0, y: 0 };
@@ -640,6 +687,7 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
       function animateJacketStage() {
         requestAnimationFrame(animateJacketStage);
+        if (!isJacketVisible) return;
         const isDesktop = window.innerWidth >= 1024;
         const baseScale = isDesktop ? 0.68 : 0.56;
 
@@ -782,13 +830,10 @@ function initAnatomi3D() {
       };
 
       const viewers = [];
-      const loader = new GLTFLoader();
 
       // Langsung muat sejak halaman dibuka agar tidak ada jeda / gambar lain yang muncul saat refresh!
-      loader.load(
-        './aset/baut_hexstar.glb',
-        (gltf) => {
-          const src = gltf.scene;
+      // GLB dishare dengan jacket showcase via loadSharedBoltGLB — diunduh & di-parse sekali saja.
+      loadSharedBoltGLB().then((src) => {
           let sharedEnvTex = null;
 
           canvases.forEach((canvas, idx) => {
@@ -801,14 +846,14 @@ function initAnatomi3D() {
                 alpha: true,
                 powerPreference: 'high-performance'
               });
-              renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+              renderer.setPixelRatio(getOptimalDpr());
               renderer.setSize(w, h);
               renderer.toneMapping = THREE.ACESFilmicToneMapping;
               renderer.toneMappingExposure = 1.06;
 
               if (!sharedEnvTex) {
                 const pmrem = new THREE.PMREMGenerator(renderer);
-                sharedEnvTex = pmrem.fromScene(new RoomEnvironment(), 0.03).texture;
+                sharedEnvTex = pmrem.fromScene(getSharedRoomEnvironment(), 0.03).texture;
                 pmrem.dispose();
               }
 
@@ -879,21 +924,25 @@ function initAnatomi3D() {
               if (fb) fb.classList.remove('hidden');
             }
           });
-        },
-        undefined,
-        () => {
+        })
+        .catch(() => {
           // Hanya tampilkan gambar fallback jika file .glb benar-benar gagal dimuat
           canvases.forEach((canvas) => {
             const fb = canvas.parentElement.querySelector('.anatomi-fallback');
             if (fb) fb.classList.remove('hidden');
           });
-        }
-      );
+        });
 
       // Animasi Studio Halus (Sama seperti kilau hidup pada Hero Logo TJ FACTORY)
       let t = 0;
+      // Viewport Governor: 4 loop kanvas hanya berjalan saat seksi anatomi terlihat di layar
+      let isAnatomiVisible = true;
+      new IntersectionObserver((entries) => {
+        entries.forEach((entry) => { isAnatomiVisible = entry.isIntersecting; });
+      }, { threshold: 0.05 }).observe(section);
       function animateAnatomiLoop() {
         requestAnimationFrame(animateAnatomiLoop);
+        if (!isAnatomiVisible) return;
         t += 0.018;
 
         viewers.forEach((vw) => {

@@ -657,7 +657,8 @@
                 <div class="w-2 h-2 rounded-full bg-industrial-yellow"></div>
               </div>
               <div class="relative mx-auto w-full max-w-[340px] aspect-square">
-                <div class="absolute inset-6 rounded-full bg-industrial-yellow/10 blur-3xl"></div>
+                <div class="absolute inset-0 rounded-full bg-[radial-gradient(ellipse_at_center,rgba(245,183,0,0.16)_0%,rgba(10,10,10,0)_62%)]"></div>
+                <div class="absolute left-1/2 bottom-4 w-3/5 h-10 -translate-x-1/2 rounded-full bg-black/70 blur-2xl"></div>
                 <img src="./Material/hex-star/id-11134207-7r98t-lqa79zlxhdke71.webp"
                   onerror="this.src='https://images.msha.ke/9557f023-860b-42d6-b662-058a19771596?w=600'"
                   alt="Baut Hex Stars tampak depan"
@@ -678,7 +679,8 @@
                 <div class="w-2 h-2 rounded-full bg-industrial-yellow"></div>
               </div>
               <div class="relative mx-auto w-full max-w-[340px] aspect-square">
-                <div class="absolute inset-6 rounded-full bg-industrial-yellow/10 blur-3xl"></div>
+                <div class="absolute inset-0 rounded-full bg-[radial-gradient(ellipse_at_center,rgba(245,183,0,0.16)_0%,rgba(10,10,10,0)_62%)]"></div>
+                <div class="absolute left-1/2 bottom-4 w-3/5 h-10 -translate-x-1/2 rounded-full bg-black/70 blur-2xl"></div>
                 <img src="./Material/hex-star/id-11134207-822wp-mo2b6elumy2t4a.webp"
                   onerror="this.src='https://images.msha.ke/cf0c14cd-9bb6-4da2-a0f3-6722d9620748?w=600'"
                   alt="Ulir baut tampak samping"
@@ -699,7 +701,8 @@
                 <div class="w-2 h-2 rounded-full bg-industrial-yellow"></div>
               </div>
               <div class="relative mx-auto w-full max-w-[340px] aspect-square">
-                <div class="absolute inset-6 rounded-full bg-industrial-yellow/10 blur-3xl"></div>
+                <div class="absolute inset-0 rounded-full bg-[radial-gradient(ellipse_at_center,rgba(245,183,0,0.16)_0%,rgba(10,10,10,0)_62%)]"></div>
+                <div class="absolute left-1/2 bottom-4 w-3/5 h-10 -translate-x-1/2 rounded-full bg-black/70 blur-2xl"></div>
                 <img src="./Material/hex-star/id-11134207-822wg-mo2b6eluljidc0.webp"
                   onerror="this.src='https://images.msha.ke/60ff2d3c-c669-462a-a905-350c023fb08f?w=600'"
                   alt="Soket bintang kepala baut tampak atas"
@@ -720,7 +723,8 @@
                 <div class="w-2 h-2 rounded-full bg-industrial-yellow"></div>
               </div>
               <div class="relative mx-auto w-full max-w-[340px] aspect-square">
-                <div class="absolute inset-6 rounded-full bg-industrial-yellow/10 blur-3xl"></div>
+                <div class="absolute inset-0 rounded-full bg-[radial-gradient(ellipse_at_center,rgba(245,183,0,0.16)_0%,rgba(10,10,10,0)_62%)]"></div>
+                <div class="absolute left-1/2 bottom-4 w-3/5 h-10 -translate-x-1/2 rounded-full bg-black/70 blur-2xl"></div>
                 <img src="./Material/BAUT.png"
                   onerror="this.src='https://images.msha.ke/39a66401-ea82-4d9a-b9b1-a6e51557c2f1?w=800'"
                   alt="Baut stainless tampak miring"
@@ -2520,7 +2524,7 @@ Mohon info ketersediaan & harga penawarannya.`;
         front: [0, 0.5, 4.8],
         side: [4.8, 0.5, 0],
         top: [0.001, 2.8, 0.001],
-        angle: [3.1, 2.4, 3.1]
+        angle: [3.4, 1.9, 3.4]
       };
 
       let started = false;
@@ -2542,7 +2546,7 @@ Mohon info ketersediaan & harga penawarannya.`;
               renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
               renderer.setSize(w, h);
               renderer.toneMapping = THREE.ACESFilmicToneMapping;
-              renderer.toneMappingExposure = 1.35;
+              renderer.toneMappingExposure = 1.15;
 
               if (!envTex) {
                 const pmrem = new THREE.PMREMGenerator(renderer);
@@ -2553,16 +2557,20 @@ Mohon info ketersediaan & harga penawarannya.`;
               const scene = new THREE.Scene();
               scene.environment = envTex;
 
-              const key = new THREE.DirectionalLight(0xffffff, 2.2);
-              key.position.set(3, 5, 4);
+              /* Studio lighting: key kuat dari atas-depan, rim dingin+hangat dari belakang */
+              const key = new THREE.DirectionalLight(0xffffff, 2.6);
+              key.position.set(3, 6, 4);
               scene.add(key);
-              const fill = new THREE.DirectionalLight(0xdfe8ff, 1.4);
-              fill.position.set(-4, 1, 5);
+              const rimCool = new THREE.DirectionalLight(0xbcd4ff, 2.2);
+              rimCool.position.set(-4, 3, -5);
+              scene.add(rimCool);
+              const rimWarm = new THREE.DirectionalLight(0xffc46b, 1.4);
+              rimWarm.position.set(4, 2, -4);
+              scene.add(rimWarm);
+              const fill = new THREE.DirectionalLight(0xfff2df, 0.7);
+              fill.position.set(-2, 0.5, 6);
               scene.add(fill);
-              const rim = new THREE.DirectionalLight(0xf5b700, 1.2);
-              rim.position.set(-3, 4, -4);
-              scene.add(rim);
-              const hemi = new THREE.HemisphereLight(0xffffff, 0x2a2a2a, 0.6);
+              const hemi = new THREE.HemisphereLight(0xffffff, 0x1a1a1a, 0.45);
               scene.add(hemi);
 
               const camera = new THREE.PerspectiveCamera(32, w / h, 0.1, 100);
@@ -2580,6 +2588,17 @@ Mohon info ketersediaan & harga penawarannya.`;
               const s = 2.7 / maxDim;
               model.scale.setScalar(s);
               model.position.set(-center.x * s, -center.y * s, -center.z * s);
+              /* poles metal: full metallic, roughness rendah, pantulan env dikuatkan */
+              model.traverse((o) => {
+                if (o.isMesh) {
+                  const m = o.material;
+                  if (m && m.isMeshStandardMaterial) {
+                    m.metalness = 1.0;
+                    m.roughness = Math.min(m.roughness, 0.24);
+                    m.envMapIntensity = 1.6;
+                  }
+                }
+              });
               scene.add(model);
 
               const v = VIEWS[canvas.dataset.view] || VIEWS.front;

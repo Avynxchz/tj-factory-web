@@ -330,3 +330,30 @@ export     const verifiedProducts = [
         tiktokUrl: 'https://www.tiktok.com/@tj.factory_'
       }
     ];
+
+    export const partsData = [
+      {
+        counter: '01 / 03',
+        titleHtml: 'Baut Hex Stars <br /><span class="text-industrial-yellow">Dual-Key CNC</span>',
+        plainTitle: 'Baut Hex Stars Dual-Key',
+        desc: 'Desain kepala baut 2 kunci khas TJ FACTORY yang menggabungkan segi enam luar (Kunci Ring/Sok) dengan rongga bintang Torx di tengah serta flange CNC menyatu.',
+        grade: 'STAINLESS SUS 304',
+        badge: 'MODEL 2 KUNCI // HEX + TORX'
+      },
+      {
+        counter: '02 / 03',
+        titleHtml: 'Mur Head Ninja <br /><span class="text-industrial-yellow">12-Spline High Stars</span>',
+        plainTitle: 'Mur Head Ninja 12-Spline',
+        desc: 'Mur silinder head tinggi (HIGH STARS) dengan mahkota 12-point spline bertingkat dan lubang ulir drat tembus presisi untuk ketahanan torsi tinggi pada Ninja R/RR.',
+        grade: 'STAINLESS SOLID BAR',
+        badge: 'HIGH STARS CROWN // NINJA R/RR'
+      },
+      {
+        counter: '03 / 03',
+        titleHtml: 'Baut Visor Payung <br /><span class="text-industrial-yellow">Umbrella Stars CNC</span>',
+        plainTitle: 'Baut Visor Payung Bintang 5',
+        desc: 'Kepala baut model payung lebar profil rendah (Umbrella Stars) dengan pahatan motif bintang 5 timbul untuk menjepit mika visor Ninja RR Old & bodi secara merata.',
+        grade: 'STAINLESS 304 BUBUT',
+        badge: 'UMBRELLA 5-STAR // M6 DRAT 10'
+      }
+    ];

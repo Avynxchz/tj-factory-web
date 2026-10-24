@@ -41,6 +41,10 @@ import Footer from '../components/Footer.astro';
   <Footer />
   <script>
     import '../scripts/uiController.js';
+    import { initHeroMedusa3D, initJacketShowcase3D, initAnatomi3D } from '../scripts/threeEngine.js';
+    initHeroMedusa3D();
+    initJacketShowcase3D();
+    initAnatomi3D();
   </script>
 </body>
 </html>

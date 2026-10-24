@@ -1,5 +1,4 @@
 import { verifiedProducts } from '../data/products.js';
-import { initThreeEngine } from './threeEngine.js';
 
     const mainNavbar = document.getElementById('main-navbar');
     window.addEventListener('scroll', () => {
@@ -215,5 +214,3 @@ Mohon info ketersediaan & harga penawarannya.`;
         track.innerHTML += track.innerHTML;
       }
     })();
-
-initThreeEngine();

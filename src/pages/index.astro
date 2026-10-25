@@ -48,13 +48,28 @@ import Footer from '../components/Footer.astro';
     import '../scripts/uiController.js';
   </script>
   <script>
-    import { initHeroMedusa3D, initJacketShowcase3D, initAnatomi3D } from '../scripts/threeEngine.js';
     import { whenNear } from '../scripts/visibility.js';
-    try { initHeroMedusa3D(); } catch (err) { console.warn('Hero 3D init gagal:', err); }
-    try { initAnatomi3D(); } catch (err) { console.warn('Anatomi 3D registrasi gagal:', err); }
+    // Mekanisme Kimi: satu promise module bersama — modul Three diunduh dan
+    // dievaluasi sekali saja, dipakai hero (langsung), anatomi (registrasi),
+    // dan jacket (saat terlihat). Gagal muat modul tidak menghentikan UI.
+    const enginePromise = import('../scripts/threeEngine.js').catch((err) => {
+      console.warn('Modul Three gagal dimuat:', err);
+      return null;
+    });
+    enginePromise.then((m) => {
+      if (!m) return;
+      try { m.initHeroMedusa3D(); } catch (err) { console.warn('Hero 3D init gagal:', err); }
+    });
+    enginePromise.then((m) => {
+      if (!m) return;
+      try { m.initAnatomi3D(); } catch (err) { console.warn('Anatomi 3D registrasi gagal:', err); }
+    });
     // Jacket: tidak ada pekerjaan 3D sama sekali sebelum section terlihat.
     whenNear(document.getElementById('showcase-jacket'), () => {
-      try { initJacketShowcase3D(); } catch (err) { console.warn('Jacket 3D init gagal:', err); }
+      enginePromise.then((m) => {
+        if (!m) return;
+        try { m.initJacketShowcase3D(); } catch (err) { console.warn('Jacket 3D init gagal:', err); }
+      });
     }, 600);
   </script>
 </body>

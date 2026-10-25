@@ -1,6 +1,6 @@
 ---
-const FILTER_ACTIVE = 'cat-btn shrink-0 px-4 py-2 rounded-full text-xs font-mono uppercase bg-industrial-yellow text-carbon-950 font-bold transition-all';
-const FILTER_INACTIVE = 'cat-btn shrink-0 px-4 py-2 rounded-full text-xs font-mono uppercase bg-carbon-900 text-slate-300 border border-carbon-700 hover:border-industrial-yellow transition-all';
+const FILTER_ACTIVE = 'cat-btn shrink-0 px-4 py-2 rounded-full text-xs font-mono uppercase bg-industrial-yellow text-carbon-950 font-bold transition-all min-h-[44px] sm:min-h-0';
+const FILTER_INACTIVE = 'cat-btn shrink-0 px-4 py-2 rounded-full text-xs font-mono uppercase bg-carbon-900 text-slate-300 border border-carbon-700 hover:border-industrial-yellow transition-all min-h-[44px] sm:min-h-0';
 const FILTERS = [
   { cat: 'ALL', label: 'Semua Produk (19)' },
   { cat: 'NINJA', label: 'Ninja R/RR' },
@@ -17,7 +17,7 @@ const FILTERS = [
         <div class="text-center max-w-2xl mx-auto mb-10">
           <span class="font-mono text-xs text-industrial-yellow uppercase tracking-widest">// TOP PICKS & FULL
             CATALOG</span>
-          <h2 class="font-display font-bold text-3xl sm:text-5xl uppercase text-white mt-2 leading-tight">
+          <h2 class="font-display font-bold text-3xl sm:text-5xl uppercase text-white mt-2 leading-tight text-balance">
             Katalog Sparepart & <br /><span class="text-industrial-yellow">Baut Stainless CNC</span>
           </h2>
           <p class="text-slate-400 text-xs sm:text-sm mt-3">
@@ -118,7 +118,7 @@ const FILTERS = [
 
             <div class="w-full md:w-72">
               <input type="search" id="catalog-search" placeholder="Cari baut, Ninja, RX King, M6..."
-                class="w-full bg-carbon-900 border border-carbon-700 focus:border-industrial-yellow rounded-full px-4 py-2 text-xs sm:text-sm text-white placeholder-slate-500 outline-none font-mono" />
+                class="w-full bg-carbon-900 border border-carbon-700 focus:border-industrial-yellow rounded-full px-4 py-2 text-xs sm:text-sm text-white placeholder-slate-500 outline-none font-mono min-h-[44px] md:min-h-0" />
             </div>
           </div>
 

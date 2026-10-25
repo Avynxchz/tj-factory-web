@@ -63,10 +63,10 @@ import { verifiedProducts } from '../data/products.js';
             </div>
           </div>
           <div class="p-3 sm:p-5 pt-0 flex items-center gap-1.5 sm:gap-2.5">
-            <button type="button" onclick="event.stopPropagation(); window.openProductDetail('${item.code}')" class="flex-1 py-2 px-2 rounded-lg bg-carbon-800 hover:bg-carbon-700 text-slate-200 border border-carbon-600 font-mono text-[10px] sm:text-xs uppercase text-center transition-all">
+            <button type="button" onclick="event.stopPropagation(); window.openProductDetail('${item.code}')" class="flex-1 py-2 px-2 rounded-lg bg-carbon-800 hover:bg-carbon-700 text-slate-200 border border-carbon-600 font-mono text-[10px] sm:text-xs uppercase text-center transition-all min-h-[44px] sm:min-h-0">
               Detail
             </button>
-            <button type="button" onclick="event.stopPropagation(); window.selectProductForRFQ('${item.name.replace(/'/g, "\\'")}')" class="flex-1 py-2 px-2 rounded-lg bg-industrial-yellow hover:bg-industrial-amber text-carbon-950 font-mono text-[10px] sm:text-xs font-bold uppercase text-center transition-all">
+            <button type="button" onclick="event.stopPropagation(); window.selectProductForRFQ('${item.name.replace(/'/g, "\\'")}')" class="flex-1 py-2 px-2 rounded-lg bg-industrial-yellow hover:bg-industrial-amber text-carbon-950 font-mono text-[10px] sm:text-xs font-bold uppercase text-center transition-all min-h-[44px] sm:min-h-0">
               Minta Tawar
             </button>
           </div>
@@ -152,9 +152,9 @@ import { verifiedProducts } from '../data/products.js';
       btn.addEventListener('click', () => {
         activeCategory = btn.dataset.cat;
         filterButtons.forEach(b => {
-          b.className = 'cat-btn shrink-0 px-4 py-2 rounded-full text-xs font-mono uppercase bg-carbon-900 text-slate-300 border border-carbon-700 hover:border-industrial-yellow transition-all';
+          b.className = 'cat-btn shrink-0 px-4 py-2 rounded-full text-xs font-mono uppercase bg-carbon-900 text-slate-300 border border-carbon-700 hover:border-industrial-yellow transition-all min-h-[44px] sm:min-h-0';
         });
-        btn.className = 'cat-btn shrink-0 px-4 py-2 rounded-full text-xs font-mono uppercase bg-industrial-yellow text-carbon-950 font-bold transition-all';
+        btn.className = 'cat-btn shrink-0 px-4 py-2 rounded-full text-xs font-mono uppercase bg-industrial-yellow text-carbon-950 font-bold transition-all min-h-[44px] sm:min-h-0';
         renderCatalog();
       });
     });

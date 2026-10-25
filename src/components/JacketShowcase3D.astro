@@ -12,7 +12,7 @@ import { LINKS } from '../data/links.js';
         TJ <span class="text-industrial-yellow">FACTORY</span>
       </span>
       <span class="hidden sm:inline-block h-3.5 w-px bg-white/15"></span>
-      <span class="font-mono text-[10px] sm:text-[11px] text-slate-400 uppercase tracking-[0.22em]">
+      <span class="hidden sm:inline font-mono text-[10px] sm:text-[11px] text-slate-400 uppercase tracking-[0.22em]">
         PRECISION CNC COMPONENTS
       </span>
     </div>
@@ -20,7 +20,7 @@ import { LINKS } from '../data/links.js';
       <a href="#katalog" class="hidden sm:inline hover:text-industrial-yellow transition-colors">Produk</a>
       <a href="#tentang" class="hidden sm:inline hover:text-industrial-yellow transition-colors">Tentang</a>
       <a href="#permintaan-penawaran"
-        class="px-4 py-1.5 rounded-full bg-industrial-yellow hover:bg-industrial-amber text-carbon-950 font-bold text-[11px] transition-all shadow-[0_0_20px_rgba(245,183,0,0.25)]">
+        class="px-4 py-1.5 rounded-full bg-industrial-yellow hover:bg-industrial-amber text-carbon-950 font-bold text-[11px] transition-all shadow-[0_0_20px_rgba(245,183,0,0.25)] min-h-[44px] sm:min-h-0">
         Hubungi Kami ↗
       </a>
     </div>
@@ -49,11 +49,11 @@ import { LINKS } from '../data/links.js';
           01 <span class="text-slate-500 font-normal">/ 03</span>
         </span>
         <button id="btn-jacket-prev" type="button" aria-label="Komponen Sebelumnya"
-          class="w-9 h-9 rounded-full bg-white/[0.03] hover:bg-industrial-yellow hover:text-carbon-950 hover:border-industrial-yellow text-slate-300 border border-white/15 flex items-center justify-center text-xs transition-all active:scale-90">
+          class="w-9 h-9 rounded-full bg-white/[0.03] hover:bg-industrial-yellow hover:text-carbon-950 hover:border-industrial-yellow text-slate-300 border border-white/15 flex items-center justify-center text-xs transition-all active:scale-90 min-h-[44px] min-w-[44px] sm:min-h-0 sm:min-w-0">
           ←
         </button>
         <button id="btn-jacket-next" type="button" aria-label="Komponen Berikutnya"
-          class="w-9 h-9 rounded-full bg-white/[0.03] hover:bg-industrial-yellow hover:text-carbon-950 hover:border-industrial-yellow text-slate-300 border border-white/15 flex items-center justify-center text-xs transition-all active:scale-90">
+          class="w-9 h-9 rounded-full bg-white/[0.03] hover:bg-industrial-yellow hover:text-carbon-950 hover:border-industrial-yellow text-slate-300 border border-white/15 flex items-center justify-center text-xs transition-all active:scale-90 min-h-[44px] min-w-[44px] sm:min-h-0 sm:min-w-0">
           →
         </button>
       </div>
@@ -70,12 +70,12 @@ import { LINKS } from '../data/links.js';
 
       <div class="flex flex-wrap items-center gap-5 mt-7 pointer-events-auto">
         <button type="button" id="btn-jacket-rfq"
-          class="px-6 py-3 rounded-full bg-industrial-yellow hover:bg-industrial-amber text-carbon-950 font-sans font-bold text-xs tracking-wide transition-all flex items-center gap-2.5 shadow-[0_8px_30px_rgba(245,183,0,0.28)]">
+          class="px-6 py-3 rounded-full bg-industrial-yellow hover:bg-industrial-amber text-carbon-950 font-sans font-bold text-xs tracking-wide transition-all flex items-center gap-2.5 shadow-[0_8px_30px_rgba(245,183,0,0.28)] min-h-[44px] sm:min-h-0">
           <span>Minta Penawaran</span>
           <span>→</span>
         </button>
         <button type="button" id="btn-jacket-lock"
-          class="px-2 py-2 text-slate-300 hover:text-industrial-yellow font-mono text-[11px] uppercase tracking-[0.15em] transition-all flex items-center gap-1.5">
+          class="px-2 py-2 text-slate-300 hover:text-industrial-yellow font-mono text-[11px] uppercase tracking-[0.15em] transition-all flex items-center gap-1.5 min-h-[44px] sm:min-h-0">
           <span>KUNCI TEGAK VERTIKAL</span>
           <span class="text-slate-400">›</span>
         </button>
@@ -100,15 +100,15 @@ import { LINKS } from '../data/links.js';
           <div class="font-sans text-[11px] text-slate-300 mb-3">Standar Ukuran Drat Tersedia:</div>
           <div class="flex items-center gap-3 pointer-events-auto" id="thread-size-circles">
             <button type="button" data-thread="M6 (Drat 10: Panjang 12mm – 70mm)"
-              class="thread-circle w-10 h-10 rounded-full bg-industrial-yellow/10 text-industrial-yellow border-2 border-industrial-yellow font-mono font-bold text-xs flex items-center justify-center shadow-[0_0_20px_rgba(245,183,0,0.22)] transition-all">
+              class="thread-circle w-10 h-10 rounded-full bg-industrial-yellow/10 text-industrial-yellow border-2 border-industrial-yellow font-mono font-bold text-xs flex items-center justify-center shadow-[0_0_20px_rgba(245,183,0,0.22)] transition-all min-h-[44px] min-w-[44px] sm:min-h-0 sm:min-w-0">
               M6
             </button>
             <button type="button" data-thread="M8 (Drat 12: Panjang 15mm – 35mm)"
-              class="thread-circle w-10 h-10 rounded-full bg-white/[0.02] hover:border-white/40 text-slate-400 hover:text-white border border-white/15 font-mono font-bold text-xs flex items-center justify-center transition-all">
+              class="thread-circle w-10 h-10 rounded-full bg-white/[0.02] hover:border-white/40 text-slate-400 hover:text-white border border-white/15 font-mono font-bold text-xs flex items-center justify-center transition-all min-h-[44px] min-w-[44px] sm:min-h-0 sm:min-w-0">
               M8
             </button>
             <button type="button" data-thread="M10 (Drat 14: Panjang 25mm – 45mm)"
-              class="thread-circle w-10 h-10 rounded-full bg-white/[0.02] hover:border-white/40 text-slate-400 hover:text-white border border-white/15 font-mono font-bold text-xs flex items-center justify-center transition-all">
+              class="thread-circle w-10 h-10 rounded-full bg-white/[0.02] hover:border-white/40 text-slate-400 hover:text-white border border-white/15 font-mono font-bold text-xs flex items-center justify-center transition-all min-h-[44px] min-w-[44px] sm:min-h-0 sm:min-w-0">
               M10
             </button>
           </div>
@@ -139,13 +139,13 @@ import { LINKS } from '../data/links.js';
   <div class="max-w-7xl w-full mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 z-20 pt-4 border-t border-white/10 text-[11px] font-mono text-slate-400">
     <div class="flex items-center gap-5 tracking-wider">
       <a href={LINKS.instagram} target="_blank" rel="noopener noreferrer"
-        class="hover:text-industrial-yellow transition-colors">IG</a>
+        class="inline-flex items-center min-h-[44px] sm:min-h-0 hover:text-industrial-yellow transition-colors">IG</a>
       <a href={LINKS.tiktok} target="_blank" rel="noopener noreferrer"
-        class="hover:text-industrial-yellow transition-colors">TIKTOK</a>
+        class="inline-flex items-center min-h-[44px] sm:min-h-0 hover:text-industrial-yellow transition-colors">TIKTOK</a>
       <a href={LINKS.shopee} target="_blank" rel="noopener noreferrer"
-        class="hover:text-industrial-yellow transition-colors">SHOPEE</a>
+        class="inline-flex items-center min-h-[44px] sm:min-h-0 hover:text-industrial-yellow transition-colors">SHOPEE</a>
       <a href={LINKS.tokopedia} target="_blank" rel="noopener noreferrer"
-        class="hover:text-industrial-yellow transition-colors">TOKOPEDIA</a>
+        class="inline-flex items-center min-h-[44px] sm:min-h-0 hover:text-industrial-yellow transition-colors">TOKOPEDIA</a>
     </div>
     <div class="text-center text-slate-400">
       Presisi pahatan mesin CNC, <span class="text-industrial-yellow">dibuat di Indonesia</span>

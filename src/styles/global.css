@@ -72,9 +72,12 @@
       will-change: transform;
     }
 
-    /* Studio Ambient Radial Background ala Video Jacket Mastery */
+    /* Studio Ambient Radial Background & Dark Floor Horizon */
     .bg-studio-stage {
-      background: radial-gradient(circle at 54% 48%, rgba(42, 49, 64, 0.55) 0%, rgba(11, 13, 16, 0.96) 65%, #07080A 100%);
+      background:
+        radial-gradient(ellipse 46% 38% at 50% 48%, rgba(56, 65, 82, 0.28) 0%, rgba(12, 14, 18, 0.85) 62%, transparent 100%),
+        radial-gradient(ellipse 55% 18% at 52% 82%, rgba(148, 163, 184, 0.09) 0%, rgba(5, 6, 8, 0.95) 70%),
+        linear-gradient(180deg, #050608 0%, #090B0E 72%, #040507 100%);
     }
 
     /* Background Matte Dark Slate Persis Referensi Mouse Logitech G */

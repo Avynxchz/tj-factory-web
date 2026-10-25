@@ -1,138 +1,150 @@
-    <!-- ================= 2. INTERACTIVE 3D BAUT SHOWCASE (REFERENSI VIDEO JACKET MASTERY) ================= -->
-    <section id="showcase-jacket"
-      class="relative w-full min-h-screen bg-studio-stage border-b border-carbon-800 flex flex-col justify-between py-12 sm:py-16 px-4 sm:px-10 overflow-hidden select-none">
+<!-- ================= 2. INTERACTIVE 3D BAUT SHOWCASE (DARK STUDIO CNC EDITION) ================= -->
+<section id="showcase-jacket"
+  class="relative w-full min-h-screen bg-studio-stage border-b border-carbon-800 flex flex-col justify-between py-8 sm:py-12 px-5 sm:px-10 overflow-hidden select-none">
 
-      <div class="max-w-7xl w-full mx-auto flex items-center justify-between z-20">
-        <div class="flex items-center gap-2 font-mono text-xs text-industrial-yellow uppercase tracking-widest">
-          <span class="w-2 h-2 rounded-full bg-industrial-yellow animate-pulse"></span>
-          <span>// INTERACTIVE 3D MATERIAL SHOWCASE</span>
-        </div>
-        <span
-          class="font-mono text-[11px] text-slate-400 bg-carbon-900/80 border border-carbon-700 px-3 py-1 rounded-full">
-          [INTERACTIVE 3D CAD STUDIO]
+  <!-- TOP HEADER BAR -->
+  <div class="max-w-7xl w-full mx-auto flex items-center justify-between z-20 pt-1">
+    <div class="flex items-center gap-4">
+      <span class="font-display font-bold text-sm sm:text-base tracking-wider uppercase text-white">
+        TJ <span class="text-industrial-yellow">FACTORY</span>
+      </span>
+      <span class="hidden sm:inline-block h-3.5 w-px bg-white/15"></span>
+      <span class="font-mono text-[10px] sm:text-[11px] text-slate-400 uppercase tracking-[0.22em]">
+        PRECISION CNC COMPONENTS
+      </span>
+    </div>
+    <div class="flex items-center gap-5 font-mono text-[11px] text-slate-300">
+      <a href="#katalog" class="hidden sm:inline hover:text-industrial-yellow transition-colors">Produk</a>
+      <a href="#tentang" class="hidden sm:inline hover:text-industrial-yellow transition-colors">Tentang</a>
+      <a href="#permintaan-penawaran"
+        class="px-4 py-1.5 rounded-full bg-industrial-yellow hover:bg-industrial-amber text-carbon-950 font-bold text-[11px] transition-all shadow-[0_0_20px_rgba(245,183,0,0.25)]">
+        Hubungi Kami ↗
+      </a>
+    </div>
+  </div>
+
+  <!-- CENTER 3D STAGE & EDITORIAL OVERLAY -->
+  <div class="relative max-w-7xl w-full mx-auto my-auto grid grid-cols-1 lg:grid-cols-12 items-center gap-6 py-4 sm:py-6">
+
+    <!-- PANGGUNG WEBGL 3D (DENGAN LANTAI STUDIO & CONTACT SHADOW) -->
+    <div id="jacket-3d-canvas"
+      class="w-full h-[390px] sm:h-[490px] lg:h-[620px] lg:col-span-12 lg:absolute lg:inset-0 z-10 cursor-grab active:cursor-grabbing"
+      title="Tahan & geser untuk memutar baut 3D, atau cubit 2 jari di HP untuk zoom"></div>
+
+    <!-- KOLOM KIRI: COUNTER, HEADLINE & CTA -->
+    <div class="lg:col-span-5 relative z-20 pointer-events-none flex flex-col items-start text-left order-2 lg:order-1">
+
+      <!-- Counter 01 / 03 di Kiri + Tombol Panah di Kanan -->
+      <div class="flex items-center gap-3 mb-5 pointer-events-auto">
+        <span id="jacket-part-counter" class="font-mono text-xs sm:text-sm text-white font-semibold tracking-widest mr-2">
+          01 <span class="text-slate-500 font-normal">/ 03</span>
         </span>
+        <button id="btn-jacket-prev" type="button" aria-label="Komponen Sebelumnya"
+          class="w-9 h-9 rounded-full bg-white/[0.03] hover:bg-industrial-yellow hover:text-carbon-950 hover:border-industrial-yellow text-slate-300 border border-white/15 flex items-center justify-center text-xs transition-all active:scale-90">
+          ←
+        </button>
+        <button id="btn-jacket-next" type="button" aria-label="Komponen Berikutnya"
+          class="w-9 h-9 rounded-full bg-white/[0.03] hover:bg-industrial-yellow hover:text-carbon-950 hover:border-industrial-yellow text-slate-300 border border-white/15 flex items-center justify-center text-xs transition-all active:scale-90">
+          →
+        </button>
       </div>
 
-      <div class="relative max-w-7xl w-full mx-auto my-auto grid grid-cols-1 lg:grid-cols-12 items-center gap-6 py-6">
+      <h2 id="jacket-title"
+        class="font-display font-bold text-3xl sm:text-5xl uppercase tracking-wide text-white leading-[1.06] drop-shadow-[0_10px_25px_rgba(0,0,0,0.9)] transition-all duration-300">
+        Baut Hex Stars <br /><span class="text-industrial-yellow">Dual-Key CNC</span>
+      </h2>
 
-        <div id="jacket-3d-canvas"
-          class="w-full h-[360px] sm:h-[460px] lg:h-[580px] lg:col-span-12 lg:absolute lg:inset-0 z-10 cursor-grab active:cursor-grabbing"
-          title="Tahan & geser untuk memutar baut 3D, atau cubit 2 jari di HP untuk zoom"></div>
+      <p id="jacket-desc" class="text-slate-400 text-xs sm:text-[13px] leading-relaxed mt-4 max-w-md">
+        Desain kepala baut 2 kunci khas TJ FACTORY yang menggabungkan segi enam luar (Kunci Ring/Sok) dengan rongga
+        bintang Torx di tengah serta flange CNC menyatu.
+      </p>
 
-        <!-- KOLOM KIRI: TEKS LANGSUNG TANPA CARD -->
-        <div
-          class="lg:col-span-5 relative z-20 pointer-events-none flex flex-col items-start text-left order-2 lg:order-1">
-
-          <div class="flex items-center gap-2.5 mb-4 pointer-events-auto">
-            <button id="btn-jacket-prev" type="button" aria-label="Komponen Sebelumnya"
-              class="w-10 h-10 rounded-full bg-carbon-900/80 hover:bg-industrial-yellow hover:text-carbon-950 text-white border border-carbon-600 flex items-center justify-center transition-all shadow-lg active:scale-90">
-              ←
-            </button>
-            <button id="btn-jacket-next" type="button" aria-label="Komponen Berikutnya"
-              class="w-10 h-10 rounded-full bg-carbon-900/80 hover:bg-industrial-yellow hover:text-carbon-950 text-white border border-carbon-600 flex items-center justify-center transition-all shadow-lg active:scale-90">
-              →
-            </button>
-            <span id="jacket-part-counter" class="font-mono text-xs text-industrial-yellow ml-2 font-bold">
-              01 / 03
-            </span>
-          </div>
-
-          <h2 id="jacket-title"
-            class="font-display font-bold text-3xl sm:text-5xl uppercase tracking-tight text-white leading-[1.05] drop-shadow-lg transition-all duration-300">
-            Baut Hex Stars <br /><span class="text-industrial-yellow">Dual-Key CNC</span>
-          </h2>
-
-          <p id="jacket-desc" class="text-slate-300 text-xs sm:text-sm leading-relaxed mt-4 max-w-md drop-shadow">
-            Desain kepala baut 2 kunci khas TJ FACTORY yang menggabungkan segi enam luar (Kunci Ring/Sok) dengan rongga
-            bintang Torx di tengah serta flange CNC menyatu.
-          </p>
-
-          <div class="flex flex-wrap items-center gap-3 mt-6 pointer-events-auto">
-            <button type="button" id="btn-jacket-rfq"
-              class="px-6 py-3 rounded-full bg-white hover:bg-industrial-yellow text-carbon-950 font-display font-bold text-xs uppercase tracking-wider transition-all flex items-center gap-2 shadow-xl">
-              <span>Minta Penawaran</span>
-              <span>→</span>
-            </button>
-            <button type="button" id="btn-jacket-lock"
-              class="px-4 py-3 rounded-full bg-carbon-900/85 hover:border-industrial-yellow text-slate-200 border border-carbon-700 font-mono text-[11px] uppercase tracking-wider transition-all">
-              [Kunci Tegak Vertikal]
-            </button>
-          </div>
-        </div>
-
-        <div class="hidden lg:block lg:col-span-4 order-1 lg:order-2 pointer-events-none"></div>
-
-        <!-- KOLOM KANAN -->
-        <div
-          class="lg:col-span-3 relative z-20 pointer-events-none flex flex-col items-start lg:items-end justify-between h-full order-3">
-
-          <div
-            class="bg-carbon-950/60 lg:bg-transparent backdrop-blur-sm lg:backdrop-blur-none p-4 lg:p-0 rounded-xl border border-carbon-800 lg:border-0 w-full lg:w-auto lg:text-right">
-            <div class="font-mono text-[10px] text-slate-400 uppercase tracking-widest">MATERIAL GRADE</div>
-            <div id="jacket-mat-grade" class="font-display font-bold text-xl sm:text-2xl text-white mt-0.5">
-              STAINLESS SUS 304
-            </div>
-            <div id="jacket-head-badge" class="font-mono text-xs text-industrial-yellow mt-0.5">
-              MODEL 2 KUNCI // HEX + TORX
-            </div>
-
-            <div class="mt-5">
-              <div class="font-mono text-[11px] text-slate-300 mb-2.5">Standar Ukuran Drat Tersedia:</div>
-              <div class="flex items-center lg:justify-end gap-2.5 pointer-events-auto" id="thread-size-circles">
-                <button type="button" data-thread="M6 (Drat 10: Panjang 12mm – 70mm)"
-                  class="thread-circle w-11 h-11 rounded-full bg-white text-carbon-950 font-mono font-bold text-xs flex items-center justify-center shadow-lg transition-all">
-                  M6
-                </button>
-                <button type="button" data-thread="M8 (Drat 12: Panjang 15mm – 35mm)"
-                  class="thread-circle w-11 h-11 rounded-full bg-carbon-900/90 hover:border-white text-slate-200 border border-carbon-600 font-mono font-bold text-xs flex items-center justify-center transition-all">
-                  M8
-                </button>
-                <button type="button" data-thread="M10 (Drat 14: Panjang 25mm – 45mm)"
-                  class="thread-circle w-11 h-11 rounded-full bg-carbon-900/90 hover:border-white text-slate-200 border border-carbon-600 font-mono font-bold text-xs flex items-center justify-center transition-all">
-                  M10
-                </button>
-              </div>
-              <div id="thread-selected-info" class="font-mono text-[11px] text-industrial-yellow mt-2">
-                M6 (Drat 10: Panjang 12mm – 70mm)
-              </div>
-            </div>
-          </div>
-
-          <div class="hidden lg:flex flex-col items-end mt-24 pt-16 pointer-events-auto cursor-pointer group"
-            id="btn-next-preview-label">
-            <span
-              class="font-mono text-[10px] text-slate-400 uppercase tracking-wider group-hover:text-industrial-yellow transition-colors">
-              BERIKUTNYA (KLIK UNTUK GANTI) →
-            </span>
-            <span id="next-part-label"
-              class="font-display font-bold text-sm text-white group-hover:text-industrial-yellow transition-colors">
-              Mur Head Ninja 12-Spline
-            </span>
-          </div>
-
-        </div>
-
+      <div class="flex flex-wrap items-center gap-5 mt-7 pointer-events-auto">
+        <button type="button" id="btn-jacket-rfq"
+          class="px-6 py-3 rounded-full bg-industrial-yellow hover:bg-industrial-amber text-carbon-950 font-sans font-bold text-xs tracking-wide transition-all flex items-center gap-2.5 shadow-[0_8px_30px_rgba(245,183,0,0.28)]">
+          <span>Minta Penawaran</span>
+          <span>→</span>
+        </button>
+        <button type="button" id="btn-jacket-lock"
+          class="px-2 py-2 text-slate-300 hover:text-industrial-yellow font-mono text-[11px] uppercase tracking-[0.15em] transition-all flex items-center gap-1.5">
+          <span>KUNCI TEGAK VERTIKAL</span>
+          <span class="text-slate-400">›</span>
+        </button>
       </div>
+    </div>
 
-      <div
-        class="max-w-7xl w-full mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 z-20 pt-4 border-t border-carbon-800/70 text-xs font-mono text-slate-400">
-        <div class="flex items-center gap-4">
-          <a href="https://www.instagram.com/tj.factory_/" target="_blank" rel="noopener noreferrer"
-            class="hover:text-industrial-yellow">IG</a>
-          <a href="https://www.tiktok.com/@tj.factory_" target="_blank" rel="noopener noreferrer"
-            class="hover:text-industrial-yellow">TIKTOK</a>
-          <a href="https://id.shp.ee/62goJ9J" target="_blank" rel="noopener noreferrer"
-            class="hover:text-industrial-yellow">SHOPEE</a>
-          <a href="https://tk.tokopedia.com/ZSxYaGvYo/" target="_blank" rel="noopener noreferrer"
-            class="hover:text-industrial-yellow">TOKOPEDIA</a>
+    <div class="hidden lg:block lg:col-span-4 order-1 lg:order-2 pointer-events-none"></div>
+
+    <!-- KOLOM KANAN: MATERIAL GRADE, THREAD CIRCLES & PREVIEW BERIKUTNYA -->
+    <div class="lg:col-span-3 relative z-20 pointer-events-none flex flex-col items-start lg:pl-6 justify-between h-full order-3">
+
+      <div class="bg-carbon-950/65 lg:bg-transparent backdrop-blur-sm lg:backdrop-blur-none p-4 lg:p-0 rounded-xl border border-carbon-800 lg:border-0 w-full">
+        <div class="font-mono text-[10px] text-slate-400 uppercase tracking-[0.22em]">MATERIAL GRADE</div>
+        <div id="jacket-mat-grade" class="font-display font-bold text-xl sm:text-2xl text-white mt-1 tracking-wide">
+          STAINLESS SUS 304
         </div>
-        <div class="text-center text-slate-300">
-          Presisi pahatan mesin CNC, <span class="text-industrial-yellow">dibuat di Indonesia 🇮🇩</span>
+        <div id="jacket-head-badge" class="font-mono text-[11px] text-industrial-yellow mt-1 tracking-[0.14em]">
+          MODEL 2 KUNCI // HEX + TORX
         </div>
-        <div class="text-[11px] text-slate-500">
-          GESER / CUBIT 2 JARI UNTUK INSPEKSI 3D
+
+        <div class="mt-6">
+          <div class="font-sans text-[11px] text-slate-300 mb-3">Standar Ukuran Drat Tersedia:</div>
+          <div class="flex items-center gap-3 pointer-events-auto" id="thread-size-circles">
+            <button type="button" data-thread="M6 (Drat 10: Panjang 12mm – 70mm)"
+              class="thread-circle w-10 h-10 rounded-full bg-industrial-yellow/10 text-industrial-yellow border-2 border-industrial-yellow font-mono font-bold text-xs flex items-center justify-center shadow-[0_0_20px_rgba(245,183,0,0.22)] transition-all">
+              M6
+            </button>
+            <button type="button" data-thread="M8 (Drat 12: Panjang 15mm – 35mm)"
+              class="thread-circle w-10 h-10 rounded-full bg-white/[0.02] hover:border-white/40 text-slate-400 hover:text-white border border-white/15 font-mono font-bold text-xs flex items-center justify-center transition-all">
+              M8
+            </button>
+            <button type="button" data-thread="M10 (Drat 14: Panjang 25mm – 45mm)"
+              class="thread-circle w-10 h-10 rounded-full bg-white/[0.02] hover:border-white/40 text-slate-400 hover:text-white border border-white/15 font-mono font-bold text-xs flex items-center justify-center transition-all">
+              M10
+            </button>
+          </div>
+          <div id="thread-selected-info" class="font-mono text-[10px] text-slate-400 mt-3">
+            M6 (Drat 10: Panjang 12mm – 70mm)
+          </div>
         </div>
       </div>
 
-    </section>
+      <!-- Label Preview Komponen Berikutnya di Kanan Bawah -->
+      <div class="hidden lg:flex flex-col items-start mt-28 pt-14 pointer-events-auto cursor-pointer group"
+        id="btn-next-preview-label">
+        <span class="font-mono text-[9px] text-slate-500 uppercase tracking-[0.18em] group-hover:text-industrial-yellow transition-colors">
+          BERIKUTNYA (KLIK UNTUK GANTI) →
+        </span>
+        <span id="next-part-label"
+          class="font-sans font-semibold text-xs text-slate-200 group-hover:text-white transition-colors mt-1">
+          Mur Head Ninja 12-Spline
+        </span>
+        <span class="w-4 h-[2px] bg-industrial-yellow mt-1.5 group-hover:w-8 transition-all"></span>
+      </div>
 
+    </div>
+
+  </div>
+
+  <!-- BOTTOM BAR -->
+  <div class="max-w-7xl w-full mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 z-20 pt-4 border-t border-white/10 text-[11px] font-mono text-slate-400">
+    <div class="flex items-center gap-5 tracking-wider">
+      <a href="https://www.instagram.com/tj.factory_/" target="_blank" rel="noopener noreferrer"
+        class="hover:text-industrial-yellow transition-colors">IG</a>
+      <a href="https://www.tiktok.com/@tj.factory_" target="_blank" rel="noopener noreferrer"
+        class="hover:text-industrial-yellow transition-colors">TIKTOK</a>
+      <a href="https://id.shp.ee/62goJ9J" target="_blank" rel="noopener noreferrer"
+        class="hover:text-industrial-yellow transition-colors">SHOPEE</a>
+      <a href="https://tk.tokopedia.com/ZSxYaGvYo/" target="_blank" rel="noopener noreferrer"
+        class="hover:text-industrial-yellow transition-colors">TOKOPEDIA</a>
+    </div>
+    <div class="text-center text-slate-400">
+      Presisi pahatan mesin CNC, <span class="text-industrial-yellow">dibuat di Indonesia</span>
+    </div>
+    <div class="flex items-center gap-2 text-[10px] text-slate-500 tracking-wider">
+      <span class="inline-flex items-center justify-center w-4 h-6 rounded-full border border-slate-600 text-[8px]">↕</span>
+      <span>GESER / CUBIT 2 JARI UNTUK INSPEKSI 3D</span>
+    </div>
+  </div>
+
+</section>

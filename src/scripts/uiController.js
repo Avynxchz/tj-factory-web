@@ -10,7 +10,7 @@ import { verifiedProducts } from '../data/products.js';
         mainNavbar.classList.add('-translate-y-24', 'opacity-0', 'pointer-events-none');
         mainNavbar.classList.remove('translate-y-0', 'opacity-100');
       }
-    });
+    }, { passive: true });
 
     /* -------------------------------------------------------------------------- */
     const catalogGrid = document.getElementById('catalog-grid');
@@ -46,7 +46,7 @@ import { verifiedProducts } from '../data/products.js';
                 src="${item.localImg}"
                 onerror="this.onerror=null; this.src='${item.fallbackImg}';"
                 alt="${item.name}"
-                loading="lazy"
+                loading="lazy" decoding="async"
                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
               />
               <span class="absolute top-2 left-2 px-2 py-0.5 rounded bg-carbon-950/90 border border-carbon-600 font-mono text-[9px] sm:text-[10px] text-industrial-yellow">

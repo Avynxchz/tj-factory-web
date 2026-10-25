@@ -891,7 +891,7 @@ export function initJacketShowcase3D() {
     if (!isVerticalLocked) {
       active.rotation.x = THREE.MathUtils.clamp(active.rotation.x + dy * 0.01, -0.75, 0.85);
     }
-  });
+  }, { passive: true });
 
   window.addEventListener('pointerup', (e) => {
     if (!isDragging) return;

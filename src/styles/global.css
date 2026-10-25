@@ -80,11 +80,13 @@
         linear-gradient(180deg, #050608 0%, #090B0E 72%, #040507 100%);
     }
 
-    /* WARN-02: cegah scroll halaman saat drag 1 jari di panggung 3D (JS yang menangani gestur) */
+    /* SPEK PERFORMA (keputusan owner): pan-y — drag horizontal tetap memutar
+    model, swipe vertikal kembali men-scroll halaman; mouse desktop tak terpengaruh.
+    (Sebelumnya none: swipe di atas canvas tidak men-scroll sama sekali.) */
     #hero-3d-interactive-stage,
     #jacket-3d-canvas,
     .anatomi-canvas {
-      touch-action: none;
+      touch-action: pan-y;
     }
 
     /* Background Matte Dark Slate Persis Referensi Mouse Logitech G */

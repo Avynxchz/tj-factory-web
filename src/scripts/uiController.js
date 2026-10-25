@@ -1,9 +1,14 @@
 import { verifiedProducts } from '../data/products.js';
 
+    /* B6 SPEK PERFORMA: simpan state boolean — jangan toggle class tiap event. */
     const mainNavbar = document.getElementById('main-navbar');
+    let navbarVisible = false;
     window.addEventListener('scroll', () => {
       if (!mainNavbar) return;
-      if (window.scrollY > window.innerHeight * 0.45) {
+      const shouldShow = window.scrollY > window.innerHeight * 0.45;
+      if (shouldShow === navbarVisible) return;
+      navbarVisible = shouldShow;
+      if (shouldShow) {
         mainNavbar.classList.remove('-translate-y-24', 'opacity-0', 'pointer-events-none');
         mainNavbar.classList.add('translate-y-0', 'opacity-100');
       } else {

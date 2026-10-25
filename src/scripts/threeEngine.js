@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { partsData } from '../data/products.js';
+import { whenNear, gateLoop, onResizeDebounced } from './visibility.js';
 
 // 1. Deteksi layar HP untuk membatasi PixelRatio agar GPU HP dingin & stabil 60 FPS
 const getOptimalDpr = () => Math.min(window.devicePixelRatio || 1, window.innerWidth < 768 ? 1.25 : 2);
@@ -98,6 +99,13 @@ function createDarkStudioEnvironment(renderer) {
   const pmrem = new THREE.PMREMGenerator(renderer);
   const envTex = pmrem.fromScene(envScene, 0.035).texture;
   pmrem.dispose();
+  // SPEK PERFORMA: geometri & material scene env hanya dipakai untuk memanggang
+  // tekstur — dispose setelah fromScene agar tidak menahan memori per renderer.
+  envScene.traverse((obj) => {
+    if (obj.geometry) obj.geometry.dispose();
+    const mats = Array.isArray(obj.material) ? obj.material : (obj.material ? [obj.material] : []);
+    mats.forEach((m) => m.dispose());
+  });
   return envTex;
 }
 
@@ -229,7 +237,6 @@ export function initHeroMedusa3D() {
 
   if (!heroSection || !cardLens || !canvasEl) return;
 
-  let isHeroVisible = true;
   let targetMouseX = 0, targetMouseY = 0;
   let curMouseX = 0, curMouseY = 0;
   let isDragging = false;
@@ -332,30 +339,29 @@ export function initHeroMedusa3D() {
       }
     );
 
-    window.addEventListener('resize', () => {
+    // SPEK PERFORMA: resize di-debounce; lewati bila ukuran + DPR tidak berubah
+    // (setSize mereset drawing buffer walau ukuran sama).
+    let lastHeroSize = { w: 0, h: 0, dpr: 0 };
+    window.addEventListener('resize', onResizeDebounced(() => {
       if (!interactiveStage) return;
       const w = interactiveStage.clientWidth;
       const h = interactiveStage.clientHeight;
+      const dpr = getOptimalDpr();
+      if (w === lastHeroSize.w && h === lastHeroSize.h && dpr === lastHeroSize.dpr) return;
+      lastHeroSize = { w, h, dpr };
       camera.aspect = w / h;
       camera.updateProjectionMatrix();
+      renderer.setPixelRatio(dpr);
       renderer.setSize(w, h);
-    });
+    }, 150));
   } catch (err) {
     console.warn('Hero WebGL fallback:', err);
   }
 
-  if ('IntersectionObserver' in window) {
-    const io = new IntersectionObserver((entries) => {
-      isHeroVisible = entries[0].isIntersecting;
-    }, { threshold: 0.05 });
-    io.observe(heroSection);
-  }
-
   let animTime = 0;
-  function renderLoop() {
-    requestAnimationFrame(renderLoop);
-    if (!isHeroVisible) return;
-
+  let lastCardTransform = '';
+  let lastBgTransform = '';
+  function tickHero() {
     animTime += 0.02;
     curMouseX += (targetMouseX - curMouseX) * 0.08;
     curMouseY += (targetMouseY - curMouseY) * 0.08;
@@ -380,14 +386,28 @@ export function initHeroMedusa3D() {
       emblemGroup.position.y = Math.sin(animTime) * 0.04;
     }
 
-    cardLens.style.transform = `perspective(1200px) rotateX(${(-curMouseY * 3.2).toFixed(2)}deg) rotateY(${(curMouseX * 4.2).toFixed(2)}deg)`;
+    // Tulis transform hanya bila string-nya berubah (hemat style recalc tiap frame).
+    const cardTransform = `perspective(1200px) rotateX(${(-curMouseY * 3.2).toFixed(2)}deg) rotateY(${(curMouseX * 4.2).toFixed(2)}deg)`;
+    if (cardTransform !== lastCardTransform) {
+      cardLens.style.transform = cardTransform;
+      lastCardTransform = cardTransform;
+    }
     if (bgTypography) {
-      bgTypography.style.transform = `translate3d(${(-curMouseX * 12).toFixed(1)}px, calc(-50% + ${(-curMouseY * 6).toFixed(1)}px), 0)`;
+      const bgTransform = `translate3d(${(-curMouseX * 12).toFixed(1)}px, calc(-50% + ${(-curMouseY * 6).toFixed(1)}px), 0)`;
+      if (bgTransform !== lastBgTransform) {
+        bgTypography.style.transform = bgTransform;
+        lastBgTransform = bgTransform;
+      }
     }
 
     if (renderer && scene && camera) renderer.render(scene, camera);
   }
-  renderLoop();
+  // SPEK PERFORMA: loop hanya hidup saat hero terlihat + tab aktif. Saat keluar
+  // viewport / tab hidden, RAF di-cancel total (bukan early return); saat kembali,
+  // SATU loop dilanjutkan dari state terakhir tanpa re-create renderer/model/PMREM.
+  // Bila WebGL gagal (renderer tidak terbentuk), loop tidak dijalankan sama sekali
+  // dan gambar emblem statis tetap menjadi fallback.
+  if (renderer && scene && camera) gateLoop(heroSection, tickHero, 0);
 }
 
 /* -------------------------------------------------------------------------- */
@@ -406,10 +426,26 @@ export function initAnatomi3D() {
     'twin-set': { camPos: [0, 0.15, 4.45], rot: [0.28, -0.35, 0.18], scale: 2.25, isTwin: true }
   };
 
-  loadSharedBoltGLB().then((gltf) => {
-    const src = gltf.scene;
+  // SPEK PERFORMA: registrasi lifecycle saja di sini — tidak ada GLB, renderer,
+  // scene, atau PMREM sebelum canvas tersebut terlihat (whenNear 400 px).
+  // Tiap canvas di-init SATU KALI (WeakSet + disconnect di whenNear).
+  const initializedCanvases = new WeakSet();
+  canvases.forEach((canvas) => {
+    whenNear(canvas, () => {
+      if (initializedCanvases.has(canvas)) return;
+      initializedCanvases.add(canvas);
+      initOneCanvas(canvas);
+    }, 400);
+  });
 
-    canvases.forEach((canvas) => {
+  function showAnatomiFallback(canvas) {
+    const fb = canvas.parentElement.querySelector('.anatomi-fallback');
+    if (fb) fb.classList.remove('hidden');
+  }
+
+  function initOneCanvas(canvas) {
+    loadSharedBoltGLB().then((gltf) => {
+      const src = gltf.scene;
       try {
         const w = canvas.clientWidth || 320;
         const h = canvas.clientHeight || 260;
@@ -450,42 +486,79 @@ export function initAnatomi3D() {
         renderer.render(scene, camera);
         canvas.style.opacity = '1';
 
+        // SPEK PERFORMA: render yang tertunda dieksekusi saat canvas terlihat lagi.
+        let canvasVisible = true;
+        let needsRender = false;
+        const requestRender = () => {
+          if (canvasVisible) renderer.render(scene, camera);
+          else needsRender = true;
+        };
+        if ('IntersectionObserver' in window) {
+          new IntersectionObserver((entries) => {
+            canvasVisible = entries[0].isIntersecting;
+            if (canvasVisible && needsRender) {
+              needsRender = false;
+              renderer.render(scene, camera);
+            }
+          }, { threshold: 0 }).observe(canvas);
+        }
+
+        // SPEK PERFORMA: listener window hanya selama drag; render saat drag
+        // dikoalesi maksimal 1/frame (layar 120 Hz tidak memicu >60 render/detik).
         let isDragging = false;
         let prevPt = { x: 0, y: 0 };
-        canvas.addEventListener('pointerdown', (e) => {
-          isDragging = true;
-          prevPt = { x: e.clientX, y: e.clientY };
-        });
-        window.addEventListener('pointermove', (e) => {
+        let renderQueued = false;
+        const queueRender = () => {
+          if (renderQueued) return;
+          renderQueued = true;
+          requestAnimationFrame(() => {
+            renderQueued = false;
+            requestRender();
+          });
+        };
+        const onDragMove = (e) => {
           if (!isDragging) return;
           const dx = e.clientX - prevPt.x;
           const dy = e.clientY - prevPt.y;
           prevPt = { x: e.clientX, y: e.clientY };
           stageGroup.rotation.y += dx * 0.012;
           stageGroup.rotation.x = THREE.MathUtils.clamp(stageGroup.rotation.x + dy * 0.012, -0.8, 0.8);
-          renderer.render(scene, camera);
-        }, { passive: true });
-        window.addEventListener('pointerup', () => { isDragging = false; });
+          queueRender();
+        };
+        const onDragEnd = () => {
+          isDragging = false;
+          window.removeEventListener('pointermove', onDragMove);
+          window.removeEventListener('pointerup', onDragEnd);
+        };
+        canvas.addEventListener('pointerdown', (e) => {
+          isDragging = true;
+          prevPt = { x: e.clientX, y: e.clientY };
+          window.addEventListener('pointermove', onDragMove, { passive: true });
+          window.addEventListener('pointerup', onDragEnd);
+        });
 
-        window.addEventListener('resize', () => {
+        // SPEK PERFORMA: resize di-debounce; lewati bila ukuran + DPR sama;
+        // resize saat offscreen hanya perbarui ukuran, render ditunda.
+        let lastAnatomiSize = { w: 0, h: 0, dpr: 0 };
+        window.addEventListener('resize', onResizeDebounced(() => {
           const nw = canvas.clientWidth || 320;
           const nh = canvas.clientHeight || 260;
+          const dpr = getOptimalDpr();
+          if (nw === lastAnatomiSize.w && nh === lastAnatomiSize.h && dpr === lastAnatomiSize.dpr) return;
+          lastAnatomiSize = { w: nw, h: nh, dpr };
           camera.aspect = nw / nh;
           camera.updateProjectionMatrix();
+          renderer.setPixelRatio(dpr);
           renderer.setSize(nw, nh);
-          renderer.render(scene, camera);
-        });
+          requestRender();
+        }, 150));
       } catch (err) {
-        const fb = canvas.parentElement.querySelector('.anatomi-fallback');
-        if (fb) fb.classList.remove('hidden');
+        showAnatomiFallback(canvas);
       }
+    }).catch(() => {
+      showAnatomiFallback(canvas);
     });
-  }).catch(() => {
-    canvases.forEach((canvas) => {
-      const fb = canvas.parentElement.querySelector('.anatomi-fallback');
-      if (fb) fb.classList.remove('hidden');
-    });
-  });
+  }
 }
 
 /* -------------------------------------------------------------------------- */
@@ -552,16 +625,8 @@ export function initJacketShowcase3D() {
   // (Badan fungsi sengaja tidak di-indent ulang agar diff tetap bedah.)
   try {
 
-  // Pertahankan singleton GLB di memori bersama AnatomyMouse3D
-  loadSharedBoltGLB().catch(() => {});
-
-  let isJacketVisible = true;
-  const jacketSection = document.getElementById('showcase-jacket');
-  if (jacketSection && 'IntersectionObserver' in window) {
-    new IntersectionObserver((entries) => {
-      entries.forEach((entry) => { isJacketVisible = entry.isIntersecting; });
-    }, { threshold: 0.05 }).observe(jacketSection);
-  }
+  // SPEK PERFORMA: preload GLB jacket DIHAPUS — jacket tidak memakai GLB itu;
+  // baris lama menarik GLB anatomi lebih awal dan membatalkan lazy-load.
 
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(31, container.clientWidth / container.clientHeight, 0.1, 100);
@@ -919,9 +984,7 @@ export function initJacketShowcase3D() {
 
   renderer.domElement.addEventListener('touchend', () => { pinchStartDist = null; });
 
-  function animateJacketStage() {
-    requestAnimationFrame(animateJacketStage);
-    if (!isJacketVisible) return;
+  function tickJacket() {
     const isDesktop = window.innerWidth >= 1024;
     const baseScale = isDesktop ? 0.78 : 0.64;
 
@@ -975,13 +1038,26 @@ export function initJacketShowcase3D() {
     renderer.render(scene, camera);
   }
 
-  animateJacketStage();
+  // SPEK PERFORMA: loop hanya hidup saat canvas terlihat + tab aktif; keluar
+  // viewport = cancel RAF total, kembali = resume tanpa reinit. RISIKO RESIDUAL:
+  // animasi settle (lerp scale/posisi awal) kini baru berjalan saat canvas
+  // terlihat — bila margin whenNear 600 px ternyata kurang, settle bisa terlihat
+  // user; perlu cek visual di HP owner (tanpa warm-up tick tambahan).
+  gateLoop(container, tickJacket, 0);
 
-  window.addEventListener('resize', () => {
-    camera.aspect = container.clientWidth / container.clientHeight;
+  // SPEK PERFORMA: resize di-debounce; lewati bila ukuran + DPR tidak berubah.
+  let lastJacketSize = { w: 0, h: 0, dpr: 0 };
+  window.addEventListener('resize', onResizeDebounced(() => {
+    const w = container.clientWidth;
+    const h = container.clientHeight;
+    const dpr = getOptimalDpr();
+    if (w === lastJacketSize.w && h === lastJacketSize.h && dpr === lastJacketSize.dpr) return;
+    lastJacketSize = { w, h, dpr };
+    camera.aspect = w / h;
     camera.updateProjectionMatrix();
-    renderer.setSize(container.clientWidth, container.clientHeight);
-  });
+    renderer.setPixelRatio(dpr);
+    renderer.setSize(w, h);
+  }, 150));
   } catch (err) {
     // Fallback nyata (bukan catch kosong): sembunyikan panggung, tampilkan pesan statis.
     console.warn('Jacket 3D gagal dimuat, menampilkan fallback statis:', err);

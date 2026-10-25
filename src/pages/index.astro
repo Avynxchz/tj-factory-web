@@ -25,6 +25,8 @@ import Footer from '../components/Footer.astro';
   <link
     href="https://fonts.googleapis.com/css2?family=Antonio:wght@700&family=Chakra+Petch:wght@600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Montserrat:wght@700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
     rel="stylesheet">
+  <!-- SPEK PERFORMA: GLB hero di-preload agar paralel dengan bundle JS. -->
+  <link rel="preload" as="fetch" crossorigin href="./aset/hero_3d_emblem.glb">
 </head>
 <body class="font-sans antialiased selection:bg-industrial-yellow selection:text-carbon-950">
   <FloatingNavbar />
@@ -39,12 +41,21 @@ import Footer from '../components/Footer.astro';
     <ProductDetailModal />
   </main>
   <Footer />
+  <!-- SPEK PERFORMA: script UI dipisah dari engine 3D agar katalog, modal,
+    filter, dan formulir aktif tanpa menunggu bundle Three.js (626 KB).
+    Kegagalan init satu scene tidak boleh menghentikan scene lain. -->
   <script>
     import '../scripts/uiController.js';
+  </script>
+  <script>
     import { initHeroMedusa3D, initJacketShowcase3D, initAnatomi3D } from '../scripts/threeEngine.js';
-    initHeroMedusa3D();
-    initJacketShowcase3D();
-    initAnatomi3D();
+    import { whenNear } from '../scripts/visibility.js';
+    try { initHeroMedusa3D(); } catch (err) { console.warn('Hero 3D init gagal:', err); }
+    try { initAnatomi3D(); } catch (err) { console.warn('Anatomi 3D registrasi gagal:', err); }
+    // Jacket: tidak ada pekerjaan 3D sama sekali sebelum section terlihat.
+    whenNear(document.getElementById('showcase-jacket'), () => {
+      try { initJacketShowcase3D(); } catch (err) { console.warn('Jacket 3D init gagal:', err); }
+    }, 600);
   </script>
 </body>
 </html>

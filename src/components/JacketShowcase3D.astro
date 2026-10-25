@@ -1,3 +1,6 @@
+---
+import { LINKS } from '../data/links.js';
+---
 <!-- ================= 2. INTERACTIVE 3D BAUT SHOWCASE (DARK STUDIO CNC EDITION) ================= -->
 <section id="showcase-jacket"
   class="relative w-full min-h-screen bg-studio-stage border-b border-carbon-800 flex flex-col justify-between py-8 sm:py-12 px-5 sm:px-10 overflow-hidden select-none">
@@ -30,6 +33,12 @@
     <div id="jacket-3d-canvas"
       class="w-full h-[390px] sm:h-[490px] lg:h-[620px] lg:col-span-12 lg:absolute lg:inset-0 z-10 cursor-grab active:cursor-grabbing"
       title="Tahan & geser untuk memutar baut 3D, atau cubit 2 jari di HP untuk zoom"></div>
+
+    <!-- Fallback statis bila WebGL gagal (CRIT-01): hidden by default, ditampilkan JS -->
+    <div id="jacket-3d-fallback"
+      class="hidden w-full h-[390px] sm:h-[490px] lg:h-[620px] lg:col-span-12 lg:absolute lg:inset-0 z-10 items-center justify-center bg-carbon-950/60">
+      <p class="font-mono text-xs sm:text-sm text-slate-400 text-center px-6">Tampilan 3D tidak tersedia di perangkat ini.</p>
+    </div>
 
     <!-- KOLOM KIRI: COUNTER, HEADLINE & CTA -->
     <div class="lg:col-span-5 relative z-20 pointer-events-none flex flex-col items-start text-left order-2 lg:order-1">
@@ -129,13 +138,13 @@
   <!-- BOTTOM BAR -->
   <div class="max-w-7xl w-full mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 z-20 pt-4 border-t border-white/10 text-[11px] font-mono text-slate-400">
     <div class="flex items-center gap-5 tracking-wider">
-      <a href="https://www.instagram.com/tj.factory_/" target="_blank" rel="noopener noreferrer"
+      <a href={LINKS.instagram} target="_blank" rel="noopener noreferrer"
         class="hover:text-industrial-yellow transition-colors">IG</a>
-      <a href="https://www.tiktok.com/@tj.factory_" target="_blank" rel="noopener noreferrer"
+      <a href={LINKS.tiktok} target="_blank" rel="noopener noreferrer"
         class="hover:text-industrial-yellow transition-colors">TIKTOK</a>
-      <a href="https://id.shp.ee/62goJ9J" target="_blank" rel="noopener noreferrer"
+      <a href={LINKS.shopee} target="_blank" rel="noopener noreferrer"
         class="hover:text-industrial-yellow transition-colors">SHOPEE</a>
-      <a href="https://tk.tokopedia.com/ZSxYaGvYo/" target="_blank" rel="noopener noreferrer"
+      <a href={LINKS.tokopedia} target="_blank" rel="noopener noreferrer"
         class="hover:text-industrial-yellow transition-colors">TOKOPEDIA</a>
     </div>
     <div class="text-center text-slate-400">

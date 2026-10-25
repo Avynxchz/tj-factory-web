@@ -2,6 +2,7 @@ import { verifiedProducts } from '../data/products.js';
 
     const mainNavbar = document.getElementById('main-navbar');
     window.addEventListener('scroll', () => {
+      if (!mainNavbar) return;
       if (window.scrollY > window.innerHeight * 0.45) {
         mainNavbar.classList.remove('-translate-y-24', 'opacity-0', 'pointer-events-none');
         mainNavbar.classList.add('translate-y-0', 'opacity-100');
@@ -18,7 +19,8 @@ import { verifiedProducts } from '../data/products.js';
     let activeCategory = 'ALL';
 
     function renderCatalog() {
-      const query = searchInput.value.toLowerCase().trim();
+      if (!catalogGrid) return;
+      const query = (searchInput?.value || '').toLowerCase().trim();
       const filtered = verifiedProducts.filter(item => {
         const matchCat = activeCategory === 'ALL' || item.category === activeCategory;
         const matchText = item.name.toLowerCase().includes(query) ||
@@ -129,14 +131,21 @@ import { verifiedProducts } from '../data/products.js';
       updateModalImage();
     };
 
-    document.getElementById('modal-btn-prev-img').addEventListener('click', (e) => { e.stopPropagation(); currentModalImageIndex--; updateModalImage(); });
-    document.getElementById('modal-btn-next-img').addEventListener('click', (e) => { e.stopPropagation(); currentModalImageIndex++; updateModalImage(); });
-    document.getElementById('btn-close-modal').addEventListener('click', () => window.closeProductDetail());
-    document.getElementById('product-detail-modal').addEventListener('click', (e) => { if (e.target.id === 'product-detail-modal') window.closeProductDetail(); });
-    document.getElementById('modal-btn-rfq').addEventListener('click', () => {
+    document.getElementById('modal-btn-prev-img')?.addEventListener('click', (e) => { e.stopPropagation(); currentModalImageIndex--; updateModalImage(); });
+    document.getElementById('modal-btn-next-img')?.addEventListener('click', (e) => { e.stopPropagation(); currentModalImageIndex++; updateModalImage(); });
+    document.getElementById('btn-close-modal')?.addEventListener('click', () => window.closeProductDetail());
+    document.getElementById('product-detail-modal')?.addEventListener('click', (e) => { if (e.target.id === 'product-detail-modal') window.closeProductDetail(); });
+    document.getElementById('modal-btn-rfq')?.addEventListener('click', () => {
       const pName = currentModalProduct ? currentModalProduct.name : '';
       window.closeProductDetail();
       window.selectProductForRFQ(pName);
+    });
+
+    /* CLEAN-05: tutup modal via tombol Escape (hanya bila modal sedang terbuka) */
+    document.addEventListener('keydown', (e) => {
+      if (e.key !== 'Escape') return;
+      const modal = document.getElementById('product-detail-modal');
+      if (modal && !modal.classList.contains('hidden')) window.closeProductDetail();
     });
 
     filterButtons.forEach(btn => {
@@ -150,7 +159,7 @@ import { verifiedProducts } from '../data/products.js';
       });
     });
 
-    searchInput.addEventListener('input', renderCatalog);
+    searchInput?.addEventListener('input', renderCatalog);
     renderCatalog();
 
     /* -------------------------------------------------------------------------- */
@@ -158,23 +167,33 @@ import { verifiedProducts } from '../data/products.js';
     /* -------------------------------------------------------------------------- */
     window.selectProductForRFQ = function (productName) {
       const selectEl = document.getElementById('rfq-product');
+      if (!selectEl) return;
       let matched = false;
+      /* CLEAN-07: exact match dulu, substring hanya sebagai fallback */
       for (let i = 0; i < selectEl.options.length; i++) {
-        if (selectEl.options[i].value.toLowerCase() === productName.toLowerCase() ||
-          productName.toLowerCase().includes(selectEl.options[i].value.toLowerCase())) {
+        if (selectEl.options[i].value.toLowerCase() === productName.toLowerCase()) {
           selectEl.selectedIndex = i;
           matched = true;
           break;
         }
       }
       if (!matched) {
+        for (let i = 0; i < selectEl.options.length; i++) {
+          if (productName.toLowerCase().includes(selectEl.options[i].value.toLowerCase())) {
+            selectEl.selectedIndex = i;
+            matched = true;
+            break;
+          }
+        }
+      }
+      if (!matched) {
         selectEl.value = 'Pesanan Partai Campuran / Custom';
       }
-      document.getElementById('permintaan-penawaran').scrollIntoView({ behavior: 'smooth' });
+      document.getElementById('permintaan-penawaran')?.scrollIntoView({ behavior: 'smooth' });
       setTimeout(() => selectEl.focus(), 500);
     };
 
-    document.getElementById('rfq-form').addEventListener('submit', (e) => {
+    document.getElementById('rfq-form')?.addEventListener('submit', (e) => {
       e.preventDefault();
       const name = document.getElementById('rfq-name').value.trim();
       const contact = document.getElementById('rfq-contact').value.trim();
@@ -196,12 +215,12 @@ Mohon info ketersediaan & harga penawarannya.`;
 
       document.getElementById('rfq-preview-text').textContent = msg;
       document.getElementById('rfq-confirmation').classList.remove('hidden');
-      navigator.clipboard?.writeText(msg);
+      navigator.clipboard?.writeText(msg).catch(() => { /* abaikan: preview tetap tampil tanpa clipboard */ });
     });
 
-    document.getElementById('btn-copy-rfq').addEventListener('click', (e) => {
+    document.getElementById('btn-copy-rfq')?.addEventListener('click', (e) => {
       const msg = document.getElementById('rfq-preview-text').textContent;
-      navigator.clipboard?.writeText(msg);
+      navigator.clipboard?.writeText(msg).catch(() => { /* abaikan: preview tetap tampil tanpa clipboard */ });
       e.target.textContent = 'Tersalin!';
       setTimeout(() => { e.target.textContent = 'Salin Ulang'; }, 2000);
     });

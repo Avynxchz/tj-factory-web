@@ -1,3 +1,6 @@
+---
+import { LINKS } from '../data/links.js';
+---
     <!-- ================= 5. WORKSHOP PROFIL ================= -->
     <section id="tentang" class="py-14 sm:py-20 bg-carbon-900 border-b border-carbon-800 bg-cad-grid">
       <div class="max-w-7xl mx-auto px-4 sm:px-8 space-y-14">
@@ -19,10 +22,7 @@
                 <span class="text-slate-400">Bidang Usaha:</span>
                 <span class="text-white">Manufaktur Baut & Komponen Stainless CNC</span>
               </div>
-              <div class="flex justify-between">
-                <span class="text-slate-400">Tahun Berdiri & Kapasitas Produksi:</span>
-                <span class="text-industrial-yellow">[Menunggu Konfirmasi Owner]</span>
-              </div>
+              <!-- Baris Tahun Berdiri & Kapasitas Produksi disembunyikan sampai konfirmasi owner -->
             </div>
           </div>
 
@@ -55,7 +55,7 @@
         </div>
 
         <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4 font-mono text-xs">
-          <a href="https://id.shp.ee/62goJ9J" target="_blank" rel="noopener noreferrer"
+          <a href={LINKS.shopee} target="_blank" rel="noopener noreferrer"
             class="p-4 bg-carbon-900 border border-carbon-700 hover:border-[#EE4D2D] rounded-xl group transition-all flex items-center gap-3.5">
             <div
               class="w-11 h-11 rounded-lg bg-[#EE4D2D] flex items-center justify-center shrink-0">
@@ -68,7 +68,7 @@
             </div>
           </a>
 
-          <a href="https://tk.tokopedia.com/ZSxYaGvYo/" target="_blank" rel="noopener noreferrer"
+          <a href={LINKS.tokopedia} target="_blank" rel="noopener noreferrer"
             class="p-4 bg-carbon-900 border border-carbon-700 hover:border-[#03AC0E] rounded-xl group transition-all flex items-center gap-3.5">
             <div
               class="w-11 h-11 rounded-lg bg-[#03AC0E] flex items-center justify-center shrink-0 overflow-hidden relative">
@@ -82,7 +82,7 @@
             </div>
           </a>
 
-          <a href="https://www.tiktok.com/@tj.factory_" target="_blank" rel="noopener noreferrer"
+          <a href={LINKS.tiktok} target="_blank" rel="noopener noreferrer"
             class="p-4 bg-carbon-900 border border-carbon-700 hover:border-cyan-400 rounded-xl group transition-all flex items-center gap-3.5">
             <div
               class="w-11 h-11 rounded-lg bg-black border border-carbon-600 flex items-center justify-center shrink-0">
@@ -96,7 +96,7 @@
             </div>
           </a>
 
-          <a href="https://www.instagram.com/tj.factory_/" target="_blank" rel="noopener noreferrer"
+          <a href={LINKS.instagram} target="_blank" rel="noopener noreferrer"
             class="p-4 bg-carbon-900 border border-carbon-700 hover:border-pink-500 rounded-xl group transition-all flex items-center gap-3.5">
             <div
               class="w-11 h-11 rounded-lg flex items-center justify-center shrink-0" style="background:linear-gradient(45deg,#FEDA75,#FA7E1E,#D62976,#962FBF,#4F5BD5)">

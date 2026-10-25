@@ -9,6 +9,9 @@ const getOptimalDpr = () => Math.min(window.devicePixelRatio || 1, window.innerW
 // 2. Cache Singleton untuk GLB Baut & Tekstur Brushed CNC agar hanya dibuat 1 kali di RAM
 let cachedBoltGltfPromise = null;
 let sharedBrushedTex = null;
+// Guard double-init jacket (CLEAN-08) & cache material stainless (CLEAN-12)
+let jacketInitialized = false;
+let cachedStainlessMaterials = null;
 const glbLoader = new GLTFLoader();
 
 function loadSharedBoltGLB() {
@@ -145,6 +148,7 @@ export function setupHeroMatchedStudioLights(scene) {
 }
 
 function createRealisticStainlessMaterials() {
+  if (cachedStainlessMaterials) return cachedStainlessMaterials;
   const brushedTex = getBrushedSteelTexture();
 
   // Material Utama Batang, Flange & Ulir (Satin Brushed CNC SUS 304)
@@ -176,7 +180,8 @@ function createRealisticStainlessMaterials() {
     envMapIntensity: 0.45
   });
 
-  return { brushedStainless, machinedHexMat, recessMat };
+  cachedStainlessMaterials = { brushedStainless, machinedHexMat, recessMat };
+  return cachedStainlessMaterials;
 }
 
 function applyHeroMatchedBoltMaterial(rootMesh) {
@@ -539,6 +544,13 @@ function createStudioFloorPadTexture() {
 export function initJacketShowcase3D() {
   const container = document.getElementById('jacket-3d-canvas');
   if (!container) return;
+  if (jacketInitialized) return;
+  jacketInitialized = true;
+
+  // CRIT-01: bungkus seluruh init jacket — throw (mis. WebGL gagal) tidak boleh
+  // menghentikan initAnatomi3D() yang dipanggil sesudahnya di index.astro.
+  // (Badan fungsi sengaja tidak di-indent ulang agar diff tetap bedah.)
+  try {
 
   // Pertahankan singleton GLB di memori bersama AnatomyMouse3D
   loadSharedBoltGLB().catch(() => {});
@@ -970,10 +982,18 @@ export function initJacketShowcase3D() {
     camera.updateProjectionMatrix();
     renderer.setSize(container.clientWidth, container.clientHeight);
   });
+  } catch (err) {
+    // Fallback nyata (bukan catch kosong): sembunyikan panggung, tampilkan pesan statis.
+    console.warn('Jacket 3D gagal dimuat, menampilkan fallback statis:', err);
+    const fb = document.getElementById('jacket-3d-fallback');
+    if (fb) { fb.classList.remove('hidden'); fb.classList.add('flex'); }
+    container.classList.add('hidden');
+  }
 }
 
 function updateJacketUI() {
   const data = partsData[activeJacketIdx];
+  if (!data) return;
   const nextData = partsData[(activeJacketIdx + 1) % partsData.length];
   const parts = data.counter.split('/');
 
@@ -981,11 +1001,16 @@ function updateJacketUI() {
   if (counterEl && parts.length === 2) {
     counterEl.innerHTML = `${parts[0].trim()} <span class="text-slate-500 font-normal">/ ${parts[1].trim()}</span>`;
   }
-  document.getElementById('jacket-title').innerHTML = data.titleHtml;
-  document.getElementById('jacket-desc').textContent = data.desc;
-  document.getElementById('jacket-mat-grade').textContent = data.grade;
-  document.getElementById('jacket-head-badge').textContent = data.badge;
-  document.getElementById('next-part-label').textContent = nextData.plainTitle;
+  const titleEl = document.getElementById('jacket-title');
+  if (titleEl) titleEl.innerHTML = data.titleHtml;
+  const descEl = document.getElementById('jacket-desc');
+  if (descEl) descEl.textContent = data.desc;
+  const gradeEl = document.getElementById('jacket-mat-grade');
+  if (gradeEl) gradeEl.textContent = data.grade;
+  const badgeEl = document.getElementById('jacket-head-badge');
+  if (badgeEl) badgeEl.textContent = data.badge;
+  const nextEl = document.getElementById('next-part-label');
+  if (nextEl && nextData) nextEl.textContent = nextData.plainTitle;
 }
 
 function toggleJacketVerticalLock() {

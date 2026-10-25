@@ -80,6 +80,13 @@
         linear-gradient(180deg, #050608 0%, #090B0E 72%, #040507 100%);
     }
 
+    /* WARN-02: cegah scroll halaman saat drag 1 jari di panggung 3D (JS yang menangani gestur) */
+    #hero-3d-interactive-stage,
+    #jacket-3d-canvas,
+    .anatomi-canvas {
+      touch-action: none;
+    }
+
     /* Background Matte Dark Slate Persis Referensi Mouse Logitech G */
     .bg-logitech-matte {
       background: linear-gradient(180deg, #12141A 0%, #15181F 50%, #0E1015 100%);

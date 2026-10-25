@@ -1,3 +1,14 @@
+---
+const NAV_LINK_ACTIVE = 'px-3.5 py-1.5 rounded-full bg-industrial-yellow text-carbon-950 font-bold';
+const NAV_LINK_INACTIVE = 'px-3.5 py-1.5 rounded-full text-slate-300 hover:text-white transition-colors';
+const NAV_LINKS = [
+  { href: '#showcase-jacket', label: '3D Baut', active: true },
+  { href: '#anatomi-mouse', label: 'Anatomi CNC', active: false },
+  { href: '#katalog', label: 'Katalog', active: false },
+  { href: '#tentang', label: 'Profil', active: false },
+  { href: '#permintaan-penawaran', label: 'Kontak B2B', active: false },
+];
+---
   <!-- ================= FLOATING PILL NAVBAR (MUNCUL SAAT SCROLL KE BAWAH) ================= -->
   <header id="main-navbar"
     class="fixed top-4 inset-x-0 z-50 flex justify-center px-4 transform -translate-y-24 opacity-0 pointer-events-none transition-all duration-500">
@@ -13,16 +24,9 @@
       </a>
 
       <nav aria-label="Navigasi Utama" class="hidden md:flex items-center gap-1 font-mono text-[11px] uppercase">
-        <a href="#showcase-jacket" class="px-3.5 py-1.5 rounded-full bg-industrial-yellow text-carbon-950 font-bold">3D
-          Baut</a>
-        <a href="#anatomi-mouse"
-          class="px-3.5 py-1.5 rounded-full text-slate-300 hover:text-white transition-colors">Anatomi CNC</a>
-        <a href="#katalog"
-          class="px-3.5 py-1.5 rounded-full text-slate-300 hover:text-white transition-colors">Katalog</a>
-        <a href="#tentang"
-          class="px-3.5 py-1.5 rounded-full text-slate-300 hover:text-white transition-colors">Profil</a>
-        <a href="#permintaan-penawaran"
-          class="px-3.5 py-1.5 rounded-full text-slate-300 hover:text-white transition-colors">Kontak B2B</a>
+        {NAV_LINKS.map((l) => (
+          <a href={l.href} class={l.active ? NAV_LINK_ACTIVE : NAV_LINK_INACTIVE}>{l.label}</a>
+        ))}
       </nav>
 
       <div class="flex items-center gap-2">

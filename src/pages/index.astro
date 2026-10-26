@@ -51,24 +51,50 @@ import Footer from '../components/Footer.astro';
   </script>
   <script>
     import { whenNear } from '../scripts/visibility.js';
-    // Mekanisme Kimi: satu promise module bersama — modul Three diunduh dan
-    // dievaluasi sekali saja, dipakai hero (langsung), anatomi (registrasi),
-    // dan jacket (saat terlihat). Gagal muat modul tidak menghentikan UI.
-    const enginePromise = import('../scripts/threeEngine.js').catch((err) => {
-      console.warn('Modul Three gagal dimuat:', err);
-      return null;
-    });
-    enginePromise.then((m) => {
-      if (!m) return;
-      try { m.initHeroMedusa3D(); } catch (err) { console.warn('Hero 3D init gagal:', err); }
-    });
-    enginePromise.then((m) => {
-      if (!m) return;
-      try { m.initAnatomi3D(); } catch (err) { console.warn('Anatomi 3D registrasi gagal:', err); }
-    });
+    // TAHAP 2 (spek Kimi): mesin Three TIDAK diunduh di jendela awal.
+    // Satu promise module bersama, dibuat LAZY saat pertama dibutuhkan —
+    // hero (setelah load + idle), anatomi (registrasi, ikut jadwal hero),
+    // jacket (saat terlihat). Gagal muat modul tidak menghentikan UI.
+    // Emblem statis tetap tampil sampai model GLB berhasil dimuat
+    // (threeEngine menyembunyikannya di callback sukses load).
+    // Preload GLB dipertahankan: model siap saat engine mulai, sehingga
+    // 3D tampil lebih cepat setelah idle (bukan dihapus tanpa perbandingan).
+    let enginePromise;
+    function loadEngine() {
+      if (!enginePromise) {
+        enginePromise = import('../scripts/threeEngine.js').catch((err) => {
+          console.warn('Modul Three gagal dimuat:', err);
+          return null;
+        });
+      }
+      return enginePromise;
+    }
+    function startHeroEngine() {
+      loadEngine().then((m) => {
+        if (!m) return;
+        try { m.initHeroMedusa3D(); } catch (err) { console.warn('Hero 3D init gagal:', err); }
+      });
+      loadEngine().then((m) => {
+        if (!m) return;
+        try { m.initAnatomi3D(); } catch (err) { console.warn('Anatomi 3D registrasi gagal:', err); }
+      });
+    }
+    // Jadwal hero: setelah load + idle (maks 1500 ms), agar jendela awal
+    // (LCP/TBT) bebas dari unduh + evaluasi chunk Three.
+    const scheduleHero = () => {
+      if ('requestIdleCallback' in window) {
+        requestIdleCallback(startHeroEngine, { timeout: 1500 });
+      } else {
+        setTimeout(startHeroEngine, 1);
+      }
+    };
+    if (document.readyState === 'complete') scheduleHero();
+    else window.addEventListener('load', scheduleHero, { once: true });
     // Jacket: tidak ada pekerjaan 3D sama sekali sebelum section terlihat.
+    // Bila pengguna scroll ke jacket sebelum idle, loadEngine() yang sama
+    // dipakai — modul tetap diunduh sekali saja.
     whenNear(document.getElementById('showcase-jacket'), () => {
-      enginePromise.then((m) => {
+      loadEngine().then((m) => {
         if (!m) return;
         try { m.initJacketShowcase3D(); } catch (err) { console.warn('Jacket 3D init gagal:', err); }
       });

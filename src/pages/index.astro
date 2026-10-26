@@ -27,6 +27,8 @@ import Footer from '../components/Footer.astro';
     rel="stylesheet">
   <!-- SPEK PERFORMA: GLB hero di-preload agar paralel dengan bundle JS. -->
   <link rel="preload" as="fetch" crossorigin href="./aset/hero_3d_emblem.glb">
+  <!-- FASE 1: emblem WebP di-preload sebagai kandidat LCP. Marble TIDAK di-preload (bila emblem yang jadi LCP, preload marble memperlambat emblem). -->
+  <link rel="preload" as="image" href="./aset/hero_3d_emblem.webp" fetchpriority="high">
 </head>
 <body class="font-sans antialiased selection:bg-industrial-yellow selection:text-carbon-950">
   <FloatingNavbar />

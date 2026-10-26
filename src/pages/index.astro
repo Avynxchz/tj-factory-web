@@ -1,0 +1,78 @@
+---
+import '../styles/global.css';
+import FloatingNavbar from '../components/FloatingNavbar.astro';
+import HeroMedusa from '../components/HeroMedusa.astro';
+import AboutWhyUs from '../components/AboutWhyUs.astro';
+import JacketShowcase3D from '../components/JacketShowcase3D.astro';
+import AnatomyMouse3D from '../components/AnatomyMouse3D.astro';
+import CatalogSection from '../components/CatalogSection.astro';
+import WorkshopAndSocial from '../components/WorkshopAndSocial.astro';
+import B2BFormSection from '../components/B2BFormSection.astro';
+import ProductDetailModal from '../components/ProductDetailModal.astro';
+import Footer from '../components/Footer.astro';
+---
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TJ FACTORY — Interactive 3D Industrial Website & CNC Catalog</title>
+  <meta name="description"
+    content="TJ FACTORY adalah pengerajin baut dan komponen motor berbahan Stainless Steel dengan proses mesin CNC dan CNC Laser buatan Indonesia. Katalog resmi Ninja R/RR, RX King, CVT Matic, dan baut M6-M10." />
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@700&family=JetBrains+Mono:wght@400;600;700&family=Montserrat:wght@900&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap"
+    rel="stylesheet">
+  <!-- SPEK PERFORMA: GLB hero di-preload agar paralel dengan bundle JS. -->
+  <link rel="preload" as="fetch" crossorigin href="./aset/hero_3d_emblem.glb">
+  <!-- FASE 1: emblem WebP di-preload sebagai kandidat LCP. Marble TIDAK di-preload (bila emblem yang jadi LCP, preload marble memperlambat emblem). -->
+  <link rel="preload" as="image" href="./aset/hero_3d_emblem.webp" fetchpriority="high">
+</head>
+<body class="font-sans antialiased selection:bg-industrial-yellow selection:text-carbon-950">
+  <FloatingNavbar />
+  <main>
+    <HeroMedusa />
+    <AboutWhyUs />
+    <JacketShowcase3D />
+    <AnatomyMouse3D />
+    <CatalogSection />
+    <WorkshopAndSocial />
+    <B2BFormSection />
+    <ProductDetailModal />
+  </main>
+  <Footer />
+  <!-- SPEK PERFORMA: script UI dipisah dari engine 3D agar katalog, modal,
+    filter, dan formulir aktif tanpa menunggu bundle Three.js (626 KB).
+    Kegagalan init satu scene tidak boleh menghentikan scene lain. -->
+  <script>
+    import '../scripts/uiController.js';
+  </script>
+  <script>
+    import { whenNear } from '../scripts/visibility.js';
+    // Mekanisme Kimi: satu promise module bersama — modul Three diunduh dan
+    // dievaluasi sekali saja, dipakai hero (langsung), anatomi (registrasi),
+    // dan jacket (saat terlihat). Gagal muat modul tidak menghentikan UI.
+    const enginePromise = import('../scripts/threeEngine.js').catch((err) => {
+      console.warn('Modul Three gagal dimuat:', err);
+      return null;
+    });
+    enginePromise.then((m) => {
+      if (!m) return;
+      try { m.initHeroMedusa3D(); } catch (err) { console.warn('Hero 3D init gagal:', err); }
+    });
+    enginePromise.then((m) => {
+      if (!m) return;
+      try { m.initAnatomi3D(); } catch (err) { console.warn('Anatomi 3D registrasi gagal:', err); }
+    });
+    // Jacket: tidak ada pekerjaan 3D sama sekali sebelum section terlihat.
+    whenNear(document.getElementById('showcase-jacket'), () => {
+      enginePromise.then((m) => {
+        if (!m) return;
+        try { m.initJacketShowcase3D(); } catch (err) { console.warn('Jacket 3D init gagal:', err); }
+      });
+    }, 600);
+  </script>
+</body>
+</html>

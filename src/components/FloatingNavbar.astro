@@ -1,0 +1,43 @@
+---
+const NAV_LINK_ACTIVE = 'px-3.5 py-1.5 rounded-full bg-industrial-yellow text-carbon-950 font-bold';
+const NAV_LINK_INACTIVE = 'px-3.5 py-1.5 rounded-full text-slate-300 hover:text-white transition-colors';
+const NAV_LINKS = [
+  { href: '#showcase-jacket', label: '3D Baut', active: true },
+  { href: '#anatomi-mouse', label: 'Anatomi CNC', active: false },
+  { href: '#katalog', label: 'Katalog', active: false },
+  { href: '#tentang', label: 'Profil', active: false },
+  { href: '#permintaan-penawaran', label: 'Kontak B2B', active: false },
+];
+---
+  <!-- ================= FLOATING PILL NAVBAR (MUNCUL SAAT SCROLL KE BAWAH) ================= -->
+  <header id="main-navbar"
+    class="fixed top-4 inset-x-0 z-50 flex justify-center px-4 transform -translate-y-24 opacity-0 pointer-events-none transition-all duration-500">
+    <div
+      class="w-full max-w-5xl bg-carbon-900/90 backdrop-blur-xl border border-carbon-700/90 rounded-full px-4 sm:px-6 h-14 flex items-center justify-between shadow-2xl">
+      <a href="#hero-medusa" class="flex items-center gap-2.5">
+        <img src="./aset/logo.webp" width="32" height="32" decoding="async" alt="Logo TJ FACTORY"
+          class="w-8 h-8 object-contain rounded-full bg-carbon-950 p-0.5 border border-industrial-yellow/40"
+          onerror="this.style.display='none'" />
+        <span class="font-display font-bold text-sm sm:text-base tracking-wider uppercase text-white">
+          TJ <span class="text-industrial-yellow">FACTORY</span>
+        </span>
+      </a>
+
+      <nav aria-label="Navigasi Utama" class="hidden md:flex items-center gap-1 font-mono text-[11px] uppercase">
+        {NAV_LINKS.map((l) => (
+          <a href={l.href} class={l.active ? NAV_LINK_ACTIVE : NAV_LINK_INACTIVE}>{l.label}</a>
+        ))}
+      </nav>
+
+      <div class="flex items-center gap-2">
+        <a href="#katalog"
+          class="hidden sm:inline-flex px-3.5 py-1.5 rounded-full border border-carbon-600 hover:border-industrial-yellow text-[11px] font-mono uppercase text-slate-200 min-h-[44px] sm:min-h-0">
+          Lihat Produk
+        </a>
+        <a href="#permintaan-penawaran"
+          class="px-4 py-1.5 rounded-full bg-industrial-yellow hover:bg-industrial-amber text-carbon-950 font-mono font-bold text-[11px] uppercase min-h-[44px] sm:min-h-0">
+          Hubungi Kami
+        </a>
+      </div>
+    </div>
+  </header>

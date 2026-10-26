@@ -1,0 +1,178 @@
+---
+import { LINKS } from '../data/links.js';
+import AnatomiNode from './AnatomiNode.astro';
+---
+    <!-- ================= 3. ANATOMI 3D BAUT (PERSIS KOMPOSISI & SILUET REFERENSI MOUSE LOGITECH G) ================= -->
+    <section id="anatomi-mouse" class="relative bg-logitech-matte border-b border-carbon-800 overflow-hidden select-none">
+
+      <!-- Garis Vertikal Tipis & 4 Indikator Dots di Tepi Kiri (Persis Sisi Kiri Referensi Mouse Logitech G) -->
+      <div class="hidden lg:flex flex-col items-center justify-center absolute left-8 inset-y-0 z-10 pointer-events-none">
+        <div class="w-px flex-1 bg-white/10"></div>
+        <div class="py-6 flex flex-col items-center gap-4">
+          <span class="w-1.5 h-1.5 rounded-full bg-white/40"></span>
+          <span class="w-1.5 h-1.5 rounded-full bg-white/40"></span>
+          <span class="w-3.5 h-3.5 rounded-full border border-industrial-yellow flex items-center justify-center">
+            <span class="w-1.5 h-1.5 rounded-full bg-industrial-yellow"></span>
+          </span>
+          <span class="w-1.5 h-1.5 rounded-full bg-white/40"></span>
+        </div>
+        <div class="w-px flex-1 bg-white/10"></div>
+      </div>
+
+      <div class="py-20 sm:py-28 max-w-6xl mx-auto px-4 sm:px-8 relative z-20">
+        <!-- Heading Tengah Bersih Seperti 'PRODUCT' di Referensi Mouse -->
+        <div class="text-center mb-16 sm:mb-24">
+          <span class="font-mono text-[11px] text-industrial-yellow uppercase tracking-[0.3em] block mb-2">
+            // ANATOMI TEKNIS & MATERIAL
+          </span>
+          <h2 class="font-display font-bold text-3xl sm:text-4xl uppercase tracking-[0.18em] text-white text-balance">
+            STRUKTUR PRESISI BAUT CNC
+          </h2>
+          <p class="text-slate-400 text-xs sm:text-sm mt-3 max-w-lg mx-auto">
+            Empat postur utuh dari baut CNC TJ FACTORY dengan pencahayaan studio metalik — tahan &amp; geser pada baut untuk memutar sudut pandang.
+          </p>
+        </div>
+
+        <div class="relative" id="anatomi-3d">
+          <!-- Garis Spine Vertikal Tengah (Menghubungkan Ke-4 Titik Node) -->
+          <div
+            class="absolute left-5 md:left-1/2 top-16 bottom-16 w-[1.5px] bg-gradient-to-b from-industrial-yellow/80 via-industrial-yellow/50 to-industrial-yellow/80 md:-translate-x-1/2">
+          </div>
+
+          <div class="space-y-12 sm:space-y-16">
+
+            <!-- ROW 01: POSTUR MAHKOTA KEPALA & SOKET BINTANG (Utuh Menghadap Depan-Atas Seperti Mouse 1) -->
+            <div class="relative grid grid-cols-1 md:grid-cols-12 items-center gap-6 md:gap-0 pl-14 md:pl-0">
+              <!-- Double-Ring Node Persis Referensi Logitech G -->
+              <AnatomiNode />
+
+              <!-- Sisi Kiri: Panggung 3D Utuh (Tanpa Lingkaran Kuning Kotor, Tanpa Gambar Shopee Bocor Saat Refresh!) -->
+              <div class="md:col-span-5 flex justify-center md:justify-end md:pr-12">
+                <div class="relative w-full max-w-[300px] sm:max-w-[330px] h-[250px] sm:h-[270px] flex items-center justify-center cursor-grab active:cursor-grabbing" title="Tahan & geser untuk memutar">
+                  <!-- Bayangan Lantai Studio Halus (Contact Shadow) -->
+                  <div class="pointer-events-none absolute bottom-3 left-1/2 -translate-x-1/2 w-36 h-7 rounded-full bg-black/85 blur-xl"></div>
+                  <!-- Fallback Image: Disembunyikan penuh (hidden) agar TIDAK pernah muncul saat refresh! -->
+                  <img src="./Material/hex-star/id-11134207-7r98t-lqa79zlxhdke71.webp" width="176" height="176" loading="lazy" decoding="async"
+                    alt="Kepala Hex Stars 2 Kunci"
+                    class="anatomi-fallback hidden w-44 h-44 object-contain rounded-xl" />
+                  <canvas class="anatomi-canvas block w-full h-full opacity-0 transition-opacity duration-500" data-view="crown"></canvas>
+                </div>
+              </div>
+
+              <div class="hidden md:block md:col-span-2"></div>
+
+              <!-- Sisi Kanan: Teks Penjelasan Bersih Persis Referensi Mouse -->
+              <div class="md:col-span-5 md:pl-4 space-y-2">
+                <span class="font-mono text-[10px] text-industrial-yellow uppercase tracking-[0.28em] block">
+                  01 // DUAL-KEY HEAD ARCHITECTURE
+                </span>
+                <h3 class="font-sans font-bold text-lg sm:text-xl text-white tracking-tight">
+                  Kepala Hex Stars 2 Kunci &amp; Soket Bintang
+                </h3>
+                <p class="text-slate-400 text-xs sm:text-sm leading-relaxed max-w-sm">
+                  Kunci ring/sok segi-6 dari luar dan kunci bintang Torx 6-titik di tengah kepala baut. Piringan flange menyatu hasil bubutan CNC duduk rata di blok mesin tanpa perlu ring tambahan.
+                </p>
+              </div>
+            </div>
+
+            <!-- ROW 02: POSTUR HORIZONTAL SAMPING (Baut Tidur Mendatar Kiri-ke-Kanan Persis Mouse ke-2!) -->
+            <div class="relative grid grid-cols-1 md:grid-cols-12 items-center gap-6 md:gap-0 pl-14 md:pl-0">
+              <AnatomiNode />
+
+              <div class="md:col-span-5 flex justify-center md:justify-end md:pr-12">
+                <div class="relative w-full max-w-[320px] sm:max-w-[350px] h-[230px] sm:h-[250px] flex items-center justify-center cursor-grab active:cursor-grabbing" title="Tahan & geser untuk memutar">
+                  <div class="pointer-events-none absolute bottom-5 left-1/2 -translate-x-1/2 w-56 h-6 rounded-full bg-black/85 blur-xl"></div>
+                  <img src="./Material/hex-star/id-11134207-822wp-mo2b6elumy2t4a.webp" width="176" height="176" loading="lazy" decoding="async"
+                    alt="Profil Samping Baut CNC"
+                    class="anatomi-fallback hidden w-44 h-44 object-contain rounded-xl" />
+                  <canvas class="anatomi-canvas block w-full h-full opacity-0 transition-opacity duration-500" data-view="side-horizontal"></canvas>
+                </div>
+              </div>
+
+              <div class="hidden md:block md:col-span-2"></div>
+
+              <div class="md:col-span-5 md:pl-4 space-y-2">
+                <span class="font-mono text-[10px] text-industrial-yellow uppercase tracking-[0.28em] block">
+                  02 // FULL HORIZONTAL PROFILE
+                </span>
+                <h3 class="font-sans font-bold text-lg sm:text-xl text-white tracking-tight">
+                  Proporsi Batang &amp; Ulir Presisi CNC
+                </h3>
+                <p class="text-slate-400 text-xs sm:text-sm leading-relaxed max-w-sm">
+                  Transisi presisi dari leher flange menuju batang halus dan deretan ulir drat yang tajam serta konsisten. Tersedia ukuran standar M6 (12–70 mm), M8 (15–35 mm), hingga M10 (25–45 mm).
+                </p>
+              </div>
+            </div>
+
+            <!-- ROW 03: POSTUR ISOMETRIK MIRING 45° (Memperlihatkan Bevel Bawah Flange & Alur Ulir Persis Mouse ke-3!) -->
+            <div class="relative grid grid-cols-1 md:grid-cols-12 items-center gap-6 md:gap-0 pl-14 md:pl-0">
+              <AnatomiNode />
+
+              <div class="md:col-span-5 flex justify-center md:justify-end md:pr-12">
+                <div class="relative w-full max-w-[300px] sm:max-w-[330px] h-[250px] sm:h-[270px] flex items-center justify-center cursor-grab active:cursor-grabbing" title="Tahan & geser untuk memutar">
+                  <div class="pointer-events-none absolute bottom-4 left-1/2 -translate-x-1/2 w-44 h-7 rounded-full bg-black/85 blur-xl"></div>
+                  <img src="./Material/hex-star/id-11134207-822wg-mo2b6eluljidc0.webp" width="176" height="176" loading="lazy" decoding="async"
+                    alt="Sudut Isometrik Baut CNC"
+                    class="anatomi-fallback hidden w-44 h-44 object-contain rounded-xl" />
+                  <canvas class="anatomi-canvas block w-full h-full opacity-0 transition-opacity duration-500" data-view="tilted-iso"></canvas>
+                </div>
+              </div>
+
+              <div class="hidden md:block md:col-span-2"></div>
+
+              <div class="md:col-span-5 md:pl-4 space-y-2">
+                <span class="font-mono text-[10px] text-industrial-yellow uppercase tracking-[0.28em] block">
+                  03 // CHAMFERED FLANGE &amp; LEAD-IN TIP
+                </span>
+                <h3 class="font-sans font-bold text-lg sm:text-xl text-white tracking-tight">
+                  Bevel CNC &amp; Daya Cengkeram Torsi Tinggi
+                </h3>
+                <p class="text-slate-400 text-xs sm:text-sm leading-relaxed max-w-sm">
+                  Setiap sudut segi enam dan ujung bawah drat melewati proses chamfering CNC agar baut langsung masuk mulus ke lubang drat mesin tanpa risiko miring atau merusak ulir blok kalter.
+                </p>
+              </div>
+            </div>
+
+            <!-- ROW 04: KOMPOSISI GANDA / TWIN SET ASSEMBLY (2 Baut Berdampingan Persis Mouse ke-4 yang Menampilkan 2 Komponen!) -->
+            <div class="relative grid grid-cols-1 md:grid-cols-12 items-center gap-6 md:gap-0 pl-14 md:pl-0">
+              <AnatomiNode />
+
+              <div class="md:col-span-5 flex justify-center md:justify-end md:pr-12">
+                <div class="relative w-full max-w-[320px] sm:max-w-[350px] h-[250px] sm:h-[270px] flex items-center justify-center cursor-grab active:cursor-grabbing" title="Tahan & geser untuk memutar">
+                  <div class="pointer-events-none absolute bottom-4 left-1/2 -translate-x-1/2 w-52 h-8 rounded-full bg-black/90 blur-xl"></div>
+                  <img src="./Material/BAUT.png" width="176" height="176" loading="lazy" decoding="async"
+                    alt="Set Baut Stainless SUS 304"
+                    class="anatomi-fallback hidden w-44 h-44 object-contain rounded-xl" />
+                  <canvas class="anatomi-canvas block w-full h-full opacity-0 transition-opacity duration-500" data-view="twin-set"></canvas>
+                </div>
+              </div>
+
+              <div class="hidden md:block md:col-span-2"></div>
+
+              <div class="md:col-span-5 md:pl-4 space-y-2">
+                <span class="font-mono text-[10px] text-industrial-yellow uppercase tracking-[0.28em] block">
+                  04 // STAINLESS STEEL SUS 304 GRADE
+                </span>
+                <h3 class="font-sans font-bold text-lg sm:text-xl text-white tracking-tight">
+                  Material Stainless Tahan Karat &amp; Panas Mesin
+                </h3>
+                <p class="text-slate-400 text-xs sm:text-sm leading-relaxed max-w-sm">
+                  Dibubut dari baja nirkarat (Stainless Steel termasuk seri SUS 304) yang tahan korosi air hujan, lumpur, dan suhu tinggi mesin 2-Tak maupun 4-Tak dengan kilau logam murni yang awet.
+                </p>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Tombol Kapsul Bawah Persis 'BUY NOW' di Referensi Mouse -->
+          <div class="mt-20 text-center">
+            <a href={LINKS.shopee} target="_blank" rel="noopener noreferrer"
+              class="inline-flex items-center gap-2 px-11 py-3.5 rounded-full bg-carbon-900/90 border border-industrial-yellow/70 text-white hover:bg-industrial-yellow hover:text-carbon-950 font-mono text-xs font-bold uppercase tracking-[0.22em] transition-all shadow-[0_0_30px_rgba(245,183,0,0.12)]">
+              BELI DI SHOPEE
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </section>
+

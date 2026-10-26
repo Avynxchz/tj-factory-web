@@ -49,6 +49,7 @@ import { verifiedProducts } from '../data/products.js';
             <div class="relative aspect-[4/3] sm:aspect-[16/10] bg-carbon-950 overflow-hidden border-b border-carbon-800">
               <img
                 src="${item.localImg}"
+                width="800" height="600"
                 onerror="this.onerror=null; this.src='${item.fallbackImg}';"
                 alt="${item.name}"
                 loading="lazy" decoding="async"

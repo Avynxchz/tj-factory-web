@@ -227,7 +227,7 @@ function normalizeBoltModel(srcScene, targetSize = 2.55) {
 /* -------------------------------------------------------------------------- */
 /* 1. HERO MEDUSA 3D (DENGAN AUTO-PAUSE INTERSECTION OBSERVER)                */
 /* -------------------------------------------------------------------------- */
-export function initHeroMedusa3D() {
+export async function initHeroMedusa3D() {
   const heroSection = document.getElementById('hero-medusa');
   const cardLens = document.getElementById('hero-card-lens');
   const canvasEl = document.getElementById('hero-logo-3d-canvas');
@@ -268,6 +268,13 @@ export function initHeroMedusa3D() {
     window.addEventListener('pointerup', () => { isDragging = false; });
   }
 
+  // FASE 1 (TBT): yield ke main thread di antara tahap init sinkron agar long
+  // task terpecah; rAF + setTimeout memberi kesempatan paint/input berjalan.
+  const yieldToMain = () => new Promise((resolve) => {
+    if (typeof requestAnimationFrame === 'function') requestAnimationFrame(() => setTimeout(resolve, 0));
+    else setTimeout(resolve, 0);
+  });
+
   let emblemGroup = new THREE.Group();
   let scene, camera, renderer;
   let topRimLight, goldKeyLight, sweepSpotLight;
@@ -286,9 +293,13 @@ export function initHeroMedusa3D() {
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1.05;
 
+    await yieldToMain();
+
     const pmrem = new THREE.PMREMGenerator(renderer);
     scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.03).texture;
     pmrem.dispose();
+
+    await yieldToMain();
 
     const lights = setupHeroMatchedStudioLights(scene);
     topRimLight = lights.topRimLight;
@@ -296,6 +307,8 @@ export function initHeroMedusa3D() {
     sweepSpotLight = lights.sweepSpotLight;
 
     scene.add(emblemGroup);
+
+    await yieldToMain();
 
     glbLoader.load(
       './aset/hero_3d_emblem.glb',
@@ -354,6 +367,12 @@ export function initHeroMedusa3D() {
       renderer.setPixelRatio(dpr);
       renderer.setSize(w, h);
     }, 150));
+
+    // Kompilasi shader/material sebelum render pertama (tickHero). Bila gagal,
+    // render pertama tetap jalan dan mengkompilasi on-demand seperti sebelumnya.
+    if (renderer && scene && camera) {
+      try { await renderer.compileAsync(scene, camera); } catch (compileErr) { console.warn('Hero compileAsync gagal, lanjut render biasa:', compileErr); }
+    }
   } catch (err) {
     console.warn('Hero WebGL fallback:', err);
   }
@@ -407,7 +426,11 @@ export function initHeroMedusa3D() {
   // SATU loop dilanjutkan dari state terakhir tanpa re-create renderer/model/PMREM.
   // Bila WebGL gagal (renderer tidak terbentuk), loop tidak dijalankan sama sekali
   // dan gambar emblem statis tetap menjadi fallback.
-  if (renderer && scene && camera) gateLoop(heroSection, tickHero, 0);
+  try {
+    if (renderer && scene && camera) gateLoop(heroSection, tickHero, 0);
+  } catch (err) {
+    console.warn('Hero gateLoop gagal:', err);
+  }
 }
 
 /* -------------------------------------------------------------------------- */

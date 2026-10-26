@@ -12,7 +12,7 @@ import { LINKS } from '../data/links.js';
       <!-- TOP BAR PERSIS MEDUSA -->
       <div class="relative z-30 w-full max-w-7xl mx-auto grid grid-cols-3 items-center pt-1">
         <div class="flex items-center gap-2.5">
-          <img src="./aset/logo.png" fetchpriority="high" alt="Logo TJ FACTORY" class="w-7 h-7 sm:w-8 sm:h-8 object-contain opacity-90"
+          <img src="./aset/logo.png" width="32" height="32" fetchpriority="high" alt="Logo TJ FACTORY" class="w-7 h-7 sm:w-8 sm:h-8 object-contain opacity-90"
             onerror="this.style.display='none'" />
           <span class="hidden sm:inline font-mono text-[10px] tracking-[0.2em] uppercase text-slate-400">
             MADE IN INDONESIA 🇮🇩
@@ -20,7 +20,7 @@ import { LINKS } from '../data/links.js';
         </div>
 
         <div class="text-center hidden md:block">
-          <span class="font-sans font-light text-xs sm:text-sm tracking-[0.55em] lowercase text-slate-300/90">
+          <span class="font-sans font-normal text-xs sm:text-sm tracking-[0.55em] lowercase text-slate-300/90">
             c n c &nbsp; s t a i n l e s s
           </span>
         </div>
@@ -76,7 +76,7 @@ import { LINKS } from '../data/links.js';
             <canvas id="hero-logo-3d-canvas"
               class="w-full h-full object-contain absolute inset-0 z-10"></canvas>
 
-            <img id="hero-3d-logo-img" src="./aset/hero_3d_emblem.png" fetchpriority="high" onerror="this.src='./aset/logo.png'"
+            <img id="hero-3d-logo-img" src="./aset/hero_3d_emblem.png" width="360" height="360" fetchpriority="high" decoding="async" onerror="this.src='./aset/logo.png'"
               alt="Logo 3D TJ FACTORY"
               class="w-full h-full object-contain medusa-3d-object-shadow select-none pointer-events-none z-0" />
           </div>

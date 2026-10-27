@@ -1,29 +1,33 @@
 ---
 import { LINKS } from '../data/links.js';
 // SHOWCASE DESKTOP (md+) ala mockup "Pengerajin Stainless Pemahat Baut Mesin CNC Indonesia."
-// Tempatnya sudah disiapkan; foto-foto final menyusul dari Agus.
+// Foto terisi: dokumentasi = gambar baut CNC hasil generate; 3 kartu produk = poster dari Agus;
+// banner = background generate + screenshot toko Shopee dari Agus.
 // - Root hidden md:block: HP (<768px) TIDAK berubah sama sekali.
 // - Section #tentang lama disembunyikan di md+ (md:hidden) agar tidak duplikat;
 //   jangkar nav "Profil"/"Tentang" diarahkan ke #tentang-desktop di sini.
-// - Slot foto = kotak dashed berlabel, BUKAN gambar (tanpa beban unduhan).
+// - Slot foto sudah terisi gambar (bukan lagi kotak dashed).
 const UNGGULAN = [
   {
     no: '01',
     title: 'Baut Stainless',
     desc: 'Tersedia berbagai ukuran dan tipe baut stainless untuk kebutuhan industri dan otomotif.',
-    slot: 'Baut Stainless',
+    img: './aset/produk_baut.webp',
+    alt: 'Poster baut stainless CNC TJ Factory',
   },
   {
     no: '02',
     title: 'Mur & Komponen',
     desc: 'Mur, ring, dan komponen pendukung lainnya dengan kualitas stainless terbaik.',
-    slot: 'Mur & Komponen',
+    img: './aset/produk_mur.webp',
+    alt: 'Poster mur belakang TJ Factory',
   },
   {
     no: '03',
     title: 'Produk CNC',
     desc: 'Komponen presisi hasil pemotongan dan pemahatan CNC untuk performa maksimal.',
-    slot: 'Produk CNC',
+    img: './aset/produk_cnc.webp',
+    alt: 'Poster semua produk TJ Factory',
   },
 ];
 ---
@@ -49,12 +53,9 @@ const UNGGULAN = [
       </div>
 
       <div class="bg-carbon-900 border border-carbon-700 rounded-2xl p-4">
-        <!-- SLOT FOTO: PROSES / BAUT CNC (isi menyusul dari Agus) -->
-        <div class="relative aspect-[16/10] rounded-xl border-2 border-dashed border-white/20 bg-white/5 flex flex-col items-center justify-center gap-1.5 text-center p-4">
-          <span class="font-mono text-[11px] tracking-widest text-slate-400">SLOT FOTO</span>
-          <span class="font-sans text-sm font-semibold text-slate-200">Proses / Baut CNC</span>
-          <span class="font-mono text-[10px] text-slate-500">foto menyusul dari Agus</span>
-        </div>
+        <img src="./aset/dokumentasi_baut.webp" width="1200" height="675" loading="lazy" decoding="async"
+          alt="Proses pemahatan baut stainless di mesin CNC TJ Factory"
+          class="w-full aspect-[16/10] rounded-xl object-cover" />
         <div class="text-right font-mono text-[11px] leading-relaxed mt-4">
           <p class="text-slate-400">PRECISION</p>
           <p class="text-white font-bold">STAINLESS STEEL</p>
@@ -145,11 +146,10 @@ const UNGGULAN = [
               <span class="font-mono text-sm text-[#FF6A1F]">{c.no}</span>
               <span class="w-px self-stretch bg-[#FF6A1F]/40"></span>
             </div>
-            <!-- SLOT FOTO: {c.slot} (isi menyusul dari Agus) -->
-            <div class="w-28 shrink-0 aspect-square rounded-xl border-2 border-dashed border-white/20 bg-white/5 flex flex-col items-center justify-center gap-1 text-center p-2">
-              <span class="font-mono text-[10px] tracking-widest text-slate-400">SLOT FOTO</span>
-              <span class="font-sans text-[11px] font-semibold text-slate-200 leading-tight">{c.slot}</span>
-            </div>
+            <a href="#katalog" class="block w-28 shrink-0 aspect-[3/4] rounded-xl overflow-hidden">
+              <img src={c.img} width="480" height="640" loading="lazy" decoding="async" alt={c.alt}
+                class="w-full h-full object-cover" />
+            </a>
             <div class="min-w-0">
               <h4 class="font-sans font-bold text-sm uppercase text-white">{c.title}</h4>
               <p class="text-slate-400 text-xs leading-relaxed mt-1.5">{c.desc}</p>

@@ -13,7 +13,7 @@ const NAV_LINKS = [
   <header id="main-navbar"
     class="fixed top-4 inset-x-0 z-50 flex flex-col items-center px-4 transform -translate-y-24 opacity-0 pointer-events-none transition-all duration-500">
     <div
-      class="w-full max-w-5xl bg-carbon-900/90 backdrop-blur-xl border border-carbon-700/90 rounded-full px-4 sm:px-6 h-14 flex items-center justify-between shadow-2xl">
+      class="w-full max-w-5xl bg-carbon-900/90 backdrop-blur-sm sm:backdrop-blur-xl border border-carbon-700/90 rounded-full px-4 sm:px-6 h-14 flex items-center justify-between shadow-2xl">
       <a href="#hero-medusa" class="flex items-center gap-2.5">
         <img src="./aset/logo.webp" width="32" height="32" decoding="async" alt="Logo TJ FACTORY"
           class="w-8 h-8 object-contain rounded-full bg-carbon-950 p-0.5 border border-industrial-yellow/40"
@@ -44,7 +44,7 @@ const NAV_LINKS = [
     <!-- WARN-05: baris navigasi khusus HP (md+ memakai nav di atas); ikut tersembunyi bersama pill saat navbar tak terlihat. -->
     <nav aria-label="Navigasi Mobile" class="md:hidden mt-2 flex gap-1.5 overflow-x-auto max-w-full px-1 font-mono text-[11px] uppercase">
       {NAV_LINKS.map((l) => (
-        <a href={l.href} class="shrink-0 px-3 py-1.5 rounded-full bg-carbon-900/90 backdrop-blur-xl border border-carbon-700/90 text-slate-200">{l.label}</a>
+        <a href={l.href} class="shrink-0 px-3 py-1.5 rounded-full bg-carbon-900/90 backdrop-blur-sm sm:backdrop-blur-xl border border-carbon-700/90 text-slate-200">{l.label}</a>
       ))}
     </nav>
   </header>

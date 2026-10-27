@@ -185,5 +185,9 @@
     }
     @media (prefers-reduced-motion: reduce) {
       .toppicks-track { animation: none; }
+      /* Matikan smooth-scroll + semua transisi/animasi bagi pengguna yang
+         mengaktifkan reduced-motion (sebelumnya hanya marquee yang dimatikan). */
+      html.scroll-smooth { scroll-behavior: auto; }
+      *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
     }
   

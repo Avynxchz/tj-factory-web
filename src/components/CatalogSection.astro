@@ -1,8 +1,9 @@
 ---
+import { verifiedProducts } from '../data/products.js';
 const FILTER_ACTIVE = 'cat-btn shrink-0 px-4 py-2 rounded-full text-xs font-mono uppercase bg-industrial-yellow text-carbon-950 font-bold transition-all min-h-[44px] sm:min-h-0';
 const FILTER_INACTIVE = 'cat-btn shrink-0 px-4 py-2 rounded-full text-xs font-mono uppercase bg-carbon-900 text-slate-300 border border-carbon-700 hover:border-industrial-yellow transition-all min-h-[44px] sm:min-h-0';
 const FILTERS = [
-  { cat: 'ALL', label: 'Semua Produk (19)' },
+  { cat: 'ALL', label: `Semua Produk (${verifiedProducts.length})` },
   { cat: 'NINJA', label: 'Ninja R/RR' },
   { cat: 'SPORT_2TAK', label: 'RX King / F1ZR / Tiger' },
   { cat: 'CVT_MATIC', label: 'CVT Matic' },
@@ -33,7 +34,7 @@ const FILTERS = [
 
           <div class="toppicks-marquee overflow-hidden py-6" id="mouse-strip-items">
             <div class="toppicks-track flex items-stretch w-max">
-              <div onclick="window.openProductDetail('TJF-SP-01')"
+              <div tabindex="0" role="button" aria-label="Bak Kalter RX King" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();window.openProductDetail('TJF-SP-01')}" onclick="window.openProductDetail('TJF-SP-01')"
                 class="shrink-0 w-60 sm:w-64 mr-4 sm:mr-5 bg-carbon-900 border border-carbon-700 hover:border-industrial-yellow rounded-2xl overflow-hidden cursor-pointer transition-colors group">
                 <div class="aspect-[3/4] relative overflow-hidden bg-carbon-950">
                   <img src="./Material/hex-star/id-11134207-822wp-mo2b6elumy2t4a.webp" width="600" height="800" loading="lazy" decoding="async"
@@ -46,7 +47,7 @@ const FILTERS = [
                   </div>
                 </div>
               </div>
-              <div onclick="window.openProductDetail('TJF-NJ-02')"
+              <div tabindex="0" role="button" aria-label="Mur Head Ninja R/RR" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();window.openProductDetail('TJF-NJ-02')}" onclick="window.openProductDetail('TJF-NJ-02')"
                 class="shrink-0 w-60 sm:w-64 mr-4 sm:mr-5 bg-carbon-900 border border-carbon-700 hover:border-industrial-yellow rounded-2xl overflow-hidden cursor-pointer transition-colors group">
                 <div class="aspect-[3/4] relative overflow-hidden bg-carbon-950">
                   <img src="./Material/mud-head-ninja-3R/id-11134207-8224q-mhlni6mwmdxg3b.webp" width="600" height="800" loading="lazy" decoding="async"
@@ -59,7 +60,7 @@ const FILTERS = [
                   </div>
                 </div>
               </div>
-              <div onclick="window.openProductDetail('TJF-NJ-06')"
+              <div tabindex="0" role="button" aria-label="Full Set Ninja 2-Tak" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();window.openProductDetail('TJF-NJ-06')}" onclick="window.openProductDetail('TJF-NJ-06')"
                 class="shrink-0 w-60 sm:w-64 mr-4 sm:mr-5 bg-carbon-900 border-2 border-industrial-yellow rounded-2xl overflow-hidden cursor-pointer transition-colors relative shadow-[0_0_45px_rgba(245,183,0,0.22)] group">
                 <div class="aspect-[3/4] relative overflow-hidden bg-carbon-950">
                   <img src="./Material/BAUT.png" width="600" height="800" loading="lazy" decoding="async"
@@ -75,7 +76,7 @@ const FILTERS = [
                   </div>
                 </div>
               </div>
-              <div onclick="window.openProductDetail('TJF-NJ-01')"
+              <div tabindex="0" role="button" aria-label="Bak Kalter Ninja R/RR" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();window.openProductDetail('TJF-NJ-01')}" onclick="window.openProductDetail('TJF-NJ-01')"
                 class="shrink-0 w-60 sm:w-64 mr-4 sm:mr-5 bg-carbon-900 border border-carbon-700 hover:border-industrial-yellow rounded-2xl overflow-hidden cursor-pointer transition-colors group">
                 <div class="aspect-[3/4] relative overflow-hidden bg-carbon-950">
                   <img src="./Material/hex-star/id-11134207-7r98t-lqa79zlxhdke71.webp" width="600" height="800" loading="lazy" decoding="async"
@@ -88,7 +89,7 @@ const FILTERS = [
                   </div>
                 </div>
               </div>
-              <div onclick="window.openProductDetail('TJF-LSR-01')"
+              <div tabindex="0" role="button" aria-label="Cover Head 125Z" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();window.openProductDetail('TJF-LSR-01')}" onclick="window.openProductDetail('TJF-LSR-01')"
                 class="shrink-0 w-60 sm:w-64 mr-4 sm:mr-5 bg-carbon-900 border border-carbon-700 hover:border-industrial-yellow rounded-2xl overflow-hidden cursor-pointer transition-colors group">
                 <div class="aspect-[3/4] relative overflow-hidden bg-carbon-950">
                   <img src="https://images.msha.ke/4d6aeb97-3544-47cc-8695-7e26f77e3442?auto=format%2Ccompress&cs=tinysrgb&q=80&w=828" width="600" height="800" loading="lazy" decoding="async"
@@ -117,12 +118,51 @@ const FILTERS = [
             </div>
 
             <div class="w-full md:w-72">
-              <input type="search" id="catalog-search" placeholder="Cari baut, Ninja, RX King, M6..."
+              <input type="search" id="catalog-search" aria-label="Cari produk" placeholder="Cari baut, Ninja, RX King, M6..."
                 class="w-full bg-carbon-900 border border-carbon-700 focus:border-industrial-yellow rounded-full px-4 py-2 text-xs sm:text-sm text-white placeholder-slate-500 outline-none font-mono min-h-[44px] md:min-h-0" />
             </div>
           </div>
 
-          <div id="catalog-grid" class="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6"></div>
+          <!-- WARN-03: grid dirender di server agar katalog tetap terlihat tanpa JS;
+            uiController.renderCatalog() menggantinya dengan markup identik saat JS jalan. -->
+          <noscript><p class="mb-4 text-center font-mono text-xs text-slate-400">Aktifkan JavaScript untuk filter, pencarian, dan detail produk — daftar produk di bawah tetap bisa dilihat.</p></noscript>
+          <div id="catalog-grid" class="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
+            {verifiedProducts.map((item) => (
+              <article class="bg-carbon-900 border border-carbon-700 hover:border-industrial-yellow rounded-xl overflow-hidden transition-all flex flex-col justify-between group cursor-pointer" onclick={`window.openProductDetail('${item.code}')`}>
+                <div>
+                  <div class="relative aspect-[4/3] sm:aspect-[16/10] bg-carbon-950 overflow-hidden border-b border-carbon-800">
+                    <img
+                      src={item.localImg}
+                      width="800" height="600"
+                      onerror={`this.onerror=null; this.src='${item.fallbackImg}';`}
+                      alt={item.name}
+                      loading="lazy" decoding="async"
+                      class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                    <span class="absolute top-2 left-2 px-2 py-0.5 rounded bg-carbon-950/90 border border-carbon-600 font-mono text-[9px] sm:text-[10px] text-industrial-yellow">
+                      {item.code}
+                    </span>
+                  </div>
+                  <div class="p-3 sm:p-5">
+                    <h3 class="font-display font-bold text-sm sm:text-lg text-white group-hover:text-industrial-yellow transition-colors leading-snug line-clamp-2">
+                      {item.name}
+                    </h3>
+                    <p class="text-slate-400 text-[11px] sm:text-xs font-mono mt-1 line-clamp-2">
+                      {item.spec}
+                    </p>
+                  </div>
+                </div>
+                <div class="p-3 sm:p-5 pt-0 flex items-center gap-1.5 sm:gap-2.5">
+                  <button type="button" onclick={`event.stopPropagation(); window.openProductDetail('${item.code}')`} class="flex-1 py-2 px-2 rounded-lg bg-carbon-800 hover:bg-carbon-700 text-slate-200 border border-carbon-600 font-mono text-[10px] sm:text-xs uppercase text-center transition-all min-h-[44px] sm:min-h-0">
+                    Detail
+                  </button>
+                  <button type="button" onclick={`event.stopPropagation(); window.selectProductForRFQ('${item.name.replace(/'/g, "\\'")}')`} class="flex-1 py-2 px-2 rounded-lg bg-industrial-yellow hover:bg-industrial-amber text-carbon-950 font-mono text-[10px] sm:text-xs font-bold uppercase text-center transition-all min-h-[44px] sm:min-h-0">
+                    Minta Tawar
+                  </button>
+                </div>
+              </article>
+            ))}
+          </div>
         </div>
 
       </div>

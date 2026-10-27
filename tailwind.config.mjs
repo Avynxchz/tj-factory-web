@@ -19,7 +19,7 @@ export default {
         display: ['"Chakra Petch"', 'sans-serif'],
         sans: ['"Plus Jakarta Sans"', 'sans-serif'],
         mono: ['"JetBrains Mono"', 'monospace'],
-        medusa: ['"Antonio"', '"Montserrat"', 'sans-serif'],
+        medusa: ['"Montserrat"', 'sans-serif'],
       }
     }
   },

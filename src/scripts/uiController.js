@@ -128,7 +128,7 @@ import { verifiedProducts } from '../data/products.js';
 
       document.getElementById('modal-photo-counter').textContent = `${currentModalImageIndex + 1} / ${images.length} FOTO`;
       document.getElementById('modal-thumbnails-strip').innerHTML = images.map((_, idx) => `
-        <button type="button" class="w-2 h-2 rounded-full transition-all ${idx === currentModalImageIndex ? 'bg-industrial-yellow scale-125' : 'bg-carbon-700'}" onclick="window.changeModalImage(${idx})"></button>
+        <button type="button" aria-label="Foto ${idx + 1}" class="w-2 h-2 rounded-full transition-all ${idx === currentModalImageIndex ? 'bg-industrial-yellow scale-125' : 'bg-carbon-700'}" onclick="window.changeModalImage(${idx})"></button>
       `).join('');
     }
 
@@ -221,14 +221,28 @@ Mohon info ketersediaan & harga penawarannya.`;
 
       document.getElementById('rfq-preview-text').textContent = msg;
       document.getElementById('rfq-confirmation').classList.remove('hidden');
-      navigator.clipboard?.writeText(msg).catch(() => { /* abaikan: preview tetap tampil tanpa clipboard */ });
+      /* WARN-02: klaim "tersalin" hanya bila writeText benar-benar resolve;
+         di konteks non-aman (http via IP) clipboard ditolak — tampilkan instruksi salin manual. */
+      const copyStatus = document.getElementById('rfq-copy-status');
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(msg).then(() => {
+          if (copyStatus) copyStatus.textContent = '✓ FORMAT PESANAN TERSALIN';
+        }).catch(() => {
+          if (copyStatus) copyStatus.textContent = '⚠ GAGAL MENYALIN OTOMATIS — SALIN MANUAL DARI PREVIEW DI BAWAH';
+        });
+      } else if (copyStatus) {
+        copyStatus.textContent = '⚠ PERANGKAT INI TAK BISA MENYALIN OTOMATIS — SALIN MANUAL DARI PREVIEW DI BAWAH';
+      }
     });
 
     document.getElementById('btn-copy-rfq')?.addEventListener('click', (e) => {
       const msg = document.getElementById('rfq-preview-text').textContent;
-      navigator.clipboard?.writeText(msg).catch(() => { /* abaikan: preview tetap tampil tanpa clipboard */ });
-      e.target.textContent = 'Tersalin!';
-      setTimeout(() => { e.target.textContent = 'Salin Ulang'; }, 2000);
+      const btn = e.target;
+      if (!navigator.clipboard) { btn.textContent = 'Salin Manual'; return; }
+      navigator.clipboard.writeText(msg).then(() => {
+        btn.textContent = 'Tersalin!';
+        setTimeout(() => { btn.textContent = 'Salin Ulang'; }, 2000);
+      }).catch(() => { btn.textContent = 'Gagal — Salin Manual'; });
     });
 
     /* Marquee Top Picks */

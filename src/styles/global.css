@@ -68,6 +68,37 @@
       z-index: 15;
     }
 
+    /* HERO MOBILE (<640px) ala referensi: kartu kaca dilepas, teks raksasa digelapkan.
+       sm+ tidak tersentuh: media query ini hanya berlaku di bawah breakpoint sm. */
+    @media (max-width: 639.98px) {
+      .hero-medusa-stage::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(ellipse 90% 55% at 50% 42%, rgba(0, 0, 0, 0.55) 0%, transparent 70%);
+        pointer-events: none;
+      }
+      .medusa-glass-pedestal {
+        background: transparent;
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+        border: none;
+        box-shadow: none;
+      }
+      .medusa-glass-pedestal::after {
+        display: none;
+      }
+      .medusa-giant-text {
+        /* Catatan: shorthand background me-reset background-clip ke border-box,
+           jadi clip:text + fill transparent WAJIB ditulis ulang setelahnya,
+           kalau tidak gradasi jadi kotak penuh (bukan huruf). */
+        background: linear-gradient(180deg, #5A6170 0%, #33373F 55%, #17191F 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+    }
+
     .medusa-3d-object-shadow {
       will-change: transform;
     }

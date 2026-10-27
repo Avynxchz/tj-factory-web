@@ -1,5 +1,6 @@
 ---
 import { LINKS } from '../data/links.js';
+import { THREAD_ACTIVE, THREAD_INACTIVE, LOCK_INACTIVE } from '../scripts/uiStyles.js';
 ---
 <!-- ================= 2. INTERACTIVE 3D BAUT SHOWCASE (DARK STUDIO CNC EDITION) ================= -->
 <section id="showcase-jacket"
@@ -75,7 +76,7 @@ import { LINKS } from '../data/links.js';
           <span>→</span>
         </button>
         <button type="button" id="btn-jacket-lock"
-          class="px-2 py-2 text-slate-300 hover:text-industrial-yellow font-mono text-[11px] uppercase tracking-[0.15em] transition-all flex items-center gap-1.5 min-h-[44px] sm:min-h-0">
+          class={LOCK_INACTIVE}>
           <span>KUNCI TEGAK VERTIKAL</span>
           <span class="text-slate-400">›</span>
         </button>
@@ -100,15 +101,15 @@ import { LINKS } from '../data/links.js';
           <div class="font-sans text-[11px] text-slate-300 mb-3">Standar Ukuran Drat Tersedia:</div>
           <div class="flex items-center gap-3 pointer-events-auto" id="thread-size-circles">
             <button type="button" data-thread="M6 (Drat 10: Panjang 12mm – 70mm)"
-              class="thread-circle w-10 h-10 rounded-full bg-industrial-yellow/10 text-industrial-yellow border-2 border-industrial-yellow font-mono font-bold text-xs flex items-center justify-center shadow-[0_0_20px_rgba(245,183,0,0.22)] transition-all min-h-[44px] min-w-[44px] sm:min-h-0 sm:min-w-0">
+              class={THREAD_ACTIVE}>
               M6
             </button>
             <button type="button" data-thread="M8 (Drat 12: Panjang 15mm – 35mm)"
-              class="thread-circle w-10 h-10 rounded-full bg-white/[0.02] hover:border-white/40 text-slate-400 hover:text-white border border-white/15 font-mono font-bold text-xs flex items-center justify-center transition-all min-h-[44px] min-w-[44px] sm:min-h-0 sm:min-w-0">
+              class={THREAD_INACTIVE}>
               M8
             </button>
             <button type="button" data-thread="M10 (Drat 14: Panjang 25mm – 45mm)"
-              class="thread-circle w-10 h-10 rounded-full bg-white/[0.02] hover:border-white/40 text-slate-400 hover:text-white border border-white/15 font-mono font-bold text-xs flex items-center justify-center transition-all min-h-[44px] min-w-[44px] sm:min-h-0 sm:min-w-0">
+              class={THREAD_INACTIVE}>
               M10
             </button>
           </div>

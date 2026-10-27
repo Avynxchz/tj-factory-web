@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { partsData } from '../../data/products.js';
 import { createDarkStudioEnvironment, setupCNCStudioLights, createRealisticStainlessMaterials, getOptimalDpr } from './shared.js';
 import { gateLoop, onResizeDebounced } from '../visibility.js';
+import { THREAD_ACTIVE, THREAD_INACTIVE, LOCK_ACTIVE, LOCK_INACTIVE } from '../uiStyles.js';
 // Guard double-init jacket (CLEAN-08) — dipindah ke modul jacket (dulu di shared).
 let jacketInitialized = false;
 /* -------------------------------------------------------------------------- */
@@ -537,10 +538,10 @@ function toggleJacketVerticalLock() {
   if (!btn) return;
   if (isVerticalLocked) {
     btn.innerHTML = '<span>SUMBU X/Z TERKUNCI 90°</span><span class="text-industrial-yellow">✓</span>';
-    btn.className = 'px-3 py-1.5 rounded-full bg-industrial-yellow/15 border border-industrial-yellow text-industrial-yellow font-mono font-bold text-[11px] uppercase tracking-[0.15em] transition-all flex items-center gap-1.5';
+    btn.className = LOCK_ACTIVE;
   } else {
     btn.innerHTML = '<span>KUNCI TEGAK VERTIKAL</span><span class="text-slate-400">›</span>';
-    btn.className = 'px-2 py-2 text-slate-300 hover:text-industrial-yellow font-mono text-[11px] uppercase tracking-[0.15em] transition-all flex items-center gap-1.5';
+    btn.className = LOCK_INACTIVE;
   }
 }
 
@@ -568,9 +569,9 @@ document.getElementById('btn-jacket-rfq')?.addEventListener('click', () => {
 document.querySelectorAll('.thread-circle').forEach((btn) => {
   btn.addEventListener('click', () => {
     document.querySelectorAll('.thread-circle').forEach((b) => {
-      b.className = 'thread-circle w-10 h-10 rounded-full bg-white/[0.02] hover:border-white/40 text-slate-400 hover:text-white border border-white/15 font-mono font-bold text-xs flex items-center justify-center transition-all';
+      b.className = THREAD_INACTIVE;
     });
-    btn.className = 'thread-circle w-10 h-10 rounded-full bg-industrial-yellow/10 text-industrial-yellow border-2 border-industrial-yellow font-mono font-bold text-xs flex items-center justify-center shadow-[0_0_20px_rgba(245,183,0,0.22)] transition-all';
+    btn.className = THREAD_ACTIVE;
     document.getElementById('thread-selected-info').textContent = btn.dataset.thread;
   });
 });

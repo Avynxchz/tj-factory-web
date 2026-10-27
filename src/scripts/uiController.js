@@ -1,4 +1,5 @@
 import { verifiedProducts } from '../data/products.js';
+import { FILTER_ACTIVE, FILTER_INACTIVE } from './uiStyles.js';
 
     /* B6 SPEK PERFORMA: simpan state boolean — jangan toggle class tiap event. */
     const mainNavbar = document.getElementById('main-navbar');
@@ -158,9 +159,9 @@ import { verifiedProducts } from '../data/products.js';
       btn.addEventListener('click', () => {
         activeCategory = btn.dataset.cat;
         filterButtons.forEach(b => {
-          b.className = 'cat-btn shrink-0 px-4 py-2 rounded-full text-xs font-mono uppercase bg-carbon-900 text-slate-300 border border-carbon-700 hover:border-industrial-yellow transition-all min-h-[44px] sm:min-h-0';
+          b.className = FILTER_INACTIVE;
         });
-        btn.className = 'cat-btn shrink-0 px-4 py-2 rounded-full text-xs font-mono uppercase bg-industrial-yellow text-carbon-950 font-bold transition-all min-h-[44px] sm:min-h-0';
+        btn.className = FILTER_ACTIVE;
         renderCatalog();
       });
     });

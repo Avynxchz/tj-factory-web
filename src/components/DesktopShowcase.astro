@@ -1,12 +1,12 @@
 ---
 import { LINKS } from '../data/links.js';
-// SHOWCASE DESKTOP (md+) ala mockup "Pengerajin Stainless Pemahat Baut Mesin CNC Indonesia."
+// SHOWCASE ala mockup "Pengerajin Stainless Pemahat Baut Mesin CNC Indonesia."
 // Foto terisi: dokumentasi = gambar baut CNC hasil generate; 3 kartu produk = poster dari Agus;
 // banner = background generate + screenshot toko Shopee dari Agus.
-// - Root hidden md:block: HP (<768px) TIDAK berubah sama sekali.
-// - Section #tentang lama disembunyikan di md+ (md:hidden) agar tidak duplikat;
+// - Tampil di semua lebar: mobile menumpuk vertikal (adaptasi /responsive 27 Okt),
+//   desktop md+ tampil seperti mockup yang sudah di-ACC.
+// - Section #tentang lama di WorkshopAndSocial kini hidden total (duplikat dokumentasi);
 //   jangkar nav "Profil"/"Tentang" diarahkan ke #tentang-desktop di sini.
-// - Slot foto sudah terisi gambar (bukan lagi kotak dashed).
 const UNGGULAN = [
   {
     no: '01',
@@ -31,14 +31,14 @@ const UNGGULAN = [
   },
 ];
 ---
-<div class="hidden md:block">
+<div>
   <!-- ================= BLOK 1: DOKUMENTASI PROSES (versi desktop #tentang) ================= -->
-  <section id="tentang-desktop" class="relative py-16 lg:py-20 bg-carbon-950 overflow-hidden border-b border-carbon-800">
+  <section id="tentang-desktop" class="relative py-12 sm:py-16 lg:py-20 bg-carbon-950 overflow-hidden border-b border-carbon-800">
     <div class="pointer-events-none absolute -top-20 right-0 w-96 h-96 rounded-full bg-[#FF6A1F]/10 blur-3xl"></div>
-    <div class="relative max-w-7xl mx-auto px-8 grid md:grid-cols-2 gap-10 items-center">
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-8 grid md:grid-cols-2 gap-10 items-center">
       <div>
         <span class="font-mono text-xs text-[#FF6A1F] uppercase tracking-widest">// Dokumentasi Proses</span>
-        <h2 class="font-medusa font-black text-4xl lg:text-5xl uppercase text-white leading-[1.05] mt-3">
+        <h2 class="font-medusa font-black text-3xl sm:text-4xl lg:text-5xl uppercase text-white leading-[1.05] mt-3">
           Pengerajin Stainless Pemahat Baut Mesin CNC Indonesia.
         </h2>
         <p class="text-slate-300 text-sm leading-relaxed mt-5">
@@ -68,15 +68,15 @@ const UNGGULAN = [
 
   <!-- ================= BLOK 2: BANNER SHOPEE (pendek ala mockup: HP bleed atas-bawah) ================= -->
   <section class="py-6 bg-carbon-950 border-b border-carbon-800">
-    <div class="max-w-7xl mx-auto px-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-8">
       <div class="relative rounded-2xl overflow-hidden bg-gradient-to-br from-[#FF5A1F] via-[#E8490F] to-[#7A1E00]">
         <img src="./aset/shopee_banner_bg.webp" width="1600" height="533" loading="lazy" decoding="async" alt="" aria-hidden="true"
           class="absolute inset-0 w-full h-full object-cover" />
         <div class="absolute inset-0 bg-gradient-to-r from-black/45 via-black/10 to-black/55"></div>
-        <div class="relative px-8 lg:px-10 py-6 grid md:grid-cols-12 gap-8 items-center">
+        <div class="relative px-5 sm:px-8 lg:px-10 py-6 grid md:grid-cols-12 gap-8 items-center">
         <div class="md:col-span-5">
           <span class="font-mono text-xs text-white/80 uppercase tracking-widest">// Belanja Online</span>
-          <h3 class="font-medusa font-black text-3xl lg:text-4xl uppercase text-white leading-tight mt-3">
+          <h3 class="font-medusa font-black text-2xl sm:text-3xl lg:text-4xl uppercase text-white leading-tight mt-3">
             Temukan Produk Kami di Shopee!
           </h3>
           <p class="text-white/85 text-sm leading-relaxed mt-3">
@@ -88,8 +88,8 @@ const UNGGULAN = [
           </a>
         </div>
 
-        <!-- MOCKUP HP: screenshot toko Shopee dari Agus (miring ala referensi, bleed -my-20) -->
-        <div class="md:col-span-4 -my-20">
+        <!-- MOCKUP HP: screenshot toko Shopee dari Agus (miring ala referensi; bleed hanya md+ agar tidak menimpa teks di HP) -->
+        <div class="md:col-span-4 md:-my-20">
           <a href={LINKS.shopee} target="_blank" rel="noopener" aria-label="Buka toko Shopee TJ Factory"
             class="block mx-auto w-full max-w-[200px] aspect-[9/19] rounded-[2rem] border-[6px] border-black bg-black shadow-2xl overflow-hidden rotate-[8deg]">
             <img src="./aset/shopee_store_hp.webp" width="600" height="1299" loading="lazy" decoding="async"
@@ -127,12 +127,12 @@ const UNGGULAN = [
   </section>
 
   <!-- ================= BLOK 3: PRODUK UNGGULAN ================= -->
-  <section class="py-16 lg:py-20 bg-carbon-950 border-b border-carbon-800">
-    <div class="max-w-7xl mx-auto px-8">
+  <section class="py-12 sm:py-16 lg:py-20 bg-carbon-950 border-b border-carbon-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-8">
       <div class="flex items-end justify-between gap-6">
         <div>
           <span class="font-mono text-xs text-[#FF6A1F] uppercase tracking-widest">// Katalog &amp; Informasi Produk</span>
-          <h3 class="font-medusa font-black text-3xl lg:text-4xl uppercase text-white mt-3">Produk Unggulan Kami</h3>
+          <h3 class="font-medusa font-black text-2xl sm:text-3xl lg:text-4xl uppercase text-white mt-3">Produk Unggulan Kami</h3>
         </div>
         <a href="#katalog" class="shrink-0 font-mono text-xs text-[#FF6A1F] hover:text-white transition-colors">
           LIHAT SEMUA PRODUK &rarr;
@@ -141,12 +141,12 @@ const UNGGULAN = [
 
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-5 mt-10">
         {UNGGULAN.map((c) => (
-          <article class="border border-carbon-700 bg-carbon-900/60 rounded-2xl p-5 flex gap-4">
+          <article class="border border-carbon-700 bg-carbon-900/60 rounded-2xl p-4 sm:p-5 flex gap-4">
             <div class="flex gap-3 shrink-0">
               <span class="font-mono text-sm text-[#FF6A1F]">{c.no}</span>
               <span class="w-px self-stretch bg-[#FF6A1F]/40"></span>
             </div>
-            <a href="#katalog" class="block w-28 shrink-0 aspect-[3/4] rounded-xl overflow-hidden">
+            <a href="#katalog" class="block w-20 sm:w-28 shrink-0 aspect-[3/4] rounded-xl overflow-hidden">
               <img src={c.img} width="480" height="640" loading="lazy" decoding="async" alt={c.alt}
                 class="w-full h-full object-cover" />
             </a>
@@ -165,7 +165,7 @@ const UNGGULAN = [
   </section>
 
   <!-- STRIP BAWAH -->
-  <div class="max-w-7xl mx-auto px-8 py-5 flex items-center justify-between font-mono text-[11px] tracking-widest">
+  <div class="max-w-7xl mx-auto px-4 sm:px-8 py-5 flex flex-col sm:flex-row items-center sm:justify-between gap-1 font-mono text-[11px] tracking-widest">
     <span class="text-slate-500">KUALITAS / PRESISI / TERPERCAYA</span>
     <span class="text-slate-500"><span class="text-[#FF6A1F]">&mdash;</span> BUILT FOR BETTER PERFORMANCE</span>
   </div>

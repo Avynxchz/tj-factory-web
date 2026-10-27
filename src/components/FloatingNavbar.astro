@@ -41,10 +41,13 @@ const NAV_LINKS = [
       </div>
     </div>
 
-    <!-- WARN-05: baris navigasi khusus HP (md+ memakai nav di atas); ikut tersembunyi bersama pill saat navbar tak terlihat. -->
-    <nav aria-label="Navigasi Mobile" class="md:hidden mt-2 flex gap-1.5 overflow-x-auto max-w-full px-1 font-mono text-[11px] uppercase">
-      {NAV_LINKS.map((l) => (
-        <a href={l.href} class="shrink-0 px-3 py-1.5 rounded-full bg-carbon-900/90 backdrop-blur-sm sm:backdrop-blur-xl border border-carbon-700/90 text-slate-200">{l.label}</a>
+    <!-- WARN-05: baris navigasi khusus HP (md+ memakai nav di atas); ikut tersembunyi bersama pill saat navbar tak terlihat.
+         Perbaikan 27 Okt malam: hanya 4 link (Kontak B2B dihapus — duplikat tombol Hubungi Kami di pill atas),
+         padding dirapatkan supaya 4 pill muat satu baris penuh di 360px tanpa scroll horizontal,
+         dan background dibuat solid agar teks hero tidak tembus di balik pill. -->
+    <nav aria-label="Navigasi Mobile" class="md:hidden mt-2 flex gap-1.5 justify-center overflow-x-auto max-w-full px-1 font-mono text-[11px] uppercase">
+      {NAV_LINKS.filter((l) => l.href !== '#permintaan-penawaran').map((l) => (
+        <a href={l.href} class="shrink-0 px-2.5 py-2 rounded-full bg-carbon-900 border border-carbon-700/90 text-slate-200">{l.label}</a>
       ))}
     </nav>
   </header>

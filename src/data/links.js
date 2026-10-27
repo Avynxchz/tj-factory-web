@@ -5,4 +5,5 @@ export const LINKS = {
   tokopedia: 'https://tk.tokopedia.com/ZSxYaGvYo/',
   instagram: 'https://www.instagram.com/tj.factory_/',
   tiktok: 'https://www.tiktok.com/@tj.factory_',
+  facebook: 'https://www.facebook.com/profile.php?id=100022283841654',
 };

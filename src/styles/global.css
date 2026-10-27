@@ -5,7 +5,6 @@
     body {
       background-color: #050608;
       color: #F8FAFC;
-      overflow-x: hidden;
     }
 
     /* ==========================================================================
@@ -118,6 +117,15 @@
     #jacket-3d-canvas,
     .anatomi-canvas {
       touch-action: pan-y;
+    }
+
+    /* RESPONSIVE (audit /responsive 27 Okt): saat gambar fallback anatomi tampil
+    (WebGL gagal, JS melepas class hidden), canvas transparan di sebelahnya tetap
+    memakan lebar stage sehingga fallback terdorong keluar layar kiri di HP/tablet.
+    Sembunyikan canvas itu hanya dalam kondisi fallback tampil — saat 3D normal
+    (fallback hidden) aturan ini tidak berlaku, desktop tidak tersentuh. */
+    .anatomi-fallback:not(.hidden) + canvas {
+      display: none;
     }
 
     /* Background Matte Dark Slate Persis Referensi Mouse Logitech G */

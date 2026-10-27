@@ -1,14 +1,25 @@
 ---
-const FILTER_ACTIVE = 'cat-btn shrink-0 px-4 py-2 rounded-full text-xs font-mono uppercase bg-industrial-yellow text-carbon-950 font-bold transition-all min-h-[44px] sm:min-h-0';
-const FILTER_INACTIVE = 'cat-btn shrink-0 px-4 py-2 rounded-full text-xs font-mono uppercase bg-carbon-900 text-slate-300 border border-carbon-700 hover:border-industrial-yellow transition-all min-h-[44px] sm:min-h-0';
+import { verifiedProducts } from '../data/products.js';
+import { FILTER_ACTIVE, FILTER_INACTIVE } from '../scripts/uiStyles.js';
 const FILTERS = [
-  { cat: 'ALL', label: 'Semua Produk (19)' },
+  { cat: 'ALL', label: `Semua Produk (${verifiedProducts.length})` },
   { cat: 'NINJA', label: 'Ninja R/RR' },
   { cat: 'SPORT_2TAK', label: 'RX King / F1ZR / Tiger' },
   { cat: 'CVT_MATIC', label: 'CVT Matic' },
   { cat: 'BAUT_ECERAN', label: 'Baut M6 / M8 / M10' },
   { cat: 'CNC_LASER', label: 'CNC Laser' },
 ];
+// Refactor: 5 kartu top-picks yang strukturnya identik kini dirender dari data
+// (sebelumnya 5 blok markup berulang). Nilai di sini = nilai markup awal persis.
+const TOPPICKS = [
+  { code: 'TJF-SP-01', img: './Material/hex-star/id-11134207-822wp-mo2b6elumy2t4a.webp', onError: "this.src='https://images.msha.ke/cf0c14cd-9bb6-4da2-a0f3-6722d9620748?w=600'", alt: 'Bak Kalter RX King', tag: '18 PCS // 2 KUNCI', title: 'Bak Kalter RX King', titleSize: 'text-base', highlight: false, overlayZ: false },
+  { code: 'TJF-NJ-02', img: './Material/mud-head-ninja-3R/id-11134207-8224q-mhlni6mwmdxg3b.webp', onError: "this.src='https://images.msha.ke/7b448005-f2c2-49e5-8bea-f03468647676?w=600'", alt: 'Mur Head Ninja R RR', tag: 'HIGH STARS CROWN', title: 'Mur Head Ninja R/RR', titleSize: 'text-base', highlight: false, overlayZ: false },
+  { code: 'TJF-NJ-06', img: './Material/BAUT.png', onError: "this.src='https://images.msha.ke/39a66401-ea82-4d9a-b9b1-a6e51557c2f1?w=800'", alt: 'Full Set Baut Stainless CNC Ninja', tag: '22 + 8 + 8 PCS', title: 'Full Set Ninja 2-Tak', titleSize: 'text-lg', highlight: true, overlayZ: true },
+  { code: 'TJF-NJ-01', img: './Material/hex-star/id-11134207-7r98t-lqa79zlxhdke71.webp', onError: "this.src='https://images.msha.ke/9557f023-860b-42d6-b662-058a19771596?w=600'", alt: 'Baut Bak Kalter Ninja', tag: 'HEX STARS 2 KUNCI', title: 'Bak Kalter Ninja R/RR', titleSize: 'text-base', highlight: false, overlayZ: false },
+  { code: 'TJF-LSR-01', img: 'https://images.msha.ke/4d6aeb97-3544-47cc-8695-7e26f77e3442?auto=format%2Ccompress&cs=tinysrgb&q=80&w=828', onError: "this.onerror=null; this.src='./Material/BAUT.png';", alt: 'Cover Head 125Z CNC Laser', tag: 'SUS 304 CNC LASER', title: 'Cover Head 125Z', titleSize: 'text-base', highlight: false, overlayZ: true },
+];
+const TOPPICK_CARD = 'shrink-0 w-60 sm:w-64 mr-4 sm:mr-5 bg-carbon-900 border border-carbon-700 hover:border-industrial-yellow rounded-2xl overflow-hidden cursor-pointer transition-colors group';
+const TOPPICK_CARD_HL = 'shrink-0 w-60 sm:w-64 mr-4 sm:mr-5 bg-carbon-900 border-2 border-industrial-yellow rounded-2xl overflow-hidden cursor-pointer transition-colors relative shadow-[0_0_45px_rgba(245,183,0,0.22)] group';
 ---
     <!-- ================= 4. CURVED 3D PERSPECTIVE SHOWCASE & FULL CATALOG ================= -->
     <section id="katalog" class="py-16 sm:py-24 bg-carbon-950 border-b border-carbon-800 overflow-hidden">
@@ -33,74 +44,26 @@ const FILTERS = [
 
           <div class="toppicks-marquee overflow-hidden py-6" id="mouse-strip-items">
             <div class="toppicks-track flex items-stretch w-max">
-              <div onclick="window.openProductDetail('TJF-SP-01')"
-                class="shrink-0 w-60 sm:w-64 mr-4 sm:mr-5 bg-carbon-900 border border-carbon-700 hover:border-industrial-yellow rounded-2xl overflow-hidden cursor-pointer transition-colors group">
-                <div class="aspect-[3/4] relative overflow-hidden bg-carbon-950">
-                  <img src="./Material/hex-star/id-11134207-822wp-mo2b6elumy2t4a.webp" width="600" height="800" loading="lazy" decoding="async"
-                    onerror="this.src='https://images.msha.ke/cf0c14cd-9bb6-4da2-a0f3-6722d9620748?w=600'"
-                    alt="Bak Kalter RX King"
-                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                  <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-carbon-950 via-carbon-950/80 to-transparent p-4">
-                    <span class="font-mono text-[10px] text-industrial-yellow">18 PCS // 2 KUNCI</span>
-                    <h3 class="font-display font-bold text-base text-white uppercase">Bak Kalter RX King</h3>
+              {TOPPICKS.map((c) => (
+                <div tabindex="0" role="button" aria-label={c.title} onkeydown={`if(event.key==='Enter'||event.key===' '){event.preventDefault();window.openProductDetail('${c.code}')}`} onclick={`window.openProductDetail('${c.code}')`}
+                  class={c.highlight ? TOPPICK_CARD_HL : TOPPICK_CARD}>
+                  <div class="aspect-[3/4] relative overflow-hidden bg-carbon-950">
+                    <img src={c.img} width="600" height="800" loading="lazy" decoding="async"
+                      onerror={c.onError}
+                      alt={c.alt}
+                      class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                    {c.highlight && (
+                      <div class="absolute top-3 left-3 z-20 px-2.5 py-0.5 rounded-full bg-industrial-yellow text-carbon-950 font-mono font-bold text-[10px]">
+                        BEST SELLER
+                      </div>
+                    )}
+                    <div class={`absolute inset-x-0 bottom-0 bg-gradient-to-t from-carbon-950 via-carbon-950/80 to-transparent p-4${c.overlayZ ? ' z-20' : ''}`}>
+                      <span class="font-mono text-[10px] text-industrial-yellow">{c.tag}</span>
+                      <h3 class={`font-display font-bold ${c.titleSize} text-white uppercase`}>{c.title}</h3>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div onclick="window.openProductDetail('TJF-NJ-02')"
-                class="shrink-0 w-60 sm:w-64 mr-4 sm:mr-5 bg-carbon-900 border border-carbon-700 hover:border-industrial-yellow rounded-2xl overflow-hidden cursor-pointer transition-colors group">
-                <div class="aspect-[3/4] relative overflow-hidden bg-carbon-950">
-                  <img src="./Material/mud-head-ninja-3R/id-11134207-8224q-mhlni6mwmdxg3b.webp" width="600" height="800" loading="lazy" decoding="async"
-                    onerror="this.src='https://images.msha.ke/7b448005-f2c2-49e5-8bea-f03468647676?w=600'"
-                    alt="Mur Head Ninja R RR"
-                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                  <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-carbon-950 via-carbon-950/80 to-transparent p-4">
-                    <span class="font-mono text-[10px] text-industrial-yellow">HIGH STARS CROWN</span>
-                    <h3 class="font-display font-bold text-base text-white uppercase">Mur Head Ninja R/RR</h3>
-                  </div>
-                </div>
-              </div>
-              <div onclick="window.openProductDetail('TJF-NJ-06')"
-                class="shrink-0 w-60 sm:w-64 mr-4 sm:mr-5 bg-carbon-900 border-2 border-industrial-yellow rounded-2xl overflow-hidden cursor-pointer transition-colors relative shadow-[0_0_45px_rgba(245,183,0,0.22)] group">
-                <div class="aspect-[3/4] relative overflow-hidden bg-carbon-950">
-                  <img src="./Material/BAUT.png" width="600" height="800" loading="lazy" decoding="async"
-                    onerror="this.src='https://images.msha.ke/39a66401-ea82-4d9a-b9b1-a6e51557c2f1?w=800'"
-                    alt="Full Set Baut Stainless CNC Ninja"
-                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                  <div class="absolute top-3 left-3 z-20 px-2.5 py-0.5 rounded-full bg-industrial-yellow text-carbon-950 font-mono font-bold text-[10px]">
-                    BEST SELLER
-                  </div>
-                  <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-carbon-950 via-carbon-950/80 to-transparent p-4 z-20">
-                    <span class="font-mono text-[10px] text-industrial-yellow">22 + 8 + 8 PCS</span>
-                    <h3 class="font-display font-bold text-lg text-white uppercase">Full Set Ninja 2-Tak</h3>
-                  </div>
-                </div>
-              </div>
-              <div onclick="window.openProductDetail('TJF-NJ-01')"
-                class="shrink-0 w-60 sm:w-64 mr-4 sm:mr-5 bg-carbon-900 border border-carbon-700 hover:border-industrial-yellow rounded-2xl overflow-hidden cursor-pointer transition-colors group">
-                <div class="aspect-[3/4] relative overflow-hidden bg-carbon-950">
-                  <img src="./Material/hex-star/id-11134207-7r98t-lqa79zlxhdke71.webp" width="600" height="800" loading="lazy" decoding="async"
-                    onerror="this.src='https://images.msha.ke/9557f023-860b-42d6-b662-058a19771596?w=600'"
-                    alt="Baut Bak Kalter Ninja"
-                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                  <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-carbon-950 via-carbon-950/80 to-transparent p-4">
-                    <span class="font-mono text-[10px] text-industrial-yellow">HEX STARS 2 KUNCI</span>
-                    <h3 class="font-display font-bold text-base text-white uppercase">Bak Kalter Ninja R/RR</h3>
-                  </div>
-                </div>
-              </div>
-              <div onclick="window.openProductDetail('TJF-LSR-01')"
-                class="shrink-0 w-60 sm:w-64 mr-4 sm:mr-5 bg-carbon-900 border border-carbon-700 hover:border-industrial-yellow rounded-2xl overflow-hidden cursor-pointer transition-colors group">
-                <div class="aspect-[3/4] relative overflow-hidden bg-carbon-950">
-                  <img src="https://images.msha.ke/4d6aeb97-3544-47cc-8695-7e26f77e3442?auto=format%2Ccompress&cs=tinysrgb&q=80&w=828" width="600" height="800" loading="lazy" decoding="async"
-                    onerror="this.onerror=null; this.src='./Material/BAUT.png';"
-                    alt="Cover Head 125Z CNC Laser"
-                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                  <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-carbon-950 via-carbon-950/80 to-transparent p-4 z-20">
-                    <span class="font-mono text-[10px] text-industrial-yellow">SUS 304 CNC LASER</span>
-                    <h3 class="font-display font-bold text-base text-white uppercase">Cover Head 125Z</h3>
-                  </div>
-                </div>
-              </div>
+              ))}
             </div>
           </div>
         </div>
@@ -117,12 +80,51 @@ const FILTERS = [
             </div>
 
             <div class="w-full md:w-72">
-              <input type="search" id="catalog-search" placeholder="Cari baut, Ninja, RX King, M6..."
+              <input type="search" id="catalog-search" aria-label="Cari produk" placeholder="Cari baut, Ninja, RX King, M6..."
                 class="w-full bg-carbon-900 border border-carbon-700 focus:border-industrial-yellow rounded-full px-4 py-2 text-xs sm:text-sm text-white placeholder-slate-500 outline-none font-mono min-h-[44px] md:min-h-0" />
             </div>
           </div>
 
-          <div id="catalog-grid" class="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6"></div>
+          <!-- WARN-03: grid dirender di server agar katalog tetap terlihat tanpa JS;
+            uiController.renderCatalog() menggantinya dengan markup identik saat JS jalan. -->
+          <noscript><p class="mb-4 text-center font-mono text-xs text-slate-400">Aktifkan JavaScript untuk filter, pencarian, dan detail produk — daftar produk di bawah tetap bisa dilihat.</p></noscript>
+          <div id="catalog-grid" class="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
+            {verifiedProducts.map((item) => (
+              <article class="bg-carbon-900 border border-carbon-700 hover:border-industrial-yellow rounded-xl overflow-hidden transition-all flex flex-col justify-between group cursor-pointer" onclick={`window.openProductDetail('${item.code}')`}>
+                <div>
+                  <div class="relative aspect-[4/3] sm:aspect-[16/10] bg-carbon-950 overflow-hidden border-b border-carbon-800">
+                    <img
+                      src={item.localImg}
+                      width="800" height="600"
+                      onerror={`this.onerror=null; this.src='${item.fallbackImg}';`}
+                      alt={item.name}
+                      loading="lazy" decoding="async"
+                      class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                    <span class="absolute top-2 left-2 px-2 py-0.5 rounded bg-carbon-950/90 border border-carbon-600 font-mono text-[9px] sm:text-[10px] text-industrial-yellow">
+                      {item.code}
+                    </span>
+                  </div>
+                  <div class="p-3 sm:p-5">
+                    <h3 class="font-display font-bold text-sm sm:text-lg text-white group-hover:text-industrial-yellow transition-colors leading-snug line-clamp-2">
+                      {item.name}
+                    </h3>
+                    <p class="text-slate-400 text-[11px] sm:text-xs font-mono mt-1 line-clamp-2">
+                      {item.spec}
+                    </p>
+                  </div>
+                </div>
+                <div class="p-3 sm:p-5 pt-0 flex items-center gap-1.5 sm:gap-2.5">
+                  <button type="button" onclick={`event.stopPropagation(); window.openProductDetail('${item.code}')`} class="flex-1 py-2 px-2 rounded-lg bg-carbon-800 hover:bg-carbon-700 text-slate-200 border border-carbon-600 font-mono text-[10px] sm:text-xs uppercase text-center transition-all min-h-[44px] sm:min-h-0">
+                    Detail
+                  </button>
+                  <button type="button" onclick={`event.stopPropagation(); window.selectProductForRFQ('${item.name.replace(/'/g, "\\'")}')`} class="flex-1 py-2 px-2 rounded-lg bg-industrial-yellow hover:bg-industrial-amber text-carbon-950 font-mono text-[10px] sm:text-xs font-bold uppercase text-center transition-all min-h-[44px] sm:min-h-0">
+                    Minta Tawar
+                  </button>
+                </div>
+              </article>
+            ))}
+          </div>
         </div>
 
       </div>

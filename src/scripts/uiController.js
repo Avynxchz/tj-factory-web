@@ -1,4 +1,5 @@
 import { verifiedProducts } from '../data/products.js';
+import { FILTER_ACTIVE, FILTER_INACTIVE } from './uiStyles.js';
 
     /* B6 SPEK PERFORMA: simpan state boolean — jangan toggle class tiap event. */
     const mainNavbar = document.getElementById('main-navbar');
@@ -128,7 +129,7 @@ import { verifiedProducts } from '../data/products.js';
 
       document.getElementById('modal-photo-counter').textContent = `${currentModalImageIndex + 1} / ${images.length} FOTO`;
       document.getElementById('modal-thumbnails-strip').innerHTML = images.map((_, idx) => `
-        <button type="button" class="w-2 h-2 rounded-full transition-all ${idx === currentModalImageIndex ? 'bg-industrial-yellow scale-125' : 'bg-carbon-700'}" onclick="window.changeModalImage(${idx})"></button>
+        <button type="button" aria-label="Foto ${idx + 1}" class="w-2 h-2 rounded-full transition-all ${idx === currentModalImageIndex ? 'bg-industrial-yellow scale-125' : 'bg-carbon-700'}" onclick="window.changeModalImage(${idx})"></button>
       `).join('');
     }
 
@@ -158,9 +159,9 @@ import { verifiedProducts } from '../data/products.js';
       btn.addEventListener('click', () => {
         activeCategory = btn.dataset.cat;
         filterButtons.forEach(b => {
-          b.className = 'cat-btn shrink-0 px-4 py-2 rounded-full text-xs font-mono uppercase bg-carbon-900 text-slate-300 border border-carbon-700 hover:border-industrial-yellow transition-all min-h-[44px] sm:min-h-0';
+          b.className = FILTER_INACTIVE;
         });
-        btn.className = 'cat-btn shrink-0 px-4 py-2 rounded-full text-xs font-mono uppercase bg-industrial-yellow text-carbon-950 font-bold transition-all min-h-[44px] sm:min-h-0';
+        btn.className = FILTER_ACTIVE;
         renderCatalog();
       });
     });
@@ -221,14 +222,28 @@ Mohon info ketersediaan & harga penawarannya.`;
 
       document.getElementById('rfq-preview-text').textContent = msg;
       document.getElementById('rfq-confirmation').classList.remove('hidden');
-      navigator.clipboard?.writeText(msg).catch(() => { /* abaikan: preview tetap tampil tanpa clipboard */ });
+      /* WARN-02: klaim "tersalin" hanya bila writeText benar-benar resolve;
+         di konteks non-aman (http via IP) clipboard ditolak — tampilkan instruksi salin manual. */
+      const copyStatus = document.getElementById('rfq-copy-status');
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(msg).then(() => {
+          if (copyStatus) copyStatus.textContent = '✓ FORMAT PESANAN TERSALIN';
+        }).catch(() => {
+          if (copyStatus) copyStatus.textContent = '⚠ GAGAL MENYALIN OTOMATIS — SALIN MANUAL DARI PREVIEW DI BAWAH';
+        });
+      } else if (copyStatus) {
+        copyStatus.textContent = '⚠ PERANGKAT INI TAK BISA MENYALIN OTOMATIS — SALIN MANUAL DARI PREVIEW DI BAWAH';
+      }
     });
 
     document.getElementById('btn-copy-rfq')?.addEventListener('click', (e) => {
       const msg = document.getElementById('rfq-preview-text').textContent;
-      navigator.clipboard?.writeText(msg).catch(() => { /* abaikan: preview tetap tampil tanpa clipboard */ });
-      e.target.textContent = 'Tersalin!';
-      setTimeout(() => { e.target.textContent = 'Salin Ulang'; }, 2000);
+      const btn = e.target;
+      if (!navigator.clipboard) { btn.textContent = 'Salin Manual'; return; }
+      navigator.clipboard.writeText(msg).then(() => {
+        btn.textContent = 'Tersalin!';
+        setTimeout(() => { btn.textContent = 'Salin Ulang'; }, 2000);
+      }).catch(() => { btn.textContent = 'Gagal — Salin Manual'; });
     });
 
     /* Marquee Top Picks */

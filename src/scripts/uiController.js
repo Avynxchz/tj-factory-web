@@ -1,5 +1,4 @@
-import { verifiedProducts } from '../data/products.js';
-import { FILTER_ACTIVE, FILTER_INACTIVE } from './uiStyles.js';
+import { verifiedProducts, DATA_DATE } from '../data/products.js';
 
     /* B6 SPEK PERFORMA: simpan state boolean — jangan toggle class tiap event. */
     const mainNavbar = document.getElementById('main-navbar');
@@ -21,18 +20,13 @@ import { FILTER_ACTIVE, FILTER_INACTIVE } from './uiStyles.js';
     /* -------------------------------------------------------------------------- */
     const catalogGrid = document.getElementById('catalog-grid');
     const searchInput = document.getElementById('catalog-search');
-    const filterButtons = document.querySelectorAll('.cat-btn');
-    let activeCategory = 'ALL';
 
     function renderCatalog() {
       if (!catalogGrid) return;
       const query = (searchInput?.value || '').toLowerCase().trim();
       const filtered = verifiedProducts.filter(item => {
-        const matchCat = activeCategory === 'ALL' || item.category === activeCategory;
-        const matchText = item.name.toLowerCase().includes(query) ||
-          item.spec.toLowerCase().includes(query) ||
-          item.code.toLowerCase().includes(query);
-        return matchCat && matchText;
+        return item.name.toLowerCase().includes(query) ||
+          item.price.toLowerCase().includes(query);
       });
 
       if (filtered.length === 0) {
@@ -56,16 +50,19 @@ import { FILTER_ACTIVE, FILTER_INACTIVE } from './uiStyles.js';
                 loading="lazy" decoding="async"
                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
               />
-              <span class="absolute top-2 left-2 px-2 py-0.5 rounded bg-carbon-950/90 border border-carbon-600 font-mono text-[9px] sm:text-[10px] text-industrial-yellow">
-                ${item.code}
-              </span>
             </div>
             <div class="p-3 sm:p-5">
               <h3 class="font-display font-bold text-sm sm:text-lg text-white group-hover:text-industrial-yellow transition-colors leading-snug line-clamp-2">
                 ${item.name}
               </h3>
-              <p class="text-slate-400 text-[11px] sm:text-xs font-mono mt-1 line-clamp-2">
-                ${item.spec}
+              <p class="font-mono font-bold text-industrial-yellow text-sm sm:text-base mt-2">
+                ${item.price}
+              </p>
+              <p class="text-slate-400 text-[11px] sm:text-xs font-mono mt-1">
+                ★ ${item.rating} · ${item.sold} terjual
+              </p>
+              <p class="text-slate-500 text-[10px] font-mono mt-1">
+                data per ${DATA_DATE}
               </p>
             </div>
           </div>
@@ -90,16 +87,13 @@ import { FILTER_ACTIVE, FILTER_INACTIVE } from './uiStyles.js';
       currentModalProduct = product;
       currentModalImageIndex = 0;
 
-      document.getElementById('modal-part-code').textContent = product.code;
-      document.getElementById('modal-part-cat').textContent = product.category;
       document.getElementById('modal-part-name').textContent = product.name;
-      document.getElementById('modal-part-mat').textContent = product.material;
-      document.getElementById('modal-part-head').textContent = product.headType;
-      document.getElementById('modal-part-motor').textContent = product.motor;
-      document.getElementById('modal-part-desc').textContent = product.desc;
+      document.getElementById('modal-part-price').textContent = product.price;
+      document.getElementById('modal-part-rating').textContent = product.rating;
+      document.getElementById('modal-part-sold').textContent = product.sold + ' terjual';
+      document.getElementById('modal-part-date').textContent = DATA_DATE;
 
       document.getElementById('modal-btn-shopee').href = product.shopeeUrl;
-      document.getElementById('modal-btn-tiktok').href = product.tiktokUrl;
       document.getElementById('modal-btn-tokopedia').href = product.tokopediaUrl;
 
       updateModalImage();
@@ -153,17 +147,6 @@ import { FILTER_ACTIVE, FILTER_INACTIVE } from './uiStyles.js';
       if (e.key !== 'Escape') return;
       const modal = document.getElementById('product-detail-modal');
       if (modal && !modal.classList.contains('hidden')) window.closeProductDetail();
-    });
-
-    filterButtons.forEach(btn => {
-      btn.addEventListener('click', () => {
-        activeCategory = btn.dataset.cat;
-        filterButtons.forEach(b => {
-          b.className = FILTER_INACTIVE;
-        });
-        btn.className = FILTER_ACTIVE;
-        renderCatalog();
-      });
     });
 
     searchInput?.addEventListener('input', renderCatalog);

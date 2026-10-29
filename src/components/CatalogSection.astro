@@ -1,22 +1,14 @@
 ---
-import { verifiedProducts } from '../data/products.js';
-import { FILTER_ACTIVE, FILTER_INACTIVE } from '../scripts/uiStyles.js';
-const FILTERS = [
-  { cat: 'ALL', label: `Semua Produk (${verifiedProducts.length})` },
-  { cat: 'NINJA', label: 'Ninja R/RR' },
-  { cat: 'SPORT_2TAK', label: 'RX King / F1ZR / Tiger' },
-  { cat: 'CVT_MATIC', label: 'CVT Matic' },
-  { cat: 'BAUT_ECERAN', label: 'Baut M6 / M8 / M10' },
-  { cat: 'CNC_LASER', label: 'CNC Laser' },
-];
+import { verifiedProducts, DATA_DATE } from '../data/products.js';
+// Marquee = 5 produk TERLARIS (angka terjual gabungan Shopee + Tokopedia, data per 29 Okt 2026).
 // Refactor: 5 kartu top-picks yang strukturnya identik kini dirender dari data
 // (sebelumnya 5 blok markup berulang). Nilai di sini = nilai markup awal persis.
 const TOPPICKS = [
-  { code: 'TJF-SP-01', img: './Material/hex-star/id-11134207-822wp-mo2b6elumy2t4a.webp', onError: "this.src='https://images.msha.ke/cf0c14cd-9bb6-4da2-a0f3-6722d9620748?w=600'", alt: 'Bak Kalter RX King', tag: '18 PCS // 2 KUNCI', title: 'Bak Kalter RX King', titleSize: 'text-base', highlight: false, overlayZ: false },
-  { code: 'TJF-NJ-02', img: './Material/mud-head-ninja-3R/id-11134207-8224q-mhlni6mwmdxg3b.webp', onError: "this.src='https://images.msha.ke/7b448005-f2c2-49e5-8bea-f03468647676?w=600'", alt: 'Mur Head Ninja R RR', tag: 'HIGH STARS CROWN', title: 'Mur Head Ninja R/RR', titleSize: 'text-base', highlight: false, overlayZ: false },
-  { code: 'TJF-NJ-06', img: 'https://images.msha.ke/39a66401-ea82-4d9a-b9b1-a6e51557c2f1?w=800', onError: "this.onerror=null; this.src='./aset/dokumentasi_baut.webp';", alt: 'Full Set Baut Stainless CNC Ninja', tag: '22 + 8 + 8 PCS', title: 'Full Set Ninja 2-Tak', titleSize: 'text-lg', highlight: true, overlayZ: true },
-  { code: 'TJF-NJ-01', img: './Material/hex-star/id-11134207-7r98t-lqa79zlxhdke71.webp', onError: "this.src='https://images.msha.ke/9557f023-860b-42d6-b662-058a19771596?w=600'", alt: 'Baut Bak Kalter Ninja', tag: 'HEX STARS 2 KUNCI', title: 'Bak Kalter Ninja R/RR', titleSize: 'text-base', highlight: false, overlayZ: false },
-  { code: 'TJF-LSR-01', img: 'https://images.msha.ke/4d6aeb97-3544-47cc-8695-7e26f77e3442?auto=format%2Ccompress&cs=tinysrgb&q=80&w=828', onError: "this.onerror=null; this.src='./aset/dokumentasi_baut.webp';", alt: 'Cover Head 125Z CNC Laser', tag: 'SUS 304 CNC LASER', title: 'Cover Head 125Z', titleSize: 'text-base', highlight: false, overlayZ: true },
+  { code: 'P01', img: './katalog/p01/01.jpg', onError: "this.onerror=null; this.src='./aset/dokumentasi_baut.webp';", alt: 'Baut Stainless CNC HEX NON M6', tag: 'TERLARIS #1 // 13RB+ TERJUAL', title: 'Baut Stainless CNC 2 Kunci Drat 10 M6 tipe HEX NON by TJ Factory Handmade Probolt Indonesia', highlight: true, overlayZ: true },
+  { code: 'P03', img: './katalog/p03/01.jpg', onError: "this.onerror=null; this.src='./aset/dokumentasi_baut.webp';", alt: 'Baut Stainless CNC HEX PLUS M8', tag: 'TERLARIS #2 // 11RB+ TERJUAL', title: 'Baut Stainless CNC 2 Kunci Drat 12 M8 tipe HEX PLUS by TJ Factory Handmade Probolt Indonesia', highlight: false, overlayZ: false },
+  { code: 'P02', img: './katalog/p02/01.jpg', onError: "this.onerror=null; this.src='./aset/dokumentasi_baut.webp';", alt: 'Baut Disk Kaliper Honda M8', tag: 'TERLARIS #3 // 10,5RB+ TERJUAL', title: 'Baut Stainless CNC Drat 12 M8 Slim Untuk Cakram Disk Kaliper Honda By TJ Factory Handmade Probolt', highlight: false, overlayZ: false },
+  { code: 'P04', img: './katalog/p04/01.jpg', onError: "this.onerror=null; this.src='./aset/dokumentasi_baut.webp';", alt: 'Ring Spiral Lebar Stainless M6', tag: 'TERLARIS #4 // 7.250 TERJUAL', title: 'Ring Spiral Lebar Stainless M6 drat 10 Tambahan Ring Untuk HEX NON M6', highlight: false, overlayZ: false },
+  { code: 'P05', img: './katalog/p05/01.jpg', onError: "this.onerror=null; this.src='./aset/dokumentasi_baut.webp';", alt: 'Mur Topi Ring M10', tag: 'TERLARIS #5 // 7.100 TERJUAL', title: 'Mur Topi Ring M10 Drat 14 picth 1,25 Stainless CNC Shock Belakang RX KING Drat HALUS By TJ Factory (1pcs)', highlight: false, overlayZ: false },
 ];
 const TOPPICK_CARD = 'shrink-0 w-60 sm:w-64 mr-4 sm:mr-5 bg-carbon-900 border border-carbon-700 hover:border-industrial-yellow rounded-2xl overflow-hidden cursor-pointer transition-colors group';
 const TOPPICK_CARD_HL = 'shrink-0 w-60 sm:w-64 mr-4 sm:mr-5 bg-carbon-900 border-2 border-industrial-yellow rounded-2xl overflow-hidden cursor-pointer transition-colors relative shadow-[0_0_45px_rgba(245,183,0,0.22)] group';
@@ -32,8 +24,8 @@ const TOPPICK_CARD_HL = 'shrink-0 w-60 sm:w-64 mr-4 sm:mr-5 bg-carbon-900 border
             Katalog Sparepart & <br /><span class="text-industrial-yellow">Baut Stainless CNC</span>
           </h2>
           <p class="text-slate-400 text-xs sm:text-sm mt-3">
-            Klik kartu produk untuk membuka galeri detail multi-sudut dan tautan toko resmi (Shopee, Tokopedia, TikTok
-            Shop), atau ajukan penawaran harga grosir.
+            Klik kartu produk untuk membuka galeri foto dan tautan toko resmi (Shopee, Tokopedia),
+            atau ajukan penawaran harga grosir. Data harga &amp; terjual per {DATA_DATE}.
           </p>
         </div>
 
@@ -59,7 +51,7 @@ const TOPPICK_CARD_HL = 'shrink-0 w-60 sm:w-64 mr-4 sm:mr-5 bg-carbon-900 border
                     )}
                     <div class={`absolute inset-x-0 bottom-0 bg-gradient-to-t from-carbon-950 via-carbon-950/80 to-transparent p-4${c.overlayZ ? ' z-20' : ''}`}>
                       <span class="font-mono text-[10px] text-industrial-yellow">{c.tag}</span>
-                      <h3 class={`font-display font-bold ${c.titleSize} text-white uppercase`}>{c.title}</h3>
+                      <h3 class="font-display font-bold text-base text-white uppercase line-clamp-2">{c.title}</h3>
                     </div>
                   </div>
                 </div>
@@ -71,13 +63,9 @@ const TOPPICK_CARD_HL = 'shrink-0 w-60 sm:w-64 mr-4 sm:mr-5 bg-carbon-900 border
         <!-- FILTER & SEARCH BAR -->
         <div class="mt-14 pt-10 border-t border-carbon-800">
           <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
-            <div class="flex items-center gap-2 overflow-x-auto pb-2 md:pb-0 no-scrollbar" id="catalog-filters">
-              {FILTERS.map((f) => (
-                <button type="button" data-cat={f.cat} class={f.cat === 'ALL' ? FILTER_ACTIVE : FILTER_INACTIVE}>
-                  {f.label}
-                </button>
-              ))}
-            </div>
+            <p class="font-mono text-xs text-slate-400" id="catalog-count">
+              {verifiedProducts.length} produk asli TJ FACTORY — foto &amp; data dari listing resmi.
+            </p>
 
             <div class="w-full md:w-72">
               <input type="search" id="catalog-search" aria-label="Cari produk" placeholder="Cari baut, Ninja, RX King, M6..."
@@ -101,16 +89,19 @@ const TOPPICK_CARD_HL = 'shrink-0 w-60 sm:w-64 mr-4 sm:mr-5 bg-carbon-900 border
                       loading="lazy" decoding="async"
                       class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
-                    <span class="absolute top-2 left-2 px-2 py-0.5 rounded bg-carbon-950/90 border border-carbon-600 font-mono text-[9px] sm:text-[10px] text-industrial-yellow">
-                      {item.code}
-                    </span>
                   </div>
                   <div class="p-3 sm:p-5">
                     <h3 class="font-display font-bold text-sm sm:text-lg text-white group-hover:text-industrial-yellow transition-colors leading-snug line-clamp-2">
                       {item.name}
                     </h3>
-                    <p class="text-slate-400 text-[11px] sm:text-xs font-mono mt-1 line-clamp-2">
-                      {item.spec}
+                    <p class="font-mono font-bold text-industrial-yellow text-sm sm:text-base mt-2">
+                      {item.price}
+                    </p>
+                    <p class="text-slate-400 text-[11px] sm:text-xs font-mono mt-1">
+                      ★ {item.rating} · {item.sold} terjual
+                    </p>
+                    <p class="text-slate-500 text-[10px] font-mono mt-1">
+                      data per {DATA_DATE}
                     </p>
                   </div>
                 </div>

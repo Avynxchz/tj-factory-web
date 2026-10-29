@@ -1,13 +1,15 @@
-// CLEAN-07: jaring pengaman data katalog — gagalkan build/check bila data rusak.
+// Jaring pengaman data katalog — gagalkan build/check bila data rusak.
 // Dijalankan via `npm run check`. Tidak menyentuh file apa pun, hanya validasi.
-import { verifiedProducts, partsData } from '../src/data/products.js';
+import { verifiedProducts, partsData, DATA_DATE } from '../src/data/products.js';
 
 const fail = [];
 const ok = (cond, msg) => { if (!cond) fail.push(msg); };
 
-const FIELDS = ['code', 'name', 'spec', 'category', 'localImg', 'fallbackImg',
-  'material', 'headType', 'motor', 'desc', 'shopeeUrl', 'tiktokUrl', 'tokopediaUrl'];
-const KNOWN_CATS = new Set(['NINJA', 'SPORT_2TAK', 'CVT_MATIC', 'BAUT_ECERAN', 'CNC_LASER']);
+// Skema katalog asli (10 produk, data per 29 Okt 2026): tanpa kode produk tampil,
+// tanpa kategori lama, tanpa detail varian/material — hanya yang tampil di kartu.
+const FIELDS = ['code', 'name', 'category', 'price', 'rating', 'sold',
+  'localImg', 'fallbackImg', 'images', 'shopeeUrl', 'tokopediaUrl'];
+const KNOWN_CATS = new Set(['BAUT_CNC']);
 
 const codes = new Set();
 for (const p of verifiedProducts) {
@@ -15,8 +17,11 @@ for (const p of verifiedProducts) {
   if (codes.has(p.code)) fail.push(`kode duplikat: ${p.code}`);
   codes.add(p.code);
   if (!KNOWN_CATS.has(p.category)) fail.push(`${p.code}: kategori tak dikenal (${p.category})`);
-  if (p.images && !Array.isArray(p.images)) fail.push(`${p.code}: images bukan array`);
+  if (!Array.isArray(p.images) || p.images.length === 0) fail.push(`${p.code}: images kosong/bukan array`);
+  if (p.localImg !== p.images[0]) fail.push(`${p.code}: localImg bukan foto pertama`);
 }
+ok(verifiedProducts.length === 10, `katalog harus 10 produk, ketemu ${verifiedProducts.length}`);
+ok(!!DATA_DATE, 'DATA_DATE kosong');
 for (const d of partsData) {
   for (const f of ['counter', 'titleHtml', 'plainTitle', 'desc', 'grade', 'badge']) {
     if (!d[f]) fail.push(`partsData: field ${f} kosong`);
